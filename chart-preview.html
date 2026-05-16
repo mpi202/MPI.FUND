@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AUM Chart Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #22c55e; cursor: pointer; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+    input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: #22c55e; cursor: pointer; border: 2px solid #fff; }
+  </style>
+</head>
+<body class="bg-white min-h-screen flex items-center justify-center p-8">
+  <div class="w-full max-w-3xl">
+    <div class="mb-8">
+      <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Data from: EXCEL test 1.ods</p>
+      <h1 class="mt-2 text-2xl font-bold tracking-tight">Assets Under Management</h1>
+      <p class="mt-1 text-sm text-neutral-500">Slide to explore growth over time</p>
+    </div>
+
+    <div class="h-72 mb-8"><canvas id="aumChart"></canvas></div>
+
+    <div class="border border-neutral-100 rounded-lg p-6">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm text-neutral-400">2017</span>
+        <span class="text-sm font-medium" id="yearLabel">2025</span>
+        <span class="text-sm text-neutral-400">2025</span>
+      </div>
+      <input type="range" id="yearSlider" min="0" max="7" value="7" class="w-full h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer" />
+      <div class="mt-4 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-neutral-400">Value at selected year</p>
+          <p class="text-xl font-bold text-accent-600" id="valueLabel">EUR 40.0M</p>
+        </div>
+        <div class="text-right">
+          <p class="text-xs text-neutral-400">Growth from start</p>
+          <p class="text-lg font-semibold" id="growthLabel">+300%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const DATA = [
+  { year: 2017, value: 10000000 },
+  { year: 2018, value: 15500000 },
+  { year: 2019, value: 15000000 },
+  { year: 2021, value: 19000000 },
+  { year: 2022, value: 24000000 },
+  { year: 2023, value: 30000000 },
+  { year: 2024, value: 36000000 },
+  { year: 2025, value: 40000000 }
+];
+
+const ctx = document.getElementById('aumChart');
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: DATA.map(d => d.year),
+    datasets: [{
+      label: 'AUM (EUR)',
+      data: DATA.map(d => d.value),
+      borderColor: '#22c55e',
+      backgroundColor: 'rgba(34,197,94,.08)',
+      fill: true,
+      borderWidth: 2.5,
+      tension: 0.3,
+      pointRadius: DATA.map(() => 4),
+      pointBackgroundColor: DATA.map(() => '#22c55e'),
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#000',
+        titleFont: { size: 11, family: 'Inter' },
+        bodyFont: { size: 11, family: 'Inter' },
+        padding: 10,
+        cornerRadius: 4,
+        callbacks: {
+          label: (ctx) => 'EUR ' + (ctx.parsed.y / 1000000).toFixed(1) + 'M'
+        }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Inter' }, color: '#a3a3a3' } },
+      y: {
+        grid: { color: '#f5f5f5' },
+        ticks: {
+          font: { size: 11, family: 'Inter' },
+          color: '#a3a3a3',
+          callback: (v) => (v / 1000000) + 'M'
+        }
+      }
+    },
+    interaction: { mode: 'index', intersect: false }
+  }
+});
+
+const slider = document.getElementById('yearSlider');
+const yearLabel = document.getElementById('yearLabel');
+const valueLabel = document.getElementById('valueLabel');
+const growthLabel = document.getElementById('growthLabel');
+
+function updateSlider() {
+  const idx = parseInt(slider.value);
+  const d = DATA[idx];
+  const growth = ((d.value - DATA[0].value) / DATA[0].value * 100).toFixed(0);
+
+  yearLabel.textContent = d.year;
+  valueLabel.textContent = 'EUR ' + (d.value / 1000000).toFixed(1) + 'M';
+  growthLabel.textContent = (growth >= 0 ? '+' : '') + growth + '%';
+  growthLabel.className = 'text-lg font-semibold ' + (growth >= 0 ? 'text-green-600' : 'text-red-500');
+
+  // Highlight selected point
+  chart.data.datasets[0].pointRadius = DATA.map((_, i) => i === idx ? 8 : 4);
+  chart.data.datasets[0].pointBackgroundColor = DATA.map((_, i) => i === idx ? '#000' : '#22c55e');
+  chart.update('none');
+}
+
+slider.addEventListener('input', updateSlider);
+updateSlider();
+</script>
+</body>
+</html>

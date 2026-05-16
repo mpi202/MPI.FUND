@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketprog Asset Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: { accent: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534',900:'#14532d' } }
+        }
+      }
+    }
+  </script>
+  <style>
+    *{font-family:'Inter',ui-sans-serif,system-ui,sans-serif}
+    .page{display:none}.page.active{display:block}
+    .nav-link.active{color:#000;font-weight:500}
+    .fade-in{animation:fadeIn .3s ease-out}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#22c55e;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+    input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#22c55e;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  </style>
+</head>
+<body class="bg-white text-black antialiased">
+
+<!-- HEADER -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-neutral-100">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="#home" onclick="nav('home')" class="text-xl font-bold tracking-tight">market<span class="text-accent-500">prog</span></a>
+    <ul class="hidden lg:flex items-center gap-7" id="nav-links">
+      <li><a href="#home" data-page="home" class="nav-link active text-sm hover:text-black transition-colors" onclick="nav('home')">Home</a></li>
+      <li><a href="#about" data-page="about" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('about')">About</a></li>
+      <li><a href="#funds" data-page="funds" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('funds')">Investment Funds</a></li>
+      <li><a href="#portfolios" data-page="portfolios" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('portfolios')">Portfolios</a></li>
+      <li><a href="#services" data-page="services" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('services')">Services</a></li>
+      <li><a href="#documents" data-page="documents" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('documents')">Documents</a></li>
+      <li><a href="#distribution" data-page="distribution" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('distribution')">Distribution</a></li>
+    </ul>
+    <button class="lg:hidden" onclick="toggleMenu()" aria-label="Menu">
+      <svg id="ico-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 17h16"/></svg>
+      <svg id="ico-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="hidden"><path d="M6 6l12 12M6 18L18 6"/></svg>
+    </button>
+  </nav>
+  <div id="mobile-menu" class="lg:hidden hidden border-t border-neutral-100 bg-white px-6 py-5">
+    <ul class="flex flex-col gap-4">
+      <li><a href="#home" class="text-sm text-neutral-500" onclick="nav('home');toggleMenu()">Home</a></li>
+      <li><a href="#about" class="text-sm text-neutral-500" onclick="nav('about');toggleMenu()">About</a></li>
+      <li><a href="#funds" class="text-sm text-neutral-500" onclick="nav('funds');toggleMenu()">Investment Funds</a></li>
+      <li><a href="#portfolios" class="text-sm text-neutral-500" onclick="nav('portfolios');toggleMenu()">Portfolios</a></li>
+      <li><a href="#services" class="text-sm text-neutral-500" onclick="nav('services');toggleMenu()">Services</a></li>
+      <li><a href="#documents" class="text-sm text-neutral-500" onclick="nav('documents');toggleMenu()">Documents</a></li>
+      <li><a href="#distribution" class="text-sm text-neutral-500" onclick="nav('distribution');toggleMenu()">Distribution</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="pt-16">
+
+<!-- ===================== HOME ===================== -->
+<div id="page-home" class="page active fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/60 via-white to-accent-50/30"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-28 md:py-40">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Marketprog Asset Management Zrt.</p>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl leading-[1.1]">Structured investing,<br/>transparent results.</h1>
+      <p class="mt-5 max-w-lg text-base text-neutral-500">Investment funds and personalized portfolios from a Hungary-based, MNB-regulated asset manager operating under AIFMD since 2014.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#funds" onclick="nav('funds')" class="bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 transition-colors rounded">Explore Funds</a>
+        <a href="#portfolios" onclick="nav('portfolios')" class="border border-neutral-300 px-5 py-2.5 text-sm font-medium hover:border-black transition-colors rounded">Personalized Portfolios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Performance chart -->
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Fund Performance</p>
+          <p class="mt-1 text-sm text-neutral-500">Selected funds — illustrative NAV history (YTD figures on fund cards reflect May 2026 data)</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="setHR('1y')" class="hr-btn px-3 py-1 text-xs rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">1Y</button>
+          <button onclick="setHR('3y')" class="hr-btn px-3 py-1 text-xs rounded border border-black text-black font-medium">3Y</button>
+          <button onclick="setHR('5y')" class="hr-btn px-3 py-1 text-xs rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">5Y</button>
+        </div>
+      </div>
+      <div class="h-72 md:h-80"><canvas id="homeChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="border-t border-neutral-100 bg-neutral-50/50">
+    <div class="mx-auto max-w-6xl px-6 py-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div><p class="text-2xl font-bold">32</p><p class="mt-1 text-sm text-neutral-400">Investment Funds</p></div>
+        <div><p class="text-2xl font-bold">3</p><p class="mt-1 text-sm text-neutral-400">Currencies (HUF/EUR/USD)</p></div>
+        <div><p class="text-2xl font-bold">17</p><p class="mt-1 text-sm text-neutral-400">Fund Families</p></div>
+        <div><p class="text-2xl font-bold text-accent-600">MNB</p><p class="mt-1 text-sm text-neutral-400">Regulated (AIFMD)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars -->
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3">
+      <div class="border-b md:border-b-0 md:border-r border-neutral-100 px-6 py-10">
+        <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
+        <h3 class="font-medium text-sm">Absolute Return Strategies</h3>
+        <p class="mt-2 text-sm text-neutral-500">Allegro, Aurica, Convexity, and more — targeting positive returns regardless of market direction.</p>
+      </div>
+      <div class="border-b md:border-b-0 md:border-r border-neutral-100 px-6 py-10">
+        <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h3 class="font-medium text-sm">Bond & Derivative Funds</h3>
+        <p class="mt-2 text-sm text-neutral-500">Government bond-based portfolios with derivative overlays for enhanced yield.</p>
+      </div>
+      <div class="px-6 py-10">
+        <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></div>
+        <h3 class="font-medium text-sm">Personalized Portfolios</h3>
+        <p class="mt-2 text-sm text-neutral-500">Tailored allocations built to match your risk profile, currency preference, and goals.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<div id="page-about" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">About</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Marketprog Asset Management Zrt.</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">MARKETPROG Asset Management Zrt. is a Hungary-based, MNB-supervised asset manager (AIFMD). Established in 2014, part of the Primus Wealth group.</p>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Who We Are</p>
+        <p class="mt-3 text-neutral-600 leading-relaxed">Marketprog Asset Management is a Hungary-based and regulated asset manager according to AIFMD, offering fund and portfolio management, fund set-up, fund administration, custody, capital introduction, and investment advisory. We manage 32 investment funds in 17 families across HUF, EUR, and USD share classes.</p>
+      </div>
+      <div>
+        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Our Edge</p>
+        <p class="mt-3 text-neutral-600 leading-relaxed">Proprietary analytical tools developed in-house, combined with deep experience in Central European fixed income and derivative markets. Our team brings institutional-grade processes to every portfolio.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100 bg-neutral-50/50">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-6">Fund Growth Over Time</p>
+      <div class="h-64"><canvas id="aumChart"></canvas></div>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-8">Leadership</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="border border-neutral-100 rounded-lg p-6">
+          <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center text-accent-700 font-semibold text-sm mb-4">VI</div>
+          <h3 class="font-medium">Várkonyi István</h3>
+          <p class="text-sm text-neutral-400 mt-1">CEO</p>
+          <p class="text-sm text-neutral-500 mt-3">25+ years as lead portfolio manager at institutions including Aegon and MKB Bank. Assets under management exceeded EUR 4bn, primarily in public and institutional fixed-income portfolios.</p>
+        </div>
+        <div class="border border-neutral-100 rounded-lg p-6">
+          <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center text-accent-700 font-semibold text-sm mb-4">MA</div>
+          <h3 class="font-medium">Alexandra Mikecz</h3>
+          <p class="text-sm text-neutral-400 mt-1">COO</p>
+          <p class="text-sm text-neutral-500 mt-3">Economist with extensive back- and mid-office experience at Erste Bank Hungary. Employee #1 at Marketprog; built the firm’s administrative and operating processes from inception.</p>
+        </div>
+        <div class="border border-neutral-100 rounded-lg p-6">
+          <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center text-accent-700 font-semibold text-sm mb-4">TT</div>
+          <h3 class="font-medium">Tamás Török</h3>
+          <p class="text-sm text-neutral-400 mt-1">CIO</p>
+          <p class="text-sm text-neutral-500 mt-3">20+ years in fixed-income trading at multinational banks; previously Director at UniCredit CIB in Vienna and London.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== INVESTMENT FUNDS ===================== -->
+<div id="page-funds" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Investment Funds</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">32 funds in 17 families, three currencies.</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">Absolute return, bond derivative, equity derivative, and fund-of-funds strategies in HUF, EUR, and USD — as offered on marketprog.hu.</p>
+    </div>
+  </section>
+
+  <!-- Interactive fund chart -->
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <div class="flex flex-wrap gap-2 mb-8">
+        <button onclick="selFund(0)" class="fund-tab px-4 py-2 text-sm rounded border border-black text-black font-medium transition-colors">Allegro</button>
+        <button onclick="selFund(1)" class="fund-tab px-4 py-2 text-sm rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">Bond Derivativ</button>
+        <button onclick="selFund(2)" class="fund-tab px-4 py-2 text-sm rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">Aurica</button>
+        <button onclick="selFund(3)" class="fund-tab px-4 py-2 text-sm rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">Diverz Nimbus</button>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 h-72"><canvas id="fundChart"></canvas></div>
+        <div id="fund-info" class="border border-neutral-100 rounded-lg p-6 flex flex-col justify-between"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fund family grid -->
+  <section class="border-t border-neutral-100 bg-neutral-50/50">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+            <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-6">All Fund Families (17)</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Allegro Absolute</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +6.39% · EUR +4.41% · USD +4.98%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Aurica</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +5.20% · EUR +5.84% · USD +4.76%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Bond Derivativ</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Bond Derivative</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +10.39% · EUR +4.14% · USD +16.14%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Compass</h3><span class="text-xs text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded">Equity Derivative</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Convexity</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +3.42% · EUR +2.71% · USD +1.66%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Creditum</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF -2.68% · EUR -3.94% · USD -3.93%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Diverz Nimbus</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +3.15% · EUR +2.22%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Diverz Sapiens</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +3.06% · EUR +2.35% · USD +0.22%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Diverz Specific</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +2.99% · EUR -1.04%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Himalaja</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF -2.32% · EUR -4.21%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Investrium</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF · EUR · USD</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Prestige</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +2.72% · EUR +2.29%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Prestige Select</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Fund of Funds</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +0.49% · EUR -1.36% · USD -1.79%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Prestige Start</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Bond Derivative</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF +1.71% · EUR +8.51% · USD +8.51%</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Reverse Max</h3><span class="text-xs text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded">Bond / Rates</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Helios</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Absolute Return</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF · EUR</p>
+        </div>
+        <div class="bg-white border border-neutral-100 rounded-lg p-5">
+          <div class="flex items-center justify-between"><h3 class="font-medium text-sm">Prospect Fund</h3><span class="text-xs text-accent-600 bg-accent-50 px-2 py-0.5 rounded">Fund of Funds</span></div>
+          <p class="text-xs text-neutral-400 mt-2">HUF</p>
+        </div>
+      </div>
+      <p class="mt-6 text-xs text-neutral-300">Past performance is not indicative of future results. YTD returns as of 16 May 2026 (source: Hozam Plaza, NAV date 13 May 2026).</p>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== PERSONALIZED PORTFOLIOS ===================== -->
+<div id="page-portfolios" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Personalized Portfolios</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Built around you.</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">Custom allocations across our fund range, matched to your risk profile, currency preference, and investment horizon.</p>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-8">Interactive Allocation — Adjust Risk Profile</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-neutral-500">Conservative</span>
+            <span class="text-sm text-neutral-500">Aggressive</span>
+          </div>
+          <input type="range" id="riskSlider" min="0" max="100" value="50" class="w-full h-1 bg-neutral-200 rounded-lg appearance-none cursor-pointer" oninput="updateAlloc(this.value)" />
+          <p class="text-center mt-3 text-sm font-medium" id="riskLabel">Balanced</p>
+          <div class="mt-8 space-y-3" id="allocBars"></div>
+        </div>
+        <div class="h-64"><canvas id="allocChart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100 bg-neutral-50/50">
+    <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center mx-auto mb-3"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg></div>
+        <h3 class="font-medium text-sm">Risk Profiling</h3>
+        <p class="text-sm text-neutral-500 mt-1">Detailed assessment of your financial situation and risk appetite.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center mx-auto mb-3"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+        <h3 class="font-medium text-sm">Custom Construction</h3>
+        <p class="text-sm text-neutral-500 mt-1">Portfolio built from Marketprog funds to match your profile and currency needs.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center mx-auto mb-3"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3 class="font-medium text-sm">Ongoing Review</h3>
+        <p class="text-sm text-neutral-500 mt-1">Regular monitoring and rebalancing as markets and your goals evolve.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== SERVICES ===================== -->
+<div id="page-services" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Advisory Services</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Professional guidance.</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">Fund and portfolio management, fund set-up and administration, custody, capital introduction, and investment advisory — aligned with our AIFMD-regulated service offering.</p>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="border border-neutral-100 rounded-lg p-8 hover:border-accent-200 transition-colors">
+        <h3 class="font-medium">Investment Advisory</h3>
+        <p class="text-sm text-neutral-500 mt-2">Portfolio review, asset allocation guidance, and fund selection consulting.</p>
+      </div>
+      <div class="border border-neutral-100 rounded-lg p-8 hover:border-accent-200 transition-colors">
+        <h3 class="font-medium">Wealth & Tax Planning</h3>
+        <p class="text-sm text-neutral-500 mt-2">Structuring solutions through the Primus Wealth network — privacy, asset protection, and tax efficiency.</p>
+      </div>
+      <div class="border border-neutral-100 rounded-lg p-8 hover:border-accent-200 transition-colors">
+        <h3 class="font-medium">Institutional Consulting</h3>
+        <p class="text-sm text-neutral-500 mt-2">Analytical tools and strategic advice for professional and institutional investors.</p>
+      </div>
+      <div class="border border-neutral-100 rounded-lg p-8 hover:border-accent-200 transition-colors">
+        <h3 class="font-medium">Market Analytics</h3>
+        <p class="text-sm text-neutral-500 mt-2">Proprietary web-based applications for evaluating current and future market moves.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100 bg-neutral-50/50">
+    <div class="mx-auto max-w-6xl px-6 py-16 text-center">
+      <p class="text-xl font-semibold">Ready to get started?</p>
+      <p class="mt-2 text-sm text-neutral-500">Contact our team to discuss your investment needs.</p>
+      <a href="#distribution" onclick="nav('distribution')" class="mt-6 inline-flex bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 rounded transition-colors">Contact Us</a>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCUMENTS ===================== -->
+<div id="page-documents" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Documents</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Regulatory & fund documentation.</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">Customer information, regulatory publications, FATCA notifications, and CRS information.</p>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16 space-y-12">
+      <div>
+        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Customer Information</p>
+        <p class="text-xs text-neutral-400 mt-1 mb-4">Documents on the asset manager</p>
+        <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Asset Manager Overview</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Key Investor Information Documents (KIIDs)</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Fund Management Rules (Kezelesi Szabalyzat)</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Fund Prospectus</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Regulatory Publications</p>
+        <ul class="mt-4 divide-y divide-neutral-100 border-t border-b border-neutral-100">
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Annual Report 2025</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Semi-Annual Report 2025</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">MNB Supervisory Disclosures</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">FATCA & CRS</p>
+        <ul class="mt-4 divide-y divide-neutral-100 border-t border-b border-neutral-100">
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">FATCA Notification</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">CRS Information &amp; Self-Certification</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DISTRIBUTION ===================== -->
+<div id="page-distribution" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Distribution</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">How to invest with us.</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">Customer service, distribution partners, settlement details, and account information.</p>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div class="space-y-8">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">Customer Service Office</p>
+          <div class="border border-neutral-100 rounded-lg p-6">
+            <p class="font-medium text-sm">Marketprog Asset Management Zrt.</p>
+            <p class="text-sm text-neutral-500 mt-2">Csörsz utca 45<br/>1124 Budapest, Hungary<br/>MOM Irodapark, SAS Tower, 5th floor</p>
+            <p class="text-sm text-neutral-500 mt-2">+36 1 213 4210</p>
+            <p class="text-sm text-neutral-500">+36 1 213 4219 (fax)</p>
+            <p class="text-sm text-neutral-500">info@marketproginvestment.com</p>
+            <p class="text-sm text-neutral-500 mt-2">Mon — Fri, 8:00 — 16:00 CET</p>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">MNB Online Report</p>
+          <div class="border border-neutral-100 rounded-lg p-6">
+            <p class="text-sm text-neutral-500">Securities account reports available via the MNB online reporting portal for registered investors.</p>
+            <button class="mt-3 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors">MNB Portal &rarr;</button>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">Claims & Complaints</p>
+          <div class="border border-neutral-100 rounded-lg p-6">
+            <p class="text-sm text-neutral-500">Submit complaints to our customer service office in person, by mail, or via email. Written responses provided within 30 days.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-8">
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">Distribution Partners</p>
+          <ul class="space-y-2">
+            <li class="border border-neutral-100 rounded-lg p-4 text-sm flex items-center justify-between"><span>Erste Bank Hungary</span><span class="text-xs text-neutral-400">Full range</span></li>
+            <li class="border border-neutral-100 rounded-lg p-4 text-sm flex items-center justify-between"><span>MBH Bank</span><span class="text-xs text-neutral-400">Selected funds</span></li>
+            <li class="border border-neutral-100 rounded-lg p-4 text-sm flex items-center justify-between"><span>Primus Wealth</span><span class="text-xs text-neutral-400">Full range</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">Settlement Information</p>
+          <div class="border border-neutral-100 rounded-lg p-6">
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between"><span class="text-neutral-400">Settlement cycle</span><span class="font-medium">T+3</span></div>
+              <div class="flex justify-between border-t border-neutral-50 pt-3"><span class="text-neutral-400">Cut-off time</span><span class="font-medium">12:00 CET</span></div>
+              <div class="flex justify-between border-t border-neutral-50 pt-3"><span class="text-neutral-400">NAV calculation</span><span class="font-medium">Daily</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">Account Numbers</p>
+          <div class="border border-neutral-100 rounded-lg p-6 space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-neutral-400">HUF</span><span class="font-mono text-xs">Contact for details</span></div>
+            <div class="flex justify-between border-t border-neutral-50 pt-3"><span class="text-neutral-400">EUR</span><span class="font-mono text-xs">Contact for details</span></div>
+            <div class="flex justify-between border-t border-neutral-50 pt-3"><span class="text-neutral-400">USD</span><span class="font-mono text-xs">Contact for details</span></div>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-4">Terms & Conditions</p>
+          <div class="border border-neutral-100 rounded-lg p-6">
+            <p class="text-sm text-neutral-500">General terms governing fund subscriptions and redemptions.</p>
+            <button class="mt-3 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors">Download T&C &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="border-t border-neutral-100 bg-white">
+  <div class="mx-auto max-w-6xl px-6 py-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div>
+        <p class="text-base font-bold">market<span class="text-accent-500">prog</span></p>
+        <p class="mt-1 text-xs text-neutral-400">Marketprog Asset Management Zrt. · MNB regulated</p>
+      </div>
+      <ul class="flex flex-wrap gap-6">
+        <li><a href="#about" onclick="nav('about')" class="text-xs text-neutral-400 hover:text-black transition-colors">About</a></li>
+        <li><a href="#funds" onclick="nav('funds')" class="text-xs text-neutral-400 hover:text-black transition-colors">Funds</a></li>
+        <li><a href="#portfolios" onclick="nav('portfolios')" class="text-xs text-neutral-400 hover:text-black transition-colors">Portfolios</a></li>
+        <li><a href="#services" onclick="nav('services')" class="text-xs text-neutral-400 hover:text-black transition-colors">Services</a></li>
+        <li><a href="#documents" onclick="nav('documents')" class="text-xs text-neutral-400 hover:text-black transition-colors">Documents</a></li>
+        <li><a href="#distribution" onclick="nav('distribution')" class="text-xs text-neutral-400 hover:text-black transition-colors">Distribution</a></li>
+      </ul>
+    </div>
+    <div class="mt-8 border-t border-neutral-100 pt-6 flex flex-col md:flex-row md:justify-between gap-2">
+      <p class="text-xs text-neutral-300">&copy; 2026 MARKETPROG Asset Management Zrt. · 1124 Budapest, Csörsz u. 45.</p>
+      <p class="text-xs text-neutral-300">This site does not constitute an offer to sell or solicitation to buy any securities.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+function nav(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  const t=document.getElementById('page-'+p);if(t)t.classList.add('active');
+  document.querySelectorAll('#nav-links a').forEach(a=>{a.classList.remove('active');a.classList.add('text-neutral-400');if(a.dataset.page===p){a.classList.add('active');a.classList.remove('text-neutral-400')}});
+  window.scrollTo(0,0);initCharts(p);
+}
+function toggleMenu(){
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+  document.getElementById('ico-open').classList.toggle('hidden');
+  document.getElementById('ico-close').classList.toggle('hidden');
+}
+window.addEventListener('hashchange',()=>nav(location.hash.replace('#','')||'home'));
+if(location.hash)nav(location.hash.replace('#',''));
+
+const CI={};
+function make(id,cfg){if(CI[id])CI[id].destroy();CI[id]=new Chart(document.getElementById(id),cfg);return CI[id]}
+function genLine(n,s,v,t){const d=[s];for(let i=1;i<n;i++)d.push(d[i-1]+(Math.random()-.4)*v+t);return d}
+const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function labels(n,sy){const l=[];for(let i=0;i<n;i++)l.push(mo[i%12]+" '"+(sy+Math.floor(i/12)));return l}
+const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{boxWidth:8,padding:16,font:{size:11,family:'Inter'}}}},scales:{x:{grid:{display:false},ticks:{font:{size:10,family:'Inter'},color:'#a3a3a3',maxTicksLimit:8}},y:{grid:{color:'#f5f5f5'},ticks:{font:{size:10,family:'Inter'},color:'#a3a3a3'}}},interaction:{mode:'index',intersect:false},elements:{point:{radius:0,hoverRadius:5},line:{tension:.3}}};
+
+// HOME
+let hRange='3y';
+function buildHome(){
+  const r={1:{n:12,s:25},3:{n:36,s:23},5:{n:60,s:21}}[hRange.replace('y','')];
+  make('homeChart',{type:'line',data:{labels:labels(r.n,r.s),datasets:[
+    {label:'Allegro (HUF)',data:genLine(r.n,100,3.5,.9),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2},
+    {label:'Bond Derivativ (HUF)',data:genLine(r.n,100,1.5,.55),borderColor:'#000',fill:false,borderWidth:1.5},
+    {label:'Prestige Start (EUR)',data:genLine(r.n,100,2,.4),borderColor:'#a3a3a3',fill:false,borderWidth:1.5,borderDash:[4,4]}
+  ]},options:{...CO,plugins:{...CO.plugins,tooltip:{backgroundColor:'#000',titleFont:{size:11},bodyFont:{size:11},padding:10,cornerRadius:4}}}});
+}
+function setHR(r){
+  hRange=r;
+  document.querySelectorAll('.hr-btn').forEach(b=>{b.classList.remove('border-black','text-black','font-medium');b.classList.add('border-neutral-200','text-neutral-500')});
+  event.target.classList.add('border-black','text-black','font-medium');event.target.classList.remove('border-neutral-200','text-neutral-500');
+  buildHome();
+}
+
+// ABOUT
+function buildAum(){
+  make('aumChart',{type:'bar',data:{labels:['2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[{label:'Number of Funds',data:[8,12,16,20,24,26,28,30],backgroundColor:'rgba(34,197,94,.15)',borderColor:'#22c55e',borderWidth:1.5,borderRadius:4}]},options:{...CO,plugins:{...CO.plugins,legend:{display:false}}}});
+}
+
+// FUNDS
+const FD=[
+  {name:'Allegro Absolute Return',type:'Absolute Return · HUF/EUR/USD',ytd:'+6.39%',eur:'+4.41%',vol:'Low-Med',data:()=>genLine(36,100,2.5,.5)},
+  {name:'Bond Derivativ (HUF)',type:'Bond Derivative · HUF/EUR/USD',ytd:'+10.39%',eur:'+4.14%',vol:'Medium',data:()=>genLine(36,100,2,.55)},
+  {name:'Aurica (HUF)',type:'Absolute Return · HUF/EUR/USD',ytd:'+5.20%',eur:'+5.84%',vol:'Medium',data:()=>genLine(36,100,2,.4)},
+  {name:'Diverz Nimbus',type:'Absolute Return · HUF/EUR',ytd:'+3.15%',eur:'+2.22%',vol:'Medium',data:()=>genLine(36,100,2.5,.45)}
+];
+let sF=0;
+function selFund(i){
+  sF=i;document.querySelectorAll('.fund-tab').forEach((b,idx)=>{if(idx===i){b.classList.add('border-black','text-black','font-medium');b.classList.remove('border-neutral-200','text-neutral-500')}else{b.classList.remove('border-black','text-black','font-medium');b.classList.add('border-neutral-200','text-neutral-500')}});
+  buildFund();
+}
+function buildFund(){
+  const f=FD[sF];
+  make('fundChart',{type:'line',data:{labels:labels(36,23),datasets:[{label:f.name,data:f.data(),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2}]},options:CO});
+  document.getElementById('fund-info').innerHTML=`<div><h3 class="font-semibold">${f.name}</h3><p class="text-sm text-neutral-400 mt-1">${f.type}</p></div><div class="space-y-3 mt-4"><div class="flex justify-between text-sm"><span class="text-neutral-400">YTD (HUF)</span><span class="font-medium text-accent-600">${f.ytd}</span></div><div class="flex justify-between text-sm border-t border-neutral-50 pt-3"><span class="text-neutral-400">YTD (EUR)</span><span class="font-medium">${f.eur}</span></div><div class="flex justify-between text-sm border-t border-neutral-50 pt-3"><span class="text-neutral-400">Volatility</span><span class="font-medium">${f.vol}</span></div></div><p class="text-xs text-neutral-300 mt-4">Past performance is not indicative of future results.</p>`;
+}
+
+// PORTFOLIOS
+function updateAlloc(v){
+  const val=parseInt(v),eq=Math.round(val*.5),bd=Math.round((100-val)*.55),alt=Math.round(val*.2),cash=100-eq-bd-alt;
+  const label=val<30?'Conservative':val<70?'Balanced':'Aggressive';
+  document.getElementById('riskLabel').textContent=label;
+  const colors={Equity:'#22c55e',Bonds:'#000',Alternatives:'#a3a3a3',Cash:'#e5e5e5'};
+  const alloc={Equity:eq,Bonds:bd,Alternatives:alt,Cash:cash};
+  document.getElementById('allocBars').innerHTML=Object.entries(alloc).map(([k,v])=>`<div class="flex items-center gap-3"><span class="w-24 text-xs text-neutral-400">${k}</span><div class="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden"><div class="h-full rounded-full transition-all duration-300" style="width:${v}%;background:${colors[k]}"></div></div><span class="text-xs font-medium w-8 text-right">${v}%</span></div>`).join('');
+  make('allocChart',{type:'doughnut',data:{labels:Object.keys(alloc),datasets:[{data:Object.values(alloc),backgroundColor:Object.values(colors),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{boxWidth:8,padding:12,font:{size:11,family:'Inter'}}}}}});
+}
+
+function initCharts(p){setTimeout(()=>{
+  if(p==='home')buildHome();
+  if(p==='about')buildAum();
+  if(p==='funds'){selFund(sF);buildFund()}
+  if(p==='portfolios')updateAlloc(document.getElementById('riskSlider')?.value||50);
+},50)}
+window.addEventListener('DOMContentLoaded',()=>initCharts('home'));
+</script>
+</body>
+</html>
