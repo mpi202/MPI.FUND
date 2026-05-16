@@ -8,7 +8,7 @@ $listener.Start()
 while ($true) {
     $ctx = $listener.GetContext()
     $path = $ctx.Request.Url.LocalPath
-    if ($path -eq "/") { $path = "/chart-preview.html" }
+    if ($path -eq "/") { $path = "/index.html" }
     $file = Join-Path $root $path.TrimStart("/")
     try {
         if (Test-Path $file -PathType Leaf) {
