@@ -233,7 +233,6 @@
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <div id="funds-list" class="space-y-4"></div>
-      <p class="mt-8 text-xs text-neutral-300" data-i18n="funds.disclaimer">Past performance is not indicative of future results. YTD returns as of 16 May 2026 (source: Hozam Plaza, NAV date 13 May 2026).</p>
     </div>
   </section>
 
@@ -262,6 +261,12 @@
           <button onclick="openMeeting('White Label Funds')" class="mt-6 bg-accent-500 text-white px-8 py-3.5 rounded-xl text-sm font-semibold hover:bg-accent-600 transition-colors shadow-lg shadow-accent-500/25" data-i18n="funds.wl_cta">Get in touch</button>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-6">
+      <p class="text-xs text-neutral-300" data-i18n="funds.disclaimer">Past performance is not indicative of future results. YTD returns as of 16 May 2026 (source: Hozam Plaza, NAV date 13 May 2026).</p>
     </div>
   </section>
 </div>
@@ -612,15 +617,9 @@
       <div class="md:col-span-2 md:pl-10 pt-6 md:pt-0">
         <div id="dist-office" class="dist-panel fade-in">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.office_label">Customer Service Office</h3>
-          <div class="border border-neutral-100 rounded-lg p-6">
-            <p class="font-medium text-sm">Marketprog Asset Management Zrt.</p>
-            <p class="text-sm text-neutral-500 mt-3">Csörsz utca 45<br/>1124 Budapest, Hungary<br/>MOM Irodapark, SAS Tower, 5th floor</p>
-            <div class="mt-4 space-y-1">
-              <p class="text-sm text-neutral-500">+36 1 213 4210</p>
-              <p class="text-sm text-neutral-500">+36 1 213 4219 (fax)</p>
-              <p class="text-sm text-neutral-500">info@marketproginvestment.com</p>
-            </div>
-            <p class="text-sm text-neutral-500 mt-4" data-i18n="dist.office_hours">Mon — Fri, 8:00 — 16:00 CET</p>
+          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
+            <p class="text-sm text-neutral-500" data-i18n="dist.office_desc">View our distribution offices and service points in the document below.</p>
+            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/CustomerServiceOffices%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=dd62fe4" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.office_pdf">Distribution Offices (PDF)</span></a>
           </div>
         </div>
         <div id="dist-mnb" class="dist-panel fade-in hidden">
@@ -747,7 +746,7 @@ const T={
     'docs.label':'Dokumentumok','docs.title':'Szabályozói és alap dokumentáció.','docs.desc':'Ügyfél-tájékoztatás, szabályozói kiadványok, FATCA értesítések és CRS információk.',
     'docs.cust_label':'Ügyfél-tájékoztatás','docs.cust_desc':'Az alapkezelőre vonatkozó dokumentumok','docs.reg_label':'Szabályozói kiadványok',
     'dist.label':'Forgalmazás','dist.title':'Hogyan fektessen be nálunk.','dist.desc':'Ügyfélszolgálat, forgalmazó partnerek, elszámolási részletek és számlainformációk.',
-    'dist.office_label':'Ügyfélszolgálati iroda','dist.mnb_label':'MNB Online Jelentés','dist.mnb_desc':'Értékpapírszámla-kimutatások az MNB online jelentési portálon keresztül, regisztrált befektetők számára.','dist.mnb_btn':'MNB Portál &rarr;',
+    'dist.office_label':'Ügyfélszolgálati iroda','dist.office_desc':'Tekintse meg forgalmazási irodáinkat és szolgáltatási pontjainkat az alábbi dokumentumban.','dist.office_pdf':'Forgalmazói irodák (PDF)','dist.mnb_label':'MNB Online Jelentés','dist.mnb_desc':'Értékpapírszámla-kimutatások az MNB online jelentési portálon keresztül, regisztrált befektetők számára.','dist.mnb_btn':'MNB Portál &rarr;',
     'dist.claims_label':'Panaszok és reklamációk','dist.claims_desc':'Panaszait személyesen, postai úton vagy e-mailben nyújthatja be ügyfélszolgálati irodánkban. Írásos választ 30 napon belül adunk.',
     'dist.partners_label':'Forgalmazó partnerek','dist.settlement_label':'Elszámolási információk','dist.accounts_label':'Számlaszámok',
     'dist.nav_office':'Ügyfélszolgálati irodák','dist.nav_mnb':'MNB Online jelentés','dist.nav_partners':'Forgalmazó partnerek','dist.nav_settlement':'Elszámolási napok','dist.nav_tc':'Általános Szerződési Feltételek','dist.nav_accounts':'Számlaszámok','dist.nav_claims':'Panaszok',
@@ -800,7 +799,7 @@ const T={
     'docs.label':'Documents','docs.title':'Regulatory & fund documentation.','docs.desc':'Customer information, regulatory publications, FATCA notifications, and CRS information.',
     'docs.cust_label':'Customer Information','docs.cust_desc':'Documents on the asset manager','docs.reg_label':'Regulatory Publications',
     'dist.label':'Distribution','dist.title':'How to invest with us.','dist.desc':'Customer service, distribution partners, settlement details, and account information.',
-    'dist.office_label':'Customer Service Office','dist.mnb_label':'MNB Online Report','dist.mnb_desc':'Securities account reports available via the MNB online reporting portal for registered investors.','dist.mnb_btn':'MNB Portal &rarr;',
+    'dist.office_label':'Customer Service Office','dist.office_desc':'View our distribution offices and service points in the document below.','dist.office_pdf':'Distribution Offices (PDF)','dist.mnb_label':'MNB Online Report','dist.mnb_desc':'Securities account reports available via the MNB online reporting portal for registered investors.','dist.mnb_btn':'MNB Portal &rarr;',
     'dist.claims_label':'Claims & Complaints','dist.claims_desc':'Submit complaints to our customer service office in person, by mail, or via email. Written responses provided within 30 days.',
     'dist.partners_label':'Distribution Partners','dist.settlement_label':'Settlement Information','dist.accounts_label':'Account Numbers',
     'dist.nav_office':'Customer service offices','dist.nav_mnb':'MNB Online report','dist.nav_partners':'Distribution Partners','dist.nav_settlement':'Settlement Dates','dist.nav_tc':'Terms and Conditions','dist.nav_accounts':'Account numbers','dist.nav_claims':'Claims',
