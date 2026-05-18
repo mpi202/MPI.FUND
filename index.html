@@ -38,7 +38,7 @@
 <!-- HEADER -->
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-neutral-100">
   <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-    <a href="#home" onclick="nav('home')" class="text-xl font-bold tracking-tight">market<span class="text-accent-500">prog</span></a>
+    <a href="#home" onclick="nav('home')" class="flex-shrink-0"><img src="img/logo.svg" alt="mpi.fund — Marketprog" class="h-10" /></a>
     <ul class="hidden lg:flex items-center gap-7" id="nav-links">
       <li><a href="#home" data-page="home" data-i18n="nav.home" class="nav-link active text-sm hover:text-black transition-colors" onclick="nav('home')">Home</a></li>
       <li><a href="#about" data-page="about" data-i18n="nav.about" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('about')">About</a></li>
@@ -76,15 +76,19 @@
 
 <!-- ===================== HOME ===================== -->
 <div id="page-home" class="page active fade-in">
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/60 via-white to-accent-50/30"></div>
-    <div class="relative mx-auto max-w-6xl px-6 py-28 md:py-40">
-      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="home.subtitle">Marketprog Asset Management Zrt.</p>
-      <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl leading-[1.1]" data-i18n="home.title">Structured investing,<br/>transparent results.</h1>
-      <p class="mt-5 max-w-lg text-base text-neutral-500" data-i18n="home.desc">Investment funds and personalized portfolios from a Hungary-based, MNB-regulated asset manager operating under AIFMD since 2014.</p>
+  <section class="relative overflow-hidden min-h-[70vh] flex items-center">
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="img/nyc-night-2k.mp4" media="(min-width:1024px)" type="video/mp4" />
+      <source src="img/nyc-night-hd.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-black/45"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-28 md:py-40 w-full">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="home.subtitle">Marketprog Asset Management Zrt.</p>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl leading-[1.1] text-white" data-i18n="home.title">Structured investing,<br/>transparent results.</h1>
+      <p class="mt-5 max-w-lg text-base text-white/70" data-i18n="home.desc">Investment funds and personalized portfolios from a Hungary-based, MNB-regulated asset manager operating under AIFMD since 2014.</p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#funds" onclick="nav('funds')" class="bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-800 transition-colors rounded" data-i18n="home.cta1">Explore Funds</a>
-        <a href="#portfolios" onclick="nav('portfolios')" class="border border-neutral-300 px-5 py-2.5 text-sm font-medium hover:border-black transition-colors rounded" data-i18n="home.cta2">Personalized Portfolios</a>
+        <a href="#funds" onclick="nav('funds')" class="bg-accent-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-accent-600 transition-colors rounded" data-i18n="home.cta1">Explore Funds</a>
+        <a href="#portfolios" onclick="nav('portfolios')" class="border border-white/30 px-5 py-2.5 text-sm font-medium text-white hover:border-white transition-colors rounded" data-i18n="home.cta2">Personalized Portfolios</a>
       </div>
     </div>
   </section>
@@ -136,6 +140,34 @@
         <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></div>
         <h3 class="font-medium text-sm" data-i18n="home.pillar3_title">Personalized Portfolios</h3>
         <p class="mt-2 text-sm text-neutral-500" data-i18n="home.pillar3_desc">Tailored allocations built to match your risk profile, currency preference, and goals.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule a meeting -->
+  <section class="bg-neutral-950">
+    <div class="mx-auto max-w-6xl px-6 py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+        <div class="flex flex-col justify-center">
+          <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="home.meet_label">Get in touch</p>
+          <h2 class="mt-4 text-4xl font-bold text-white leading-tight" data-i18n="home.meet_title">To schedule<br/>a meeting</h2>
+          <p class="mt-4 text-white/50 text-sm leading-relaxed" data-i18n="home.meet_desc">to learn more about one of our offerings,<br/>please fill in your contact details</p>
+        </div>
+        <form onsubmit="sendHomeMeeting(event)" class="flex flex-col gap-4 justify-center relative">
+          <input type="hidden" value="Homepage" />
+          <div class="grid grid-cols-2 gap-4">
+            <input type="text" id="home-meet-name" required placeholder="Name" data-i18n-ph="meeting.ph_name" class="bg-white/10 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-500 transition-colors" />
+            <input type="email" id="home-meet-email" required placeholder="E-mail address" data-i18n-ph="meeting.ph_email" class="bg-white/10 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-500 transition-colors" />
+          </div>
+          <textarea id="home-meet-message" rows="5" required placeholder="Message" data-i18n-ph="meeting.ph_message" class="bg-white/10 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-500 transition-colors resize-none"></textarea>
+          <div class="flex justify-end relative">
+            <button type="submit" id="home-meet-btn" class="bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm" data-i18n="meeting.send">Send message</button>
+          </div>
+          <div id="home-meet-sent" class="hidden absolute inset-0 flex flex-col items-center justify-center rounded-lg bg-neutral-950">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="#22c55e" stroke-width="2.5"/><path d="M20 33l8 8 16-16" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p class="text-accent-400 font-semibold mt-4 text-lg" data-i18n="meeting.sent_label">Sent!</p>
+          </div>
+        </form>
       </div>
     </div>
   </section>
@@ -624,48 +656,131 @@
         </div>
         <div id="dist-mnb" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.mnb_label">MNB Online Report</h3>
-          <div class="border border-neutral-100 rounded-lg p-6">
-            <p class="text-sm text-neutral-500" data-i18n="dist.mnb_desc">Securities account reports available via the MNB online reporting portal for registered investors.</p>
-            <button class="mt-4 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors" data-i18n="dist.mnb_btn">MNB Portal &rarr;</button>
+          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
+            <p class="text-sm text-neutral-500" data-i18n="dist.mnb_desc">View the MNB online securities account report guide in the document below.</p>
+            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/MNBOnlineReportForSecuritiesAccounts%2FMNB%20-%20%C3%A9rt%C3%A9kpap%C3%ADrsz%C3%A1mla%20online%20lek%C3%A9rdez%C3%A9s.pdf?alt=media&token=1474b38a-b7b1-4e8d-b16c-76b98538b40f" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.mnb_pdf">MNB Online Report (PDF)</span></a>
           </div>
         </div>
         <div id="dist-partners" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.partners_label">Distribution Partners</h3>
-          <ul class="space-y-2">
-            <li class="border border-neutral-100 rounded-lg p-5 text-sm flex items-center justify-between"><span class="font-medium">Erste Bank Hungary</span><span class="text-xs text-neutral-400" data-i18n="dist.partner_full">Full range</span></li>
-            <li class="border border-neutral-100 rounded-lg p-5 text-sm flex items-center justify-between"><span class="font-medium">MBH Bank</span><span class="text-xs text-neutral-400" data-i18n="dist.partner_selected">Selected funds</span></li>
-            <li class="border border-neutral-100 rounded-lg p-5 text-sm flex items-center justify-between"><span class="font-medium">Primus Wealth</span><span class="text-xs text-neutral-400" data-i18n="dist.partner_full2">Full range</span></li>
-          </ul>
+          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
+            <p class="text-sm text-neutral-500" data-i18n="dist.partners_desc">View our distribution partners in the document below.</p>
+            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/DistributionPartners%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=fddc9d05-56a1-43d1-8d2f-73ca5a018bdd" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.partners_pdf">Distribution Partners (PDF)</span></a>
+          </div>
         </div>
         <div id="dist-settlement" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.settlement_label">Settlement Information</h3>
-          <div class="border border-neutral-100 rounded-lg p-6">
-            <div class="space-y-4 text-sm">
-              <div class="flex justify-between"><span class="text-neutral-400" data-i18n="dist.settle_cycle">Settlement cycle</span><span class="font-medium">T+3</span></div>
-              <div class="flex justify-between border-t border-neutral-100 pt-4"><span class="text-neutral-400" data-i18n="dist.settle_cutoff">Cut-off time</span><span class="font-medium">12:00 CET</span></div>
-              <div class="flex justify-between border-t border-neutral-100 pt-4"><span class="text-neutral-400" data-i18n="dist.settle_nav">NAV calculation</span><span class="font-medium" data-i18n="dist.settle_daily">Daily</span></div>
-            </div>
+          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
+            <p class="text-sm text-neutral-500" data-i18n="dist.settlement_desc">View settlement dates in the document below.</p>
+            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/SettlementDates%2FElsz%C3%A1mol%C3%A1si%20d%C3%A1tumok.pdf?alt=media&token=0f650bcf-293e-4d9a-8d6e-4471e02899ea" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.settlement_pdf">Settlement Dates (PDF)</span></a>
           </div>
         </div>
         <div id="dist-tc" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.tc_label">Terms & Conditions</h3>
-          <div class="border border-neutral-100 rounded-lg p-6">
-            <p class="text-sm text-neutral-500" data-i18n="dist.tc_desc">General terms governing fund subscriptions and redemptions.</p>
-            <button class="mt-4 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors" data-i18n="dist.tc_btn">Download T&C &rarr;</button>
+          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
+            <p class="text-sm text-neutral-500" data-i18n="dist.tc_desc">View the terms and conditions in the document below.</p>
+            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/TermsAndConditions%2FD%C3%ADjszab%C3%A1lyzat.pdf?alt=media&token=fea1d12f-ca4d-4681-ab12-1f5a23d52c1d" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.tc_pdf">Terms & Conditions (PDF)</span></a>
           </div>
         </div>
         <div id="dist-accounts" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.accounts_label">Account Numbers</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 space-y-4 text-sm">
-            <div class="flex justify-between"><span class="text-neutral-400">HUF</span><span class="font-mono text-xs" data-i18n="dist.acc_contact">Contact for details</span></div>
-            <div class="flex justify-between border-t border-neutral-100 pt-4"><span class="text-neutral-400">EUR</span><span class="font-mono text-xs" data-i18n="dist.acc_contact2">Contact for details</span></div>
-            <div class="flex justify-between border-t border-neutral-100 pt-4"><span class="text-neutral-400">USD</span><span class="font-mono text-xs" data-i18n="dist.acc_contact3">Contact for details</span></div>
+          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
+            <p class="text-sm text-neutral-500" data-i18n="dist.accounts_desc">View account numbers in the document below.</p>
+            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AccountNumbers%2FSz%C3%A1mlasz%C3%A1mok.pdf?alt=media&token=4cd59574-8cf9-44a4-9098-0633bccc18e1" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.accounts_pdf">Account Numbers (PDF)</span></a>
           </div>
         </div>
         <div id="dist-claims" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.claims_label">Claims & Complaints</h3>
-          <div class="border border-neutral-100 rounded-lg p-6">
-            <p class="text-sm text-neutral-500" data-i18n="dist.claims_desc">Submit complaints to our customer service office in person, by mail, or via email. Written responses provided within 30 days.</p>
+          <div class="space-y-6">
+            <!-- Intro -->
+            <div class="border border-neutral-100 rounded-lg p-6">
+              <p class="text-sm font-semibold mb-2" data-i18n="cc.greeting">Dear Client!</p>
+              <p class="text-sm text-neutral-500 leading-relaxed" data-i18n="cc.intro">As an <strong class="text-black">investment fund manager</strong>, it is of paramount importance to MARKETPROG Asset Management Zrt. (hereinafter: the <strong class="text-black">Fund Manager</strong>) that clients are satisfied with the Fund Manager's activities. Despite all our efforts, there may be cases where a client expresses a complaint or dissatisfaction. We understand that in such cases it is essential that the investigation and handling of complaints is thorough, efficient and without delay, and complies with legal and other regulations. Below we provide a brief overview in connection with complaint handling.</p>
+            </div>
+            <!-- Filing -->
+            <div class="border border-neutral-100 rounded-lg p-6">
+              <h4 class="text-sm font-bold mb-3" data-i18n="cc.filing_title">FILING A COMPLAINT</h4>
+              <p class="text-sm text-neutral-500 mb-4" data-i18n="cc.filing_desc">You can submit your complaint to the Fund Manager in the following ways:</p>
+              <div class="space-y-4">
+                <div>
+                  <p class="text-sm font-semibold underline" data-i18n="cc.oral">Oral complaint</p>
+                  <p class="text-sm italic text-neutral-600 mt-1" data-i18n="cc.in_person">in person</p>
+                  <div class="mt-1 grid grid-cols-[140px_1fr] gap-y-1 text-sm">
+                    <span class="text-neutral-400" data-i18n="cc.address_label">address:</span><span class="text-neutral-600">1124 Budapest, Csörsz utca 45. V. em., MOM Irodapark, SAS Tower B3</span>
+                    <span class="text-neutral-400" data-i18n="cc.opening_hours">opening hours</span><span class="text-neutral-600" data-i18n="cc.hours_office">8-16</span>
+                  </div>
+                  <p class="text-sm italic text-neutral-600 mt-3" data-i18n="cc.by_phone">by phone</p>
+                  <div class="mt-1 grid grid-cols-[140px_1fr] gap-y-1 text-sm">
+                    <span class="text-neutral-400" data-i18n="cc.phone_label">phone number:</span><span class="text-neutral-600">+36-1-522-2092</span>
+                    <span class="text-neutral-400" data-i18n="cc.reception_hours">reception hours</span><span class="text-neutral-600"></span>
+                    <span class="text-neutral-400" data-i18n="cc.monday">Monday:</span><span class="text-neutral-600" data-i18n="cc.hours_mon">8-17</span>
+                    <span class="text-neutral-400" data-i18n="cc.tue_fri">Tue, Wed, Thu, Fri:</span><span class="text-neutral-600" data-i18n="cc.hours_tue">8-16</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold underline" data-i18n="cc.written">Written complaint</p>
+                  <div class="mt-1 grid grid-cols-[200px_1fr] gap-y-1 text-sm">
+                    <span class="text-neutral-400" data-i18n="cc.written_a">a) delivered in person or by an authorised representative:</span><span class="text-neutral-600">1124 Budapest, Csörsz utca 45. V. em., MOM Irodapark, SAS Tower B3</span>
+                    <span class="text-neutral-400" data-i18n="cc.written_b">b) by post:</span><span class="text-neutral-600">1124 Budapest, Csörsz utca 45. V. em., MOM Irodapark, SAS Tower B3</span>
+                    <span class="text-neutral-400" data-i18n="cc.written_c">c) by e-mail:</span><span class="text-neutral-600">info@marketproginvestment.com</span>
+                    <span class="text-neutral-400" data-i18n="cc.written_d">d) by fax:</span><span class="text-neutral-600">+36-1-522-2099</span>
+                  </div>
+                  <p class="text-xs text-neutral-400 mt-2" data-i18n="cc.proxy_note">You may also act through an authorised representative in connection with your complaint.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Investigation -->
+            <div class="border border-neutral-100 rounded-lg p-6">
+              <h4 class="text-sm font-bold mb-3" data-i18n="cc.invest_title">INVESTIGATION AND RESPONSE TO COMPLAINTS</h4>
+              <div class="space-y-3 text-sm text-neutral-500 leading-relaxed">
+                <p data-i18n="cc.invest_1">The investigation of the complaint is free of charge; no separate fee may be charged.</p>
+                <p data-i18n="cc.invest_2">We investigate your complaint taking all circumstances into account. Our aim is to avoid the development of a financial consumer dispute to the extent possible under the circumstances.</p>
+                <p data-i18n="cc.invest_3">Oral complaints must be investigated immediately and remedied if possible. If the complaint is successfully resolved immediately, the matter is closed. If immediate investigation of the oral complaint is not possible or does not lead to a result, as well as in the case of written complaints, the complaint must be investigated and responded to within a <strong class="text-black">30-day deadline</strong>. You may inquire about the status of the investigation at the Fund Manager.</p>
+                <p data-i18n="cc.invest_4">During the investigation phase, we may need additional information or documents, in which case we will contact you.</p>
+                <p data-i18n="cc.invest_5">Our reasoned response to the complaint will be sent to you by post or — if the legal conditions are met — by electronic means.</p>
+              </div>
+            </div>
+            <!-- Escalation -->
+            <div class="border border-neutral-100 rounded-lg p-6">
+              <p class="text-sm text-neutral-500 leading-relaxed mb-4" data-i18n="cc.escalation_intro">If, despite our efforts, you consider that your complaint has not been handled appropriately based on the response received, and you qualify as a consumer, you may turn to the following bodies in the event of rejection of the complaint or the unsuccessful expiry of the 30-day statutory response deadline:</p>
+              <div class="space-y-4">
+                <div>
+                  <p class="text-sm font-semibold">a) <span class="text-accent-600" data-i18n="cc.pbt_name">Financial Arbitration Board</span></p>
+                  <p class="text-xs text-neutral-400 mt-1" data-i18n="cc.pbt_scope">(in the event of a legal dispute relating to the conclusion, validity, legal effects and termination of the contract, as well as breach of contract and its legal effects)</p>
+                  <div class="mt-2 grid grid-cols-[80px_1fr] gap-y-1 text-sm">
+                    <span class="text-neutral-400" data-i18n="cc.seat">seat:</span><span class="text-neutral-600">1013 Budapest, Krisztina krt. 55.</span>
+                    <span class="text-neutral-400" data-i18n="cc.postal">postal:</span><span class="text-neutral-600" data-i18n="cc.pbt_postal">1525 Budapest, P.O. Box 172. (Financial Arbitration Board)</span>
+                    <span class="text-neutral-400" data-i18n="cc.phone">phone:</span><span class="text-neutral-600">+36-80-203-776</span>
+                    <span class="text-neutral-400" data-i18n="cc.cs_address">customer svc.:</span><span class="text-neutral-600">1122 Budapest, Krisztina krt. 6.</span>
+                    <span class="text-neutral-400">e-mail:</span><span class="text-neutral-600">ugyfelszolgalat@mnb.hu</span>
+                  </div>
+                  <a href="http://www.mnb.hu/bekeltetes" target="_blank" rel="noopener" class="inline-block mt-2 text-xs text-accent-600 hover:text-accent-700 transition-colors">http://www.mnb.hu/bekeltetes</a>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold">b) <span class="text-accent-600" data-i18n="cc.mnb_name">Hungarian National Bank</span></p>
+                  <div class="mt-2 grid grid-cols-[80px_1fr] gap-y-1 text-sm">
+                    <span class="text-neutral-400" data-i18n="cc.seat2">seat:</span><span class="text-neutral-600">1013 Budapest, Krisztina krt. 55.</span>
+                    <span class="text-neutral-400" data-i18n="cc.postal2">postal:</span><span class="text-neutral-600" data-i18n="cc.mnb_postal">Hungarian National Bank, 1850 Budapest</span>
+                    <span class="text-neutral-400" data-i18n="cc.phone2">phone:</span><span class="text-neutral-600">+36-80-203-776</span>
+                    <span class="text-neutral-400">fax:</span><span class="text-neutral-600">+36 1 429 8000</span>
+                    <span class="text-neutral-400" data-i18n="cc.cs_address2">customer svc.:</span><span class="text-neutral-600">1122 Budapest, Krisztina krt. 6.</span>
+                    <span class="text-neutral-400">e-mail:</span><span class="text-neutral-600">ugyfelszolgalat@mnb.hu</span>
+                  </div>
+                  <a href="http://www.mnb.hu/fogyasztovedelem" target="_blank" rel="noopener" class="inline-block mt-2 text-xs text-accent-600 hover:text-accent-700 transition-colors">http://www.mnb.hu/fogyasztovedelem</a>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold">c) <span class="text-accent-600" data-i18n="cc.court">Court</span></p>
+                </div>
+              </div>
+              <p class="text-sm text-neutral-500 leading-relaxed mt-5 mb-4" data-i18n="cc.closing">For further detailed information on complaint handling, please refer to our Complaint Handling Policy, which is available at our registered office and on our website (<a href="https://www.marketprog.hu" target="_blank" rel="noopener" class="text-accent-600 hover:text-accent-700">www.marketprog.hu</a>) under the Complaint Handling menu.</p>
+              <hr class="my-5 border-neutral-100"/>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/ComplaintHandlingPolicy%2FPanaszkezelesi_Szabalyzat_2025_03_27_11-es%20verzi%C3%B3.pdf?alt=media" target="_blank" rel="noopener" class="flex items-center gap-2 border border-neutral-100 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 hover:border-accent-300 hover:text-accent-600 transition-colors"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="cc.dl_policy">Complaint handling policy</span></a>
+                <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/ComplaintHandlingProcedure%2FPanaszkezelesi_Elj%C3%A1r%C3%A1srend_2025_03_27_11-es%20verzi%C3%B3%20(1).pdf?alt=media" target="_blank" rel="noopener" class="flex items-center gap-2 border border-neutral-100 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 hover:border-accent-300 hover:text-accent-600 transition-colors"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="cc.dl_procedure">Complaint handling procedure</span></a>
+                <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AuthorizationForm%2FPanaszbejelent%C5%91%20formanyomtatv%C3%A1ny.pdf?alt=media" target="_blank" rel="noopener" class="flex items-center gap-2 border border-neutral-100 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 hover:border-accent-300 hover:text-accent-600 transition-colors"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="cc.dl_auth">Authorization form</span></a>
+                <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/InformationalPowerOfAttorney%2FPanaszbejelent%C5%91%20formanyomtatv%C3%A1ny.pdf?alt=media" target="_blank" rel="noopener" class="flex items-center gap-2 border border-neutral-100 rounded-lg px-4 py-3 text-sm font-medium text-neutral-700 hover:border-accent-300 hover:text-accent-600 transition-colors"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="cc.dl_info">Informational power of attorney</span></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -746,16 +861,36 @@ const T={
     'docs.label':'Dokumentumok','docs.title':'Szabályozói és alap dokumentáció.','docs.desc':'Ügyfél-tájékoztatás, szabályozói kiadványok, FATCA értesítések és CRS információk.',
     'docs.cust_label':'Ügyfél-tájékoztatás','docs.cust_desc':'Az alapkezelőre vonatkozó dokumentumok','docs.reg_label':'Szabályozói kiadványok',
     'dist.label':'Forgalmazás','dist.title':'Hogyan fektessen be nálunk.','dist.desc':'Ügyfélszolgálat, forgalmazó partnerek, elszámolási részletek és számlainformációk.',
-    'dist.office_label':'Ügyfélszolgálati iroda','dist.office_desc':'Tekintse meg forgalmazási irodáinkat és szolgáltatási pontjainkat az alábbi dokumentumban.','dist.office_pdf':'Forgalmazói irodák (PDF)','dist.mnb_label':'MNB Online Jelentés','dist.mnb_desc':'Értékpapírszámla-kimutatások az MNB online jelentési portálon keresztül, regisztrált befektetők számára.','dist.mnb_btn':'MNB Portál &rarr;',
-    'dist.claims_label':'Panaszok és reklamációk','dist.claims_desc':'Panaszait személyesen, postai úton vagy e-mailben nyújthatja be ügyfélszolgálati irodánkban. Írásos választ 30 napon belül adunk.',
-    'dist.partners_label':'Forgalmazó partnerek','dist.settlement_label':'Elszámolási információk','dist.accounts_label':'Számlaszámok',
+    'dist.office_label':'Ügyfélszolgálati iroda','dist.office_desc':'Tekintse meg forgalmazási irodáinkat és szolgáltatási pontjainkat az alábbi dokumentumban.','dist.office_pdf':'Forgalmazói irodák (PDF)','dist.mnb_label':'MNB Online Jelentés','dist.mnb_desc':'Tekintse meg az MNB online értékpapírszámla-lekérdezési útmutatót az alábbi dokumentumban.','dist.mnb_pdf':'MNB Online Jelentés (PDF)',
+    'dist.claims_label':'Panaszok és reklamációk',
+    'cc.greeting':'Tisztelt Ügyfelünk!','cc.intro':'A MARKETPROG Asset Management Zrt. (a továbbiakban: <strong class=\"text-black\">Alapkezelő</strong>) számára <strong class=\"text-black\">befektetési alapkezelőként</strong> kiemelten fontos, hogy az ügyfelek elégedettek legyenek az Alapkezelő tevékenységével. Sajnos minden erőfeszítésünk ellenére előfordulhat olyan eset, amikor az ügyfél kifogást, elégedetlenséget fogalmaz meg. Tudjuk, hogy ilyenkor milyen fontos, hogy a panaszok kivizsgálása és kezelése alapos, hatékony és késlekedés nélküli legyen, továbbá megfeleljen a törvényi és egyéb előírásoknak. Az alábbiakban a panaszkezeléssel összefüggésben az alábbi rövid áttekintést adjuk.',
+    'cc.filing_title':'PANASZ BEJELENTÉSE','cc.filing_desc':'Panaszát az alábbi módokon tudja eljuttatni az Alapkezelőhöz:',
+    'cc.oral':'Szóbeli panasz','cc.in_person':'személyesen','cc.address_label':'cím:','cc.opening_hours':'nyitvatartási idő','cc.hours_office':'8-16 óráig',
+    'cc.by_phone':'telefonon','cc.phone_label':'telefonszám:','cc.reception_hours':'hívásfogadási idő','cc.monday':'hétfő:','cc.hours_mon':'8-17 óráig','cc.tue_fri':'kedd, szerda, csütörtök, péntek:','cc.hours_tue':'8-16 óráig',
+    'cc.written':'Írásbeli panasz','cc.written_a':'a) személyesen vagy más által adott irat útján:','cc.written_b':'b) postai úton:','cc.written_c':'c) emailben:','cc.written_d':'d) faxon:',
+    'cc.proxy_note':'A panaszával kapcsolatban meghatalmazott útján is eljárhat.',
+    'cc.invest_title':'A PANASZ KIVIZSGÁLÁSA ÉS MEGVÁLASZOLÁSA',
+    'cc.invest_1':'A panasz kivizsgálása térítésmentes, azért külön díj nem számolható fel.',
+    'cc.invest_2':'A panaszát az összes körülmény figyelembevételével vizsgáljuk ki. Célunk, hogy a körülmények által adott lehetőségekhez mérten elkerülhető legyen a pénzügyi fogyasztói jogvita kialakulása.',
+    'cc.invest_3':'A szóbeli panaszt azonnal meg kell vizsgálni, és lehetőség szerint orvosolni kell. Ha a panaszügyet sikerül azonnal orvosolni, ezzel a panaszügy lezárul. Amennyiben a szóbeli panasz azonnali kivizsgálása nem lehetséges, nem vezet eredményre, valamint írásbeli panasz esetén a panaszt <strong class=\"text-black\">30 napos határidőben</strong> kell kivizsgálni és megválaszolni. A vizsgálat állásáról érdeklődhet az Alapkezelőnél.',
+    'cc.invest_4':'A vizsgálati szakaszban előfordulhat, hogy további információkra, dokumentumokra lesz szükségünk, ez esetben felvesszük Önnel a kapcsolatot.',
+    'cc.invest_5':'A panaszra adott, indoklással ellátott válaszunkat postai úton vagy — ha ennek jogszabályi feltételei fennállnak — elektronikus úton megküldjük az Ön részére.',
+    'cc.escalation_intro':'Amennyiben igyekezetünk ellenére a kapott válasz alapján Ön úgy ítéli meg, hogy panaszát nem megfelelően kezeltük, és Ön fogyasztónak minősül, a panasz elutasítása vagy a panasz kivizsgálására előírt 30 napos törvényi válaszadási határidő eredménytelen eltelte esetén az alábbi fórumokhoz fordulhat:',
+    'cc.pbt_name':'Pénzügyi Békéltető Testület','cc.pbt_scope':'(a szerződés létrejöttével, érvényességével, joghatásaival és megszűnésével, továbbá a szerződésszegéssel és annak joghatásaival kapcsolatos jogvita esetén)',
+    'cc.seat':'székhely:','cc.postal':'levélcím:','cc.phone':'telefon:','cc.cs_address':'ügyf.szolg. cím:','cc.pbt_postal':'1525 Budapest, Pf.: 172. (Pénzügyi Békéltető Testület)',
+    'cc.mnb_name':'Magyar Nemzeti Bank','cc.seat2':'székhely:','cc.postal2':'levélcím:','cc.phone2':'telefon:','cc.cs_address2':'ügyf.szolg. cím:','cc.mnb_postal':'Magyar Nemzeti Bank, 1850 Budapest',
+    'cc.court':'Bíróság',
+    'cc.closing':'A panaszkezeléssel kapcsolatban további részletes információkat talál Panaszkezelési Szabályzatunkban, mely elérhető székhelyünkön, valamint honlapunkon (<a href=\"https://www.marketprog.hu\" target=\"_blank\" rel=\"noopener\" class=\"text-accent-600 hover:text-accent-700\">www.marketprog.hu</a>) oldalon külön Panaszkezelés menüpont alatt.',
+    'cc.dl_policy':'Panaszkezelési szabályzat','cc.dl_procedure':'Panaszkezelési eljárásrend','cc.dl_auth':'Meghatalmazás nyomtatvány','cc.dl_info':'Tájékoztató meghatalmazásról',
+    'dist.partners_label':'Forgalmazó partnerek','dist.partners_desc':'Tekintse meg forgalmazó partnereinket az alábbi dokumentumban.','dist.partners_pdf':'Forgalmazó partnerek (PDF)','dist.settlement_label':'Elszámolási információk','dist.settlement_desc':'Tekintse meg az elszámolási dátumokat az alábbi dokumentumban.','dist.settlement_pdf':'Elszámolási dátumok (PDF)','dist.accounts_label':'Számlaszámok','dist.accounts_desc':'Tekintse meg a számlaszámokat az alábbi dokumentumban.','dist.accounts_pdf':'Számlaszámok (PDF)',
     'dist.nav_office':'Ügyfélszolgálati irodák','dist.nav_mnb':'MNB Online jelentés','dist.nav_partners':'Forgalmazó partnerek','dist.nav_settlement':'Elszámolási napok','dist.nav_tc':'Általános Szerződési Feltételek','dist.nav_accounts':'Számlaszámok','dist.nav_claims':'Panaszok',
     'dist.office_hours':'H — P, 8:00 — 16:00 CET',
     'dist.partner_full':'Teljes kínálat','dist.partner_selected':'Kiválasztott alapok','dist.partner_full2':'Teljes kínálat',
     'dist.settle_cycle':'Elszámolási ciklus','dist.settle_cutoff':'Határidő','dist.settle_nav':'NAV számítás','dist.settle_daily':'Napi',
     'dist.acc_contact':'Érdeklődjön nálunk','dist.acc_contact2':'Érdeklődjön nálunk','dist.acc_contact3':'Érdeklődjön nálunk',
-    'dist.tc_label':'Általános Szerződési Feltételek','dist.tc_desc':'Az alapjegy-vásárlásra és visszaváltásra vonatkozó általános feltételek.','dist.tc_btn':'ÁSZF letöltése &rarr;',
-    'footer.disclaimer':'Ez az oldal nem minősül értékpapír-eladási ajánlatnak vagy vételi felkérésnek.'
+    'dist.tc_label':'Általános Szerződési Feltételek','dist.tc_desc':'Tekintse meg az általános szerződési feltételeket az alábbi dokumentumban.','dist.tc_pdf':'Általános Szerződési Feltételek (PDF)',
+    'footer.disclaimer':'Ez az oldal nem minősül értékpapír-eladási ajánlatnak vagy vételi felkérésnek.',
+    'home.meet_label':'Kapcsolatfelvétel','home.meet_title':'Találkozó<br/>egyeztetése','home.meet_desc':'ha szeretne többet megtudni szolgáltatásainkról,<br/>kérjük, adja meg elérhetőségeit'
   },
   en:{
     'nav.home':'Home','nav.about':'About','nav.funds':'Investment Funds','nav.portfolios':'Portfolios','nav.services':'Services','nav.documents':'Documents','nav.distribution':'Distribution',
@@ -799,16 +934,36 @@ const T={
     'docs.label':'Documents','docs.title':'Regulatory & fund documentation.','docs.desc':'Customer information, regulatory publications, FATCA notifications, and CRS information.',
     'docs.cust_label':'Customer Information','docs.cust_desc':'Documents on the asset manager','docs.reg_label':'Regulatory Publications',
     'dist.label':'Distribution','dist.title':'How to invest with us.','dist.desc':'Customer service, distribution partners, settlement details, and account information.',
-    'dist.office_label':'Customer Service Office','dist.office_desc':'View our distribution offices and service points in the document below.','dist.office_pdf':'Distribution Offices (PDF)','dist.mnb_label':'MNB Online Report','dist.mnb_desc':'Securities account reports available via the MNB online reporting portal for registered investors.','dist.mnb_btn':'MNB Portal &rarr;',
-    'dist.claims_label':'Claims & Complaints','dist.claims_desc':'Submit complaints to our customer service office in person, by mail, or via email. Written responses provided within 30 days.',
-    'dist.partners_label':'Distribution Partners','dist.settlement_label':'Settlement Information','dist.accounts_label':'Account Numbers',
+    'dist.office_label':'Customer Service Office','dist.office_desc':'View our distribution offices and service points in the document below.','dist.office_pdf':'Distribution Offices (PDF)','dist.mnb_label':'MNB Online Report','dist.mnb_desc':'View the MNB online securities account report guide in the document below.','dist.mnb_pdf':'MNB Online Report (PDF)',
+    'dist.claims_label':'Claims & Complaints',
+    'cc.greeting':'Dear Client!','cc.intro':'As an <strong class=\"text-black\">investment fund manager</strong>, it is of paramount importance to MARKETPROG Asset Management Zrt. (hereinafter: the <strong class=\"text-black\">Fund Manager</strong>) that clients are satisfied with the Fund Manager\'s activities. Despite all our efforts, there may be cases where a client expresses a complaint or dissatisfaction. We understand that in such cases it is essential that the investigation and handling of complaints is thorough, efficient and without delay, and complies with legal and other regulations. Below we provide a brief overview in connection with complaint handling.',
+    'cc.filing_title':'FILING A COMPLAINT','cc.filing_desc':'You can submit your complaint to the Fund Manager in the following ways:',
+    'cc.oral':'Oral complaint','cc.in_person':'in person','cc.address_label':'address:','cc.opening_hours':'opening hours','cc.hours_office':'8-16',
+    'cc.by_phone':'by phone','cc.phone_label':'phone number:','cc.reception_hours':'reception hours','cc.monday':'Monday:','cc.hours_mon':'8-17','cc.tue_fri':'Tue, Wed, Thu, Fri:','cc.hours_tue':'8-16',
+    'cc.written':'Written complaint','cc.written_a':'a) delivered in person or by an authorised representative:','cc.written_b':'b) by post:','cc.written_c':'c) by e-mail:','cc.written_d':'d) by fax:',
+    'cc.proxy_note':'You may also act through an authorised representative in connection with your complaint.',
+    'cc.invest_title':'INVESTIGATION AND RESPONSE TO COMPLAINTS',
+    'cc.invest_1':'The investigation of the complaint is free of charge; no separate fee may be charged.',
+    'cc.invest_2':'We investigate your complaint taking all circumstances into account. Our aim is to avoid the development of a financial consumer dispute to the extent possible under the circumstances.',
+    'cc.invest_3':'Oral complaints must be investigated immediately and remedied if possible. If the complaint is successfully resolved immediately, the matter is closed. If immediate investigation of the oral complaint is not possible or does not lead to a result, as well as in the case of written complaints, the complaint must be investigated and responded to within a <strong class=\"text-black\">30-day deadline</strong>. You may inquire about the status of the investigation at the Fund Manager.',
+    'cc.invest_4':'During the investigation phase, we may need additional information or documents, in which case we will contact you.',
+    'cc.invest_5':'Our reasoned response to the complaint will be sent to you by post or — if the legal conditions are met — by electronic means.',
+    'cc.escalation_intro':'If, despite our efforts, you consider that your complaint has not been handled appropriately based on the response received, and you qualify as a consumer, you may turn to the following bodies in the event of rejection of the complaint or the unsuccessful expiry of the 30-day statutory response deadline:',
+    'cc.pbt_name':'Financial Arbitration Board','cc.pbt_scope':'(in the event of a legal dispute relating to the conclusion, validity, legal effects and termination of the contract, as well as breach of contract and its legal effects)',
+    'cc.seat':'seat:','cc.postal':'postal:','cc.phone':'phone:','cc.cs_address':'customer svc.:','cc.pbt_postal':'1525 Budapest, P.O. Box 172. (Financial Arbitration Board)',
+    'cc.mnb_name':'Hungarian National Bank','cc.seat2':'seat:','cc.postal2':'postal:','cc.phone2':'phone:','cc.cs_address2':'customer svc.:','cc.mnb_postal':'Hungarian National Bank, 1850 Budapest',
+    'cc.court':'Court',
+    'cc.closing':'For further detailed information on complaint handling, please refer to our Complaint Handling Policy, which is available at our registered office and on our website (<a href=\"https://www.marketprog.hu\" target=\"_blank\" rel=\"noopener\" class=\"text-accent-600 hover:text-accent-700\">www.marketprog.hu</a>) under the Complaint Handling menu.',
+    'cc.dl_policy':'Complaint handling policy','cc.dl_procedure':'Complaint handling procedure','cc.dl_auth':'Authorization form','cc.dl_info':'Informational power of attorney',
+    'dist.partners_label':'Distribution Partners','dist.partners_desc':'View our distribution partners in the document below.','dist.partners_pdf':'Distribution Partners (PDF)','dist.settlement_label':'Settlement Information','dist.settlement_desc':'View settlement dates in the document below.','dist.settlement_pdf':'Settlement Dates (PDF)','dist.accounts_label':'Account Numbers','dist.accounts_desc':'View account numbers in the document below.','dist.accounts_pdf':'Account Numbers (PDF)',
     'dist.nav_office':'Customer service offices','dist.nav_mnb':'MNB Online report','dist.nav_partners':'Distribution Partners','dist.nav_settlement':'Settlement Dates','dist.nav_tc':'Terms and Conditions','dist.nav_accounts':'Account numbers','dist.nav_claims':'Claims',
     'dist.office_hours':'Mon — Fri, 8:00 — 16:00 CET',
     'dist.partner_full':'Full range','dist.partner_selected':'Selected funds','dist.partner_full2':'Full range',
     'dist.settle_cycle':'Settlement cycle','dist.settle_cutoff':'Cut-off time','dist.settle_nav':'NAV calculation','dist.settle_daily':'Daily',
     'dist.acc_contact':'Contact for details','dist.acc_contact2':'Contact for details','dist.acc_contact3':'Contact for details',
-    'dist.tc_label':'Terms & Conditions','dist.tc_desc':'General terms governing fund subscriptions and redemptions.','dist.tc_btn':'Download T&C &rarr;',
-    'footer.disclaimer':'This site does not constitute an offer to sell or solicitation to buy any securities.'
+    'dist.tc_label':'Terms & Conditions','dist.tc_desc':'View the terms and conditions in the document below.','dist.tc_pdf':'Terms & Conditions (PDF)',
+    'footer.disclaimer':'This site does not constitute an offer to sell or solicitation to buy any securities.',
+    'home.meet_label':'Get in touch','home.meet_title':'To schedule<br/>a meeting','home.meet_desc':'to learn more about one of our offerings,<br/>please fill in your contact details'
   }
 };
 function setLang(lang){
@@ -1100,6 +1255,32 @@ function sendMeeting(e){
 }
 document.getElementById('meeting-overlay')?.addEventListener('click',function(e){if(e.target===this)closeMeeting();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('meeting-overlay').classList.contains('hidden'))closeMeeting();});
+function sendHomeMeeting(e){
+  e.preventDefault();
+  const name=document.getElementById('home-meet-name').value;
+  const email=document.getElementById('home-meet-email').value;
+  const msg=document.getElementById('home-meet-message').value;
+  const subject=encodeURIComponent('Meeting request — Homepage');
+  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg);
+  window.location.href='mailto:info@mpi.fund.com?subject='+subject+'&body='+body;
+  const form=e.target;
+  const sent=document.getElementById('home-meet-sent');
+  form.querySelectorAll('input,textarea,button[type=submit]').forEach(el=>el.style.opacity='0');
+  sent.classList.remove('hidden');
+  const svg=sent.querySelector('svg');
+  const txt=sent.querySelector('p');
+  svg.classList.add('animate-sent');
+  svg.style.opacity='1';
+  setTimeout(()=>{txt.style.opacity='1';},700);
+  setTimeout(()=>{
+    form.reset();
+    form.querySelectorAll('input,textarea,button[type=submit]').forEach(el=>el.style.opacity='1');
+    sent.classList.add('hidden');
+    svg.classList.remove('animate-sent');
+    svg.style.opacity='0';
+    txt.style.opacity='0';
+  },3500);
+}
 
 // DISTRIBUTION
 function selDist(id){
