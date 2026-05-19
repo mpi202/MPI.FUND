@@ -29,8 +29,61 @@
     .animate-sent .sent-tick{animation:drawTick .3s .4s ease forwards}
     @keyframes drawCircle{to{stroke-dashoffset:0}}
     @keyframes drawTick{to{stroke-dashoffset:0}}
+    .rotate-words{display:inline-block;position:relative;vertical-align:bottom;overflow:hidden;height:1.15em}
+    .rotate-words span{display:block;opacity:0;transform:translateY(100%);position:absolute;left:0;top:0;transition:opacity .5s ease,transform .5s ease;white-space:nowrap}
+    .rotate-words span.active{opacity:1;transform:translateY(0);position:relative}
+    .rotate-words span.exit{opacity:0;transform:translateY(-100%)}
+    #mobile-menu a{position:relative;overflow:hidden;display:inline-block}
+    #mobile-menu a::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.12),transparent);transition:none}
+    #mobile-menu a:hover::after{left:100%;transition:left .5s ease}
+    .scroll-reveal-word{color:#d4d4d4;transition:color .35s ease}
+    .scroll-reveal-word.lit{color:#171717}
     input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#22c55e;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
     input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#22c55e;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+    /* Scroll-triggered fade-in-up */
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}.reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal-delay-1{transition-delay:.12s}.reveal-delay-2{transition-delay:.24s}.reveal-delay-3{transition-delay:.36s}
+    /* Active portfolio tab glow */
+    .port-tab.active-glow{box-shadow:0 0 20px rgba(34,197,94,.25),0 0 60px rgba(34,197,94,.08);border-color:#22c55e}
+    .port-tab{transition:all .35s cubic-bezier(.22,1,.36,1)}.port-tab:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.06)}
+    /* Card hover lift */
+    .hover-lift{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease}.hover-lift:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
+    /* Parallax background */
+    .parallax-bg{transition:transform .1s linear}
+    /* Counter pulse */
+    @keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+    .count-pulse{animation:countPulse .4s ease}
+    /* Fund filter pills */
+    .filter-pill{transition:all .3s cubic-bezier(.22,1,.36,1)}.filter-pill:hover{transform:translateY(-1px)}
+    .filter-pill.active{background:#22c55e;color:#fff;box-shadow:0 0 16px rgba(34,197,94,.3)}
+    /* Fund card grid animation */
+    .fund-card{opacity:0;transform:translateY(16px);transition:opacity .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),box-shadow .3s ease,border-color .3s ease}
+    .fund-card.show{opacity:1;transform:translateY(0)}
+    .fund-card.hide{opacity:0;transform:scale(.96);pointer-events:none;position:absolute;width:0;height:0;overflow:hidden;margin:0;padding:0;border:0}
+    .fund-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);border-color:#d4d4d4}
+    .fund-card .fund-expand{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1)}
+    .fund-card .fund-expand.open{max-height:500px}
+    .no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    /* Letter-by-letter terminal reveal */
+    .letter-reveal span{display:inline-block;opacity:0;transform:translateY(40%);transition:opacity .2s ease,transform .25s cubic-bezier(.22,1,.36,1)}
+    .letter-reveal span.lit{opacity:1;transform:translateY(0)}
+    .letter-reveal span.space{width:.3em}
+    /* Word-by-word fade-in */
+    .word-reveal span{display:inline-block;opacity:0;transform:translateY(12px);transition:opacity .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1)}.word-reveal span.lit{opacity:1;transform:translateY(0)}
+    /* Line-by-line slide up */
+    .line-reveal .line-item{opacity:0;transform:translateY(18px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}.line-reveal .line-item.lit{opacity:1;transform:translateY(0)}
+    /* Dark abstract mesh background */
+    .mesh-bg{background-color:#0a0a0a;background-image:
+      linear-gradient(rgba(34,197,94,.07) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(34,197,94,.07) 1px,transparent 1px),
+      linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px),
+      radial-gradient(ellipse at 30% 60%,rgba(34,197,94,.08) 0%,transparent 60%),
+      radial-gradient(ellipse at 80% 30%,rgba(34,197,94,.05) 0%,transparent 50%);
+      background-size:60px 60px,60px 60px,15px 15px,15px 15px,100% 100%,100% 100%}
+    .mesh-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(34,197,94,.1) 0%,transparent 55%);pointer-events:none}
+    .mesh-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,transparent 30%,transparent 70%,rgba(0,0,0,.5) 100%);pointer-events:none}
   </style>
 </head>
 <body class="bg-white text-black antialiased">
@@ -53,6 +106,10 @@
         <button onclick="setLang('hu')" class="lang-btn px-2.5 py-1 transition-colors text-neutral-400 hover:text-black">HU</button>
         <button onclick="setLang('en')" class="lang-btn px-2.5 py-1 transition-colors bg-black text-white">EN</button>
       </div>
+      <div class="hidden lg:inline-flex relative group">
+        <a href="https://www.marketprog.hu/#/sign-in" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg border border-black text-xs font-medium text-black bg-transparent hover:bg-black hover:text-white transition-colors" data-i18n="nav.signin">Sign in</a>
+        <span class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 rounded-md bg-neutral-800 text-white text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">Intentionally redirecting to old page</span>
+      </div>
       <button class="lg:hidden" onclick="toggleMenu()" aria-label="Menu">
         <svg id="ico-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 17h16"/></svg>
         <svg id="ico-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="hidden"><path d="M6 6l12 12M6 18L18 6"/></svg>
@@ -68,6 +125,10 @@
       <li><a href="#services" class="text-sm text-neutral-500" data-i18n="nav.services" onclick="nav('services');toggleMenu()">Services</a></li>
       <li><a href="#documents" class="text-sm text-neutral-500" data-i18n="nav.documents" onclick="nav('documents');toggleMenu()">Documents</a></li>
       <li><a href="#distribution" class="text-sm text-neutral-500" data-i18n="nav.distribution" onclick="nav('distribution');toggleMenu()">Distribution</a></li>
+      <li class="pt-2 border-t border-neutral-100 mt-2">
+        <a href="https://www.marketprog.hu/#/sign-in" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-black text-sm font-medium text-black bg-transparent" data-i18n="nav.signin">Sign in</a>
+        <span class="block mt-1 text-[10px] text-neutral-400 pl-4">Intentionally redirecting to old page</span>
+      </li>
     </ul>
   </div>
 </header>
@@ -84,7 +145,15 @@
     <div class="absolute inset-0 bg-black/45"></div>
     <div class="relative mx-auto max-w-6xl px-6 py-28 md:py-40 w-full">
       <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="home.subtitle">Marketprog Asset Management Zrt.</p>
-      <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl leading-[1.1] text-white" data-i18n="home.title">Structured investing,<br/>transparent results.</h1>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl leading-[1.1] text-white">
+        <span data-i18n="home.title_fixed">Structured investing in</span><br/>
+        <span id="hero-rotate" class="rotate-words text-accent-400">
+          <span class="active" data-i18n="home.rw1">absolute return.</span>
+          <span data-i18n="home.rw2">bond derivatives.</span>
+          <span data-i18n="home.rw3">personalized portfolios.</span>
+          <span data-i18n="home.rw4">alternative strategies.</span>
+        </span>
+      </h1>
       <p class="mt-5 max-w-lg text-base text-white/70" data-i18n="home.desc">Investment funds and personalized portfolios from a Hungary-based, MNB-regulated asset manager operating under AIFMD since 2014.</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#funds" onclick="nav('funds')" class="bg-accent-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-accent-600 transition-colors rounded" data-i18n="home.cta1">Explore Funds</a>
@@ -93,21 +162,78 @@
     </div>
   </section>
 
-  <!-- Performance chart -->
+  <!-- Top Performing Funds -->
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-6xl px-6 py-16">
-      <div class="flex items-end justify-between mb-8">
+      <div class="flex items-end justify-between mb-10">
         <div>
-          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="home.perf_label">Fund Performance</p>
-          <p class="mt-1 text-sm text-neutral-500" data-i18n="home.perf_desc">Selected funds — illustrative NAV history (YTD figures on fund cards reflect May 2026 data)</p>
+          <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="home.top_label">Top Performers</p>
+          <p class="mt-1 text-sm text-neutral-500" data-i18n="home.top_desc">Year-to-date returns across our fund range (NAV date: 13 May 2026)</p>
         </div>
-        <div class="flex gap-2">
-          <button onclick="setHR('1y')" class="hr-btn px-3 py-1 text-xs rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">1Y</button>
-          <button onclick="setHR('3y')" class="hr-btn px-3 py-1 text-xs rounded border border-black text-black font-medium">3Y</button>
-          <button onclick="setHR('5y')" class="hr-btn px-3 py-1 text-xs rounded border border-neutral-200 text-neutral-500 hover:border-black hover:text-black transition-colors">5Y</button>
+        <a href="#funds" onclick="nav('funds')" class="text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors hidden md:inline-flex items-center gap-1" data-i18n="home.top_all">All Funds →</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="border border-neutral-100 rounded-xl p-5 hover:shadow-lg hover:border-neutral-200 transition-all cursor-pointer" onclick="nav('funds')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full text-blue-600 bg-blue-50">Bond Derivative</span>
+            <span class="text-xs text-neutral-400">HUF · EUR · USD</span>
+          </div>
+          <h3 class="font-semibold text-base">Bond Derivativ</h3>
+          <div class="mt-4 flex items-end gap-3">
+            <span class="text-2xl font-bold text-accent-600">+16.14%</span>
+            <span class="text-xs text-neutral-400 mb-1">USD YTD</span>
+          </div>
+          <div class="mt-2 flex gap-3 text-xs text-neutral-500">
+            <span>HUF +10.39%</span><span>EUR +4.14%</span>
+          </div>
+        </div>
+        <div class="border border-neutral-100 rounded-xl p-5 hover:shadow-lg hover:border-neutral-200 transition-all cursor-pointer" onclick="nav('funds')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full text-blue-600 bg-blue-50">Bond Derivative</span>
+            <span class="text-xs text-neutral-400">HUF · EUR · USD</span>
+          </div>
+          <h3 class="font-semibold text-base">Prestige Start</h3>
+          <div class="mt-4 flex items-end gap-3">
+            <span class="text-2xl font-bold text-accent-600">+8.51%</span>
+            <span class="text-xs text-neutral-400 mb-1">EUR YTD</span>
+          </div>
+          <div class="mt-2 flex gap-3 text-xs text-neutral-500">
+            <span>HUF +1.71%</span><span>USD +8.51%</span>
+          </div>
+        </div>
+        <div class="border border-neutral-100 rounded-xl p-5 hover:shadow-lg hover:border-neutral-200 transition-all cursor-pointer" onclick="nav('funds')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full text-accent-600 bg-accent-50">Absolute Return</span>
+            <span class="text-xs text-neutral-400">HUF · EUR · USD</span>
+          </div>
+          <h3 class="font-semibold text-base">Allegro Absolute</h3>
+          <div class="mt-4 flex items-end gap-3">
+            <span class="text-2xl font-bold text-accent-600">+6.39%</span>
+            <span class="text-xs text-neutral-400 mb-1">HUF YTD</span>
+          </div>
+          <div class="mt-2 flex gap-3 text-xs text-neutral-500">
+            <span>EUR +4.41%</span><span>USD +4.98%</span>
+          </div>
+        </div>
+        <div class="border border-neutral-100 rounded-xl p-5 hover:shadow-lg hover:border-neutral-200 transition-all cursor-pointer" onclick="nav('funds')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full text-accent-600 bg-accent-50">Absolute Return</span>
+            <span class="text-xs text-neutral-400">HUF · EUR · USD</span>
+          </div>
+          <h3 class="font-semibold text-base">Aurica</h3>
+          <div class="mt-4 flex items-end gap-3">
+            <span class="text-2xl font-bold text-accent-600">+5.84%</span>
+            <span class="text-xs text-neutral-400 mb-1">EUR YTD</span>
+          </div>
+          <div class="mt-2 flex gap-3 text-xs text-neutral-500">
+            <span>HUF +5.20%</span><span>USD +4.76%</span>
+          </div>
         </div>
       </div>
-      <div class="h-72 md:h-80"><canvas id="homeChart"></canvas></div>
+      <div class="mt-6 text-center md:hidden">
+        <a href="#funds" onclick="nav('funds')" class="text-sm font-medium text-accent-600" data-i18n="home.top_all">All Funds →</a>
+      </div>
+      <p class="mt-6 text-xs text-neutral-300" data-i18n="home.top_disclaimer">Past performance is not indicative of future results. Source: Hozam Plaza.</p>
     </div>
   </section>
 
@@ -123,23 +249,13 @@
     </div>
   </section>
 
-  <!-- Pillars -->
+  <!-- About Us -->
   <section class="border-t border-neutral-100">
-    <div class="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3">
-      <div class="border-b md:border-b-0 md:border-r border-neutral-100 px-6 py-10">
-        <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
-        <h3 class="font-medium text-sm" data-i18n="home.pillar1_title">Absolute Return Strategies</h3>
-        <p class="mt-2 text-sm text-neutral-500" data-i18n="home.pillar1_desc">Allegro, Aurica, Convexity, and more — targeting positive returns regardless of market direction.</p>
-      </div>
-      <div class="border-b md:border-b-0 md:border-r border-neutral-100 px-6 py-10">
-        <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-        <h3 class="font-medium text-sm" data-i18n="home.pillar2_title">Bond & Derivative Funds</h3>
-        <p class="mt-2 text-sm text-neutral-500" data-i18n="home.pillar2_desc">Government bond-based portfolios with derivative overlays for enhanced yield.</p>
-      </div>
-      <div class="px-6 py-10">
-        <div class="w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center mb-4"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></div>
-        <h3 class="font-medium text-sm" data-i18n="home.pillar3_title">Personalized Portfolios</h3>
-        <p class="mt-2 text-sm text-neutral-500" data-i18n="home.pillar3_desc">Tailored allocations built to match your risk profile, currency preference, and goals.</p>
+    <div class="mx-auto max-w-3xl px-6 py-24 md:py-32 text-center">
+      <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-8" data-i18n="home.about_label">About Us</p>
+      <p id="scroll-reveal" class="text-base md:text-xl font-medium leading-loose md:leading-loose" data-i18n="home.about_text">We believe that exceptional investment management starts with trust. Trust in a disciplined process, trust in transparent reporting, and trust that your capital is managed with the same care as our own. Since 2014, we've built Marketprog around this principle — creating alternative investment funds from Budapest that combine structured derivatives with rigorous risk management. We don't chase headlines or follow the crowd. We build strategies designed to perform through every market cycle, giving our investors the confidence to think long-term.</p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+        <a href="#about" onclick="nav('about')" class="text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors" data-i18n="home.about_link">Learn more about us →</a>
       </div>
     </div>
   </section>
@@ -175,75 +291,83 @@
 
 <!-- ===================== ABOUT ===================== -->
 <div id="page-about" class="page fade-in">
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
-    <div class="relative mx-auto max-w-6xl px-6 py-24">
-      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="about.label">About</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="about.title">Marketprog Asset Management Zrt.</h1>
-      <p class="mt-4 max-w-2xl text-neutral-500 leading-relaxed" data-i18n="about.desc">Marketprog Asset Management is a Hungary based and regulated Asset Manager according to AIFMD, offering a range of investment services including fund and portfolio management, fund set-up, fund administration, custody, capital introduction and investment advisory.</p>
+  <!-- Hero with office photo -->
+  <section class="relative overflow-hidden min-h-[55vh] flex items-end">
+    <img src="img/office.png" alt="Marketprog office" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/20"></div>
+    <div class="relative z-10 mx-auto max-w-6xl px-6 py-20 w-full">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="about.label">About</p>
+      <h1 id="about-hero-title" class="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-white" data-i18n="about.title">Marketprog Asset Management Zrt.</h1>
+      <p class="mt-4 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="about.desc">Marketprog Asset Management is a Hungary based and regulated Asset Manager according to AIFMD, offering a range of investment services including fund and portfolio management, fund set-up, fund administration, custody, capital introduction and investment advisory.</p>
       <a href="https://intezmenykereso.mnb.hu/en/Details/Index?LId=171289&EntityType=Institute&expandAccordions=IntezmenyAlapadatok" target="_blank" class="mt-6 inline-block bg-accent-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-accent-600 transition-colors" data-i18n="about.mnb_btn">MNB Registry</a>
     </div>
   </section>
 
+  <!-- Company pillars -->
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-3xl px-6 py-16 space-y-10">
-      <div class="flex gap-5">
+      <div class="flex gap-5 about-pillar" data-pillar="0">
         <div class="w-12 h-12 flex items-center justify-center shrink-0">
           <svg width="22" height="22" fill="none" stroke="black" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
-        <p class="text-neutral-600 leading-relaxed" data-i18n="about.point1">We have a strong, dedicated local substance and benefit from the proven track record of our professionals.</p>
+        <p id="about-p1" class="text-neutral-600 leading-relaxed" data-i18n="about.point1">We have a strong, dedicated local substance and benefit from the proven track record of our professionals.</p>
       </div>
-      <div class="flex gap-5">
+      <div class="flex gap-5 about-pillar" data-pillar="1">
         <div class="w-12 h-12 flex items-center justify-center shrink-0">
           <svg width="22" height="22" fill="none" stroke="black" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 17V13M12 17V8M17 17V11"/></svg>
         </div>
-        <p class="text-neutral-600 leading-relaxed" data-i18n="about.point2">The motivation behind starting Marketprog from scratch was to develop an independent investment management business with greater operational and investment flexibility and to deliver exceptional services and returns by leveraging on our professional experience.</p>
+        <p id="about-p2" class="text-neutral-600 leading-relaxed" data-i18n="about.point2">The motivation behind starting Marketprog from scratch was to develop an independent investment management business with greater operational and investment flexibility and to deliver exceptional services and returns by leveraging on our professional experience.</p>
       </div>
-      <div class="flex gap-5">
+      <div class="flex gap-5 about-pillar" data-pillar="2">
         <div class="w-12 h-12 flex items-center justify-center shrink-0">
           <svg width="22" height="22" fill="none" stroke="black" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         </div>
-        <p class="text-neutral-600 leading-relaxed" data-i18n="about.point3">We are dedicated to offer transparency, flexibility and speed of execution and aspire to excellence in everything we do. Our interaction with partners and third party providers is clear and fully transparent.</p>
+        <p id="about-p3" class="text-neutral-600 leading-relaxed" data-i18n="about.point3">We are dedicated to offer transparency, flexibility and speed of execution and aspire to excellence in everything we do. Our interaction with partners and third party providers is clear and fully transparent.</p>
       </div>
     </div>
   </section>
 
-  <section class="border-t border-neutral-100">
+  <!-- Trading floor banner -->
+  <section class="border-t border-neutral-100 relative overflow-hidden">
+    <div class="relative h-64 md:h-80">
+      <img src="img/trading-floor.jpg" alt="Trading floor" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 right-0 mx-auto max-w-6xl px-6 pb-8">
+        <p class="text-xs font-medium uppercase tracking-widest text-accent-400 mb-2" data-i18n="about.leadership">Leadership</p>
+        <p class="text-white text-lg md:text-xl font-medium max-w-lg" data-i18n="about.team_tagline">Decades of institutional experience in fixed-income and derivatives markets.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
     <div class="mx-auto max-w-6xl px-6 py-16">
-      <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-8" data-i18n="about.leadership">Leadership</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="border border-neutral-100 rounded-lg p-6 flex flex-col">
-          <div class="flex gap-5">
-            <div class="flex-1">
-              <h3 class="font-medium">Várkonyi István</h3>
-              <p class="text-sm text-neutral-400 mt-1">CEO</p>
-              <p class="text-sm text-neutral-500 mt-3">25+ years as lead portfolio manager at institutions including Aegon and MKB Bank. Assets under management exceeded EUR 4bn, primarily in public and institutional fixed-income portfolios.</p>
-            </div>
-            <img src="img/istvan-varkonyi.jpg" alt="Várkonyi István" class="w-32 h-32 rounded-full object-cover shrink-0">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border border-neutral-100 rounded-xl overflow-hidden flex flex-col">
+          <img src="img/istvan-varkonyi.jpg" alt="Várkonyi István" class="w-full h-56 object-cover" style="object-position:center 20%">
+          <div class="p-6 flex flex-col flex-1">
+            <h3 class="text-lg font-semibold">Várkonyi István</h3>
+            <p class="text-sm text-accent-600 font-medium mt-1">CEO</p>
+            <p class="text-sm text-neutral-500 mt-3 flex-1">25+ years as lead portfolio manager at institutions including Aegon and MKB Bank. Assets under management exceeded EUR 4bn, primarily in public and institutional fixed-income portfolios.</p>
+            <a href="https://www.linkedin.com/in/istvan-varkonyi-32409391/" target="_blank" class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black hover:text-accent-600 transition-colors">LinkedIn <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
           </div>
-          <a href="https://www.linkedin.com/in/istvan-varkonyi-32409391/" target="_blank" class="mt-auto pt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black hover:text-accent-600 transition-colors">LinkedIn <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
         </div>
-        <div class="border border-neutral-100 rounded-lg p-6 flex flex-col">
-          <div class="flex gap-5">
-            <div class="flex-1">
-              <h3 class="font-medium">Alexandra Mikecz</h3>
-              <p class="text-sm text-neutral-400 mt-1">COO</p>
-              <p class="text-sm text-neutral-500 mt-3">Economist with extensive back- and mid-office experience at Erste Bank Hungary. Employee #1 at Marketprog; built the firm’s administrative and operating processes from inception.</p>
-            </div>
-            <img src="img/alexandra-mikecz.jpg" alt="Alexandra Mikecz" class="w-32 h-32 rounded-full object-cover shrink-0">
+        <div class="border border-neutral-100 rounded-xl overflow-hidden flex flex-col">
+          <img src="img/alexandra-mikecz.jpg" alt="Alexandra Mikecz" class="w-full h-56 object-cover" style="object-position:center 20%">
+          <div class="p-6 flex flex-col flex-1">
+            <h3 class="text-lg font-semibold">Alexandra Mikecz</h3>
+            <p class="text-sm text-accent-600 font-medium mt-1">COO</p>
+            <p class="text-sm text-neutral-500 mt-3 flex-1">Economist with extensive back- and mid-office experience at Erste Bank Hungary. Employee #1 at Marketprog; built the firm’s administrative and operating processes from inception.</p>
+            <a href="https://www.linkedin.com/company/marketprog-financial-advisory-ltd-/about/" target="_blank" class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black hover:text-accent-600 transition-colors">LinkedIn <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
           </div>
-          <a href="https://www.linkedin.com/company/marketprog-financial-advisory-ltd-/about/" target="_blank" class="mt-auto pt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black hover:text-accent-600 transition-colors">LinkedIn <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
         </div>
-        <div class="border border-neutral-100 rounded-lg p-6 flex flex-col">
-          <div class="flex gap-5">
-            <div class="flex-1">
-              <h3 class="font-medium">Tamás Török</h3>
-              <p class="text-sm text-neutral-400 mt-1">CIO</p>
-              <p class="text-sm text-neutral-500 mt-3">20+ years in fixed-income trading at multinational banks; previously Director at UniCredit CIB in Vienna and London.</p>
-            </div>
-            <img src="img/tamas-torok.jpg" alt="Tamás Török" class="w-32 h-32 rounded-full object-cover shrink-0">
+        <div class="border border-neutral-100 rounded-xl overflow-hidden flex flex-col">
+          <img src="img/tamas-torok.jpg" alt="Tamás Török" class="w-full h-56 object-cover object-top">
+          <div class="p-6 flex flex-col flex-1">
+            <h3 class="text-lg font-semibold">Tamás Török</h3>
+            <p class="text-sm text-accent-600 font-medium mt-1">CIO</p>
+            <p class="text-sm text-neutral-500 mt-3 flex-1">20+ years in fixed-income trading at multinational banks; previously Director at UniCredit CIB in Vienna and London.</p>
+            <a href="https://www.linkedin.com/company/marketprog-financial-advisory-ltd-/about/" target="_blank" class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black hover:text-accent-600 transition-colors">LinkedIn <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
           </div>
-          <a href="https://www.linkedin.com/company/marketprog-financial-advisory-ltd-/about/" target="_blank" class="mt-auto pt-4 inline-flex items-center gap-1.5 text-sm font-medium text-black hover:text-accent-600 transition-colors">LinkedIn <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
         </div>
       </div>
     </div>
@@ -252,19 +376,35 @@
 
 <!-- ===================== INVESTMENT FUNDS ===================== -->
 <div id="page-funds" class="page fade-in">
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
-    <div class="relative mx-auto max-w-6xl px-6 py-24">
-      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="funds.label">Investment Funds</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-5xl"><span class="italic text-accent-500" data-i18n="funds.title_own">Own</span> <span data-i18n="funds.title_funds">Funds</span></h1>
-      <p class="mt-4 max-w-lg text-neutral-500" data-i18n="funds.desc">Our own investment funds focus on fixed income and FX strategies reflecting the career backgrounds of our managers.</p>
+  <!-- Hero with dark abstract mesh -->
+  <section class="mesh-bg relative overflow-hidden min-h-[50vh] flex items-end">
+    <div class="relative z-10 mx-auto max-w-6xl px-6 py-20 w-full">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="funds.label">Investment Funds</p>
+      <h1 id="funds-hero-title" class="mt-3 text-3xl font-bold tracking-tight md:text-5xl text-white" data-i18n="funds.hero_title">Investment Funds</h1>
+      <p class="mt-4 max-w-lg text-neutral-300" data-i18n="funds.desc">Our own investment funds focus on fixed income and FX strategies reflecting the career backgrounds of our managers.</p>
       <button onclick="openMeeting('Investment Funds')" class="mt-6 bg-accent-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-accent-600 transition-colors" data-i18n="funds.cta">Get in touch</button>
     </div>
   </section>
 
-  <section class="border-t border-neutral-100">
-    <div class="mx-auto max-w-6xl px-6 py-16">
-      <div id="funds-list" class="space-y-4"></div>
+  <!-- Category filter bar -->
+  <section class="sticky top-16 z-20 bg-white/90 backdrop-blur-md border-b border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-4">
+      <div class="flex gap-2 overflow-x-auto no-scrollbar" id="fund-filters">
+        <button onclick="filterFunds('all')" class="filter-pill active text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap" data-filter="all" data-i18n="funds.filter_all">All Funds</button>
+        <button onclick="filterFunds('Absolute Return')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Absolute Return">Absolute Return</button>
+        <button onclick="filterFunds('Bond Derivative')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Bond Derivative">Bond Derivative</button>
+        <button onclick="filterFunds('Equity Derivative')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Equity Derivative">Equity Derivative</button>
+        <button onclick="filterFunds('Bond / Rates')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Bond / Rates">Bond / Rates</button>
+        <button onclick="filterFunds('Fund of Funds')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Fund of Funds">Fund of Funds</button>
+      </div>
+      <p class="mt-2 text-xs text-neutral-400"><span id="fund-count">17</span> <span data-i18n="funds.fund_count_label">funds</span></p>
+    </div>
+  </section>
+
+  <!-- Fund cards grid -->
+  <section class="bg-neutral-50/50">
+    <div class="mx-auto max-w-6xl px-6 py-12">
+      <div id="funds-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </div>
   </section>
 
@@ -305,36 +445,37 @@
 
 <!-- ===================== PERSONALIZED PORTFOLIOS ===================== -->
 <div id="page-portfolios" class="page fade-in">
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
-    <div class="relative mx-auto max-w-6xl px-6 py-24">
-      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="portfolios.label">Personalized Portfolios</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="portfolios.title">Built around you.</h1>
-      <p class="mt-4 max-w-2xl text-neutral-500 leading-relaxed" data-i18n="portfolios.desc">Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government and corporate bonds, and commodities — exclusively via low-cost ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.</p>
-      <p class="mt-3 max-w-2xl text-neutral-500 leading-relaxed" data-i18n="portfolios.desc2">We employ Value-at-Risk (VaR) to quantify potential loss and currently offer three portfolio categories with 5%, 10%, and 15% VaR levels — allowing you to choose the risk-return profile that best matches your investment objectives.</p>
+  <section class="relative overflow-hidden min-h-[50vh] flex items-end">
+    <img src="img/trading-floor.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-20 w-full">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="portfolios.label">Personalized Portfolios</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-white" data-i18n="portfolios.title">Built around you.</h1>
+      <p class="mt-4 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="portfolios.desc">Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government and corporate bonds, and commodities — exclusively via low-cost ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.</p>
+      <p class="mt-3 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="portfolios.desc2">We employ Value-at-Risk (VaR) to quantify potential loss and currently offer three portfolio categories with 5%, 10%, and 15% VaR levels — allowing you to choose the risk-return profile that best matches your investment objectives.</p>
     </div>
   </section>
 
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <!-- Portfolio selector tabs -->
-      <div class="flex gap-3 mb-10">
-        <button onclick="selectPortfolio(0)" class="port-tab flex-1 py-4 px-4 rounded-xl border-2 transition-all text-left" data-idx="0">
+      <div class="flex gap-3 mb-10 reveal">
+        <button onclick="selectPortfolio(0)" class="port-tab hover-lift flex-1 py-4 px-4 rounded-xl border-2 text-left" data-idx="0">
           <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="portfolios.tab_conservative">Conservative</p>
           <p class="text-lg font-bold mt-1">5% VaR</p>
         </button>
-        <button onclick="selectPortfolio(1)" class="port-tab flex-1 py-4 px-4 rounded-xl border-2 transition-all text-left" data-idx="1">
+        <button onclick="selectPortfolio(1)" class="port-tab hover-lift flex-1 py-4 px-4 rounded-xl border-2 text-left" data-idx="1">
           <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="portfolios.tab_balanced">Balanced</p>
           <p class="text-lg font-bold mt-1">10% VaR</p>
         </button>
-        <button onclick="selectPortfolio(2)" class="port-tab flex-1 py-4 px-4 rounded-xl border-2 transition-all text-left" data-idx="2">
+        <button onclick="selectPortfolio(2)" class="port-tab hover-lift flex-1 py-4 px-4 rounded-xl border-2 text-left" data-idx="2">
           <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="portfolios.tab_growth">Growth</p>
           <p class="text-lg font-bold mt-1">15% VaR</p>
         </button>
       </div>
 
       <!-- Chart + details -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center reveal reveal-delay-1">
         <div class="h-72 flex items-center justify-center"><canvas id="allocChart"></canvas></div>
         <div>
           <h3 class="text-xl font-bold" id="portName">Balanced</h3>
@@ -342,7 +483,7 @@
           <div class="mt-6 space-y-3" id="allocBars"></div>
           <div class="flex items-center gap-6 mt-6 pt-6 border-t border-neutral-100">
             <div><p class="text-xs text-neutral-400" data-i18n="portfolios.stat_var">Value at Risk</p><p class="font-bold text-lg" id="portVaR">10%</p></div>
-            <div><p class="text-xs text-neutral-400" data-i18n="portfolios.stat_etfs">ETFs in portfolio</p><p class="font-bold text-lg" id="portETFs">8–12</p></div>
+            <div><p class="text-xs text-neutral-400" data-i18n="portfolios.stat_etfs">Assets in portfolio</p><p class="font-bold text-lg" id="portETFs">8–12</p></div>
             <div><p class="text-xs text-neutral-400" data-i18n="portfolios.stat_rebal">Rebalancing</p><p class="font-bold text-lg" id="portRebal" data-i18n="portfolios.dynamic">Dynamic</p></div>
           </div>
           <button onclick="openMeeting(document.getElementById('portName').textContent+' Portfolio')" class="mt-8 bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm" data-i18n="portfolios.get_in_touch">Get in touch</button>
@@ -353,7 +494,7 @@
 
   <!-- Portfolio comparison -->
   <section class="border-t border-neutral-100">
-    <div class="mx-auto max-w-6xl px-6 py-14">
+    <div class="mx-auto max-w-6xl px-6 py-14 reveal">
       <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-6" data-i18n="portfolios.cmp_label">Compare Portfolios</p>
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
@@ -366,41 +507,35 @@
             </tr>
           </thead>
           <tbody class="text-neutral-600">
-            <tr class="border-b border-neutral-100">
-              <td class="py-3 pr-4 text-neutral-400" data-i18n="portfolios.cmp_var">Value at Risk</td>
-              <td class="text-center py-3 px-4 font-medium">5%</td>
-              <td class="text-center py-3 px-4 font-medium">10%</td>
-              <td class="text-center py-3 px-4 font-medium">15%</td>
+            <tr class="border-b-2 border-neutral-200 bg-neutral-50/60">
+              <td class="py-3.5 pr-4 font-semibold text-neutral-700" data-i18n="portfolios.cmp_var">Value at Risk</td>
+              <td class="text-center py-3.5 px-4 font-semibold text-neutral-800">5%</td>
+              <td class="text-center py-3.5 px-4 font-semibold text-neutral-800">10%</td>
+              <td class="text-center py-3.5 px-4 font-semibold text-neutral-800">15%</td>
             </tr>
             <tr class="border-b border-neutral-100">
-              <td class="py-3 pr-4 text-neutral-400" data-i18n="portfolios.cmp_eq">Equities</td>
-              <td class="text-center py-3 px-4">20%</td>
-              <td class="text-center py-3 px-4">40%</td>
-              <td class="text-center py-3 px-4">60%</td>
+              <td class="py-3 pr-4 pl-5 text-neutral-400 text-xs uppercase tracking-wide" data-i18n="portfolios.cmp_eq">Equities</td>
+              <td class="text-center py-3 px-4 text-neutral-500">20%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">40%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">60%</td>
             </tr>
             <tr class="border-b border-neutral-100">
-              <td class="py-3 pr-4 text-neutral-400" data-i18n="portfolios.cmp_bonds">Bonds</td>
-              <td class="text-center py-3 px-4">60%</td>
-              <td class="text-center py-3 px-4">35%</td>
-              <td class="text-center py-3 px-4">15%</td>
+              <td class="py-3 pr-4 pl-5 text-neutral-400 text-xs uppercase tracking-wide" data-i18n="portfolios.cmp_bonds">Bonds</td>
+              <td class="text-center py-3 px-4 text-neutral-500">60%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">35%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">15%</td>
             </tr>
             <tr class="border-b border-neutral-100">
-              <td class="py-3 pr-4 text-neutral-400" data-i18n="portfolios.cmp_comm">Commodities</td>
-              <td class="text-center py-3 px-4">10%</td>
-              <td class="text-center py-3 px-4">15%</td>
-              <td class="text-center py-3 px-4">20%</td>
+              <td class="py-3 pr-4 pl-5 text-neutral-400 text-xs uppercase tracking-wide" data-i18n="portfolios.cmp_comm">Commodities</td>
+              <td class="text-center py-3 px-4 text-neutral-500">10%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">15%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">20%</td>
             </tr>
             <tr class="border-b border-neutral-100">
-              <td class="py-3 pr-4 text-neutral-400" data-i18n="portfolios.cmp_cash">Cash</td>
-              <td class="text-center py-3 px-4">10%</td>
-              <td class="text-center py-3 px-4">10%</td>
-              <td class="text-center py-3 px-4">5%</td>
-            </tr>
-            <tr>
-              <td class="py-3 pr-4 text-neutral-400" data-i18n="portfolios.cmp_etfs">ETFs</td>
-              <td class="text-center py-3 px-4">6–8</td>
-              <td class="text-center py-3 px-4">8–12</td>
-              <td class="text-center py-3 px-4">10–15</td>
+              <td class="py-3 pr-4 pl-5 text-neutral-400 text-xs uppercase tracking-wide" data-i18n="portfolios.cmp_cash">Cash</td>
+              <td class="text-center py-3 px-4 text-neutral-500">10%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">10%</td>
+              <td class="text-center py-3 px-4 text-neutral-500">5%</td>
             </tr>
           </tbody>
         </table>
@@ -410,27 +545,27 @@
 
   <!-- Why ETFs -->
   <section class="border-t border-neutral-100 bg-neutral-900 text-white">
-    <div class="mx-auto max-w-6xl px-6 py-20">
+    <div class="mx-auto max-w-6xl px-6 py-20 reveal">
       <p class="text-xs font-medium uppercase tracking-widest text-accent-400 mb-3" data-i18n="portfolios.etf_label">Our Instrument of Choice</p>
-      <h2 class="text-2xl font-bold md:text-3xl" data-i18n="portfolios.etf_title">Why we invest exclusively in ETFs</h2>
+      <h2 class="text-2xl font-bold md:text-3xl" data-i18n="portfolios.etf_title">Why we invest in ETFs</h2>
       <p class="mt-4 max-w-3xl text-white/50 leading-relaxed" data-i18n="portfolios.etf_intro">Cost efficiency is critical in a dynamically managed portfolio — high fees erode returns over time. We build every personalized portfolio exclusively from low-cost Exchange-Traded Funds that replicate broad market indices at a fraction of the cost of traditional active management.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-12">
-        <div>
+        <div class="reveal reveal-delay-1 hover-lift rounded-xl p-1">
           <div class="flex items-center gap-2 mb-3">
             <svg width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
             <h3 class="font-semibold text-sm" data-i18n="portfolios.etf_div_title">Broad Diversification</h3>
           </div>
           <p class="text-sm text-white/50 leading-relaxed" data-i18n="portfolios.etf_div_desc">A single ETF provides exposure to an entire asset class or geographic region. Achieving the same level of diversification through individual securities would be prohibitively expensive and operationally complex.</p>
         </div>
-        <div>
+        <div class="reveal reveal-delay-2 hover-lift rounded-xl p-1">
           <div class="flex items-center gap-2 mb-3">
             <svg width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
             <h3 class="font-semibold text-sm" data-i18n="portfolios.etf_cost_title">Cost Advantage</h3>
           </div>
           <p class="text-sm text-white/50 leading-relaxed" data-i18n="portfolios.etf_cost_desc">As passive instruments, ETFs carry significantly lower expense ratios than actively managed funds — typically 0.10% to 0.50%. They charge no performance fees, and economies of scale keep management costs low.</p>
         </div>
-        <div>
+        <div class="reveal reveal-delay-3 hover-lift rounded-xl p-1">
           <div class="flex items-center gap-2 mb-3">
             <svg width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
             <h3 class="font-semibold text-sm" data-i18n="portfolios.etf_liq_title">Liquidity & Transparency</h3>
@@ -481,7 +616,7 @@
         <div class="text-center">
           <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center mx-auto mb-3"><span class="text-accent-600 font-bold text-sm">2</span></div>
           <h3 class="font-medium text-sm" data-i18n="portfolios.step2_title">Custom Construction</h3>
-          <p class="text-sm text-neutral-500 mt-1" data-i18n="portfolios.step2_desc">Portfolio built from low-cost ETFs to match your profile and currency needs.</p>
+          <p class="text-sm text-neutral-500 mt-1" data-i18n="portfolios.step2_desc">The perfect portfolio built to match your profile and risk tolerance.</p>
         </div>
         <div class="text-center">
           <div class="w-10 h-10 rounded-full bg-accent-100 flex items-center justify-center mx-auto mb-3"><span class="text-accent-600 font-bold text-sm">3</span></div>
@@ -583,8 +718,13 @@
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-6xl px-6 py-16 space-y-12">
       <div>
-        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="docs.cust_label">Customer Information</p>
-        <p class="text-xs text-neutral-400 mt-1 mb-4" data-i18n="docs.cust_desc">Documents on the asset manager</p>
+        <div class="flex items-center gap-3 mb-5 border-l-2 border-accent-500 pl-4">
+          <div class="w-8 h-8 rounded-full bg-accent-50 flex items-center justify-center flex-shrink-0"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div>
+            <p class="text-base font-semibold" data-i18n="docs.cust_label">Customer Information</p>
+            <p class="text-xs text-neutral-400" data-i18n="docs.cust_desc">Documents on the asset manager</p>
+          </div>
+        </div>
         <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Asset Manager Overview</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Key Investor Information Documents (KIIDs)</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
@@ -594,8 +734,14 @@
       </div>
 
       <div>
-        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400" data-i18n="docs.reg_label">Regulatory Publications</p>
-        <ul class="mt-4 divide-y divide-neutral-100 border-t border-b border-neutral-100">
+        <div class="flex items-center gap-3 mb-5 border-l-2 border-accent-500 pl-4">
+          <div class="w-8 h-8 rounded-full bg-accent-50 flex items-center justify-center flex-shrink-0"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <div>
+            <p class="text-base font-semibold" data-i18n="docs.reg_label">Regulatory Publications</p>
+            <p class="text-xs text-neutral-400" data-i18n="docs.reg_desc">Policies, rules, and compliance documents</p>
+          </div>
+        </div>
+        <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Üzletszabályzat</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FUzletszabalyzat_2025_03_28_13_as_verzi%C3%B3.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Díjszabályzat</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Végrehajtási politika</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FVegrehajtasi_politika_2024_02_20_14-es%20verzi%C3%B3_.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
@@ -609,8 +755,14 @@
       </div>
 
       <div>
-        <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">FATCA & CRS</p>
-        <ul class="mt-4 divide-y divide-neutral-100 border-t border-b border-neutral-100">
+        <div class="flex items-center gap-3 mb-5 border-l-2 border-accent-500 pl-4">
+          <div class="w-8 h-8 rounded-full bg-accent-50 flex items-center justify-center flex-shrink-0"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div>
+            <p class="text-base font-semibold">FATCA & CRS</p>
+            <p class="text-xs text-neutral-400" data-i18n="docs.fatca_desc">Tax compliance and reporting documents</p>
+          </div>
+        </div>
+        <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">CRS Tájékoztatás</span></div><a href="docs/CRS-tajekoztatas.pdf" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">FATCA/CRS Fogalomtár I.</span></div><a href="docs/FATCA-CRS-fogalomtar-1.pdf" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
           <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">FATCA/CRS Fogalomtár II.</span></div><a href="docs/FATCA-CRS-fogalomtar-2.pdf" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
@@ -622,73 +774,68 @@
 
 <!-- ===================== DISTRIBUTION ===================== -->
 <div id="page-distribution" class="page fade-in">
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
-    <div class="relative mx-auto max-w-6xl px-6 py-24">
-      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="dist.label">Distribution</p>
-      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="dist.title">How to invest with us.</h1>
-      <p class="mt-4 max-w-xl text-neutral-500" data-i18n="dist.desc">Customer service, distribution partners, settlement details, and account information.</p>
+  <!-- Video hero -->
+  <section class="relative overflow-hidden min-h-[45vh] flex items-center">
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="img/budapest-parliament.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24 w-full">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="dist.label">Distribution</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-white" data-i18n="dist.title">How to invest with us.</h1>
+      <p class="mt-4 max-w-xl text-white/60" data-i18n="dist.desc">Customer service, distribution partners, settlement details, and account information.</p>
     </div>
   </section>
 
+  <!-- Quick-access card grid -->
   <section class="border-t border-neutral-100">
-    <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-0">
-      <!-- Vertical sidebar nav -->
-      <div class="md:border-r border-neutral-100">
-        <ul id="dist-nav" class="flex overflow-x-auto md:flex-col gap-1 pb-4 md:pb-0">
-          <li><button onclick="selDist('office')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-black font-medium bg-neutral-50 border-l-2 border-accent-500" data-i18n="dist.nav_office">Customer service offices</button></li>
-          <li><button onclick="selDist('mnb')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-neutral-400 hover:text-black hover:bg-neutral-50 border-l-2 border-transparent" data-i18n="dist.nav_mnb">MNB Online report</button></li>
-          <li><button onclick="selDist('partners')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-neutral-400 hover:text-black hover:bg-neutral-50 border-l-2 border-transparent" data-i18n="dist.nav_partners">Distribution Partners</button></li>
-          <li><button onclick="selDist('settlement')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-neutral-400 hover:text-black hover:bg-neutral-50 border-l-2 border-transparent" data-i18n="dist.nav_settlement">Settlement Dates</button></li>
-          <li><button onclick="selDist('tc')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-neutral-400 hover:text-black hover:bg-neutral-50 border-l-2 border-transparent" data-i18n="dist.nav_tc">Terms and Conditions</button></li>
-          <li><button onclick="selDist('accounts')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-neutral-400 hover:text-black hover:bg-neutral-50 border-l-2 border-transparent" data-i18n="dist.nav_accounts">Account numbers</button></li>
-          <li><button onclick="selDist('claims')" class="dist-tab w-full text-left whitespace-nowrap md:whitespace-normal px-5 py-3.5 text-sm rounded-lg md:rounded-r-none transition-colors text-neutral-400 hover:text-black hover:bg-neutral-50 border-l-2 border-transparent" data-i18n="dist.nav_claims">Claims</button></li>
-        </ul>
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/CustomerServiceOffices%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=dd62fe4" target="_blank" rel="noopener" class="group border border-neutral-100 rounded-xl p-6 hover:shadow-lg hover:border-neutral-200 transition-all">
+          <div class="w-10 h-10 rounded-full bg-accent-50 flex items-center justify-center mb-4 group-hover:bg-accent-100 transition-colors"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 21v-6h6v6"/></svg></div>
+          <h3 class="font-semibold text-sm" data-i18n="dist.office_label">Customer Service Office</h3>
+          <p class="mt-1 text-xs text-neutral-400" data-i18n="dist.office_desc2">Office locations and service points</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-600 group-hover:text-accent-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>PDF</span>
+        </a>
+        <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/MNBOnlineReportForSecuritiesAccounts%2FMNB%20-%20%C3%A9rt%C3%A9kpap%C3%ADrsz%C3%A1mla%20online%20lek%C3%A9rdez%C3%A9s.pdf?alt=media&token=1474b38a-b7b1-4e8d-b16c-76b98538b40f" target="_blank" rel="noopener" class="group border border-neutral-100 rounded-xl p-6 hover:shadow-lg hover:border-neutral-200 transition-all">
+          <div class="w-10 h-10 rounded-full bg-accent-50 flex items-center justify-center mb-4 group-hover:bg-accent-100 transition-colors"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-7-6z"/><path d="M13 2v6h6"/></svg></div>
+          <h3 class="font-semibold text-sm" data-i18n="dist.mnb_label">MNB Online Report</h3>
+          <p class="mt-1 text-xs text-neutral-400" data-i18n="dist.mnb_desc2">Securities account online query guide</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-600 group-hover:text-accent-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>PDF</span>
+        </a>
+        <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/DistributionPartners%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=fddc9d05-56a1-43d1-8d2f-73ca5a018bdd" target="_blank" rel="noopener" class="group border border-neutral-100 rounded-xl p-6 hover:shadow-lg hover:border-neutral-200 transition-all">
+          <div class="w-10 h-10 rounded-full bg-accent-50 flex items-center justify-center mb-4 group-hover:bg-accent-100 transition-colors"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h3 class="font-semibold text-sm" data-i18n="dist.partners_label">Distribution Partners</h3>
+          <p class="mt-1 text-xs text-neutral-400" data-i18n="dist.partners_desc2">Banks and brokers distributing our funds</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-600 group-hover:text-accent-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>PDF</span>
+        </a>
+        <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/SettlementDates%2FElsz%C3%A1mol%C3%A1si%20d%C3%A1tumok.pdf?alt=media&token=0f650bcf-293e-4d9a-8d6e-4471e02899ea" target="_blank" rel="noopener" class="group border border-neutral-100 rounded-xl p-6 hover:shadow-lg hover:border-neutral-200 transition-all">
+          <div class="w-10 h-10 rounded-full bg-accent-50 flex items-center justify-center mb-4 group-hover:bg-accent-100 transition-colors"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+          <h3 class="font-semibold text-sm" data-i18n="dist.settlement_label">Settlement Dates</h3>
+          <p class="mt-1 text-xs text-neutral-400" data-i18n="dist.settlement_desc2">Fund settlement cycles and cut-off times</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-600 group-hover:text-accent-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>PDF</span>
+        </a>
+        <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/TermsAndConditions%2FD%C3%ADjszab%C3%A1lyzat.pdf?alt=media&token=fea1d12f-ca4d-4681-ab12-1f5a23d52c1d" target="_blank" rel="noopener" class="group border border-neutral-100 rounded-xl p-6 hover:shadow-lg hover:border-neutral-200 transition-all">
+          <div class="w-10 h-10 rounded-full bg-accent-50 flex items-center justify-center mb-4 group-hover:bg-accent-100 transition-colors"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+          <h3 class="font-semibold text-sm" data-i18n="dist.tc_label">Terms & Conditions</h3>
+          <p class="mt-1 text-xs text-neutral-400" data-i18n="dist.tc_desc2">General terms and fee schedule</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-600 group-hover:text-accent-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>PDF</span>
+        </a>
+        <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AccountNumbers%2FSz%C3%A1mlasz%C3%A1mok.pdf?alt=media&token=4cd59574-8cf9-44a4-9098-0633bccc18e1" target="_blank" rel="noopener" class="group border border-neutral-100 rounded-xl p-6 hover:shadow-lg hover:border-neutral-200 transition-all">
+          <div class="w-10 h-10 rounded-full bg-accent-50 flex items-center justify-center mb-4 group-hover:bg-accent-100 transition-colors"><svg width="18" height="18" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 7a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z"/><path d="M2 10h20"/></svg></div>
+          <h3 class="font-semibold text-sm" data-i18n="dist.accounts_label">Account Numbers</h3>
+          <p class="mt-1 text-xs text-neutral-400" data-i18n="dist.accounts_desc2">Bank and securities account details</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent-600 group-hover:text-accent-700"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>PDF</span>
+        </a>
       </div>
-      <!-- Content panels -->
-      <div class="md:col-span-2 md:pl-10 pt-6 md:pt-0">
-        <div id="dist-office" class="dist-panel fade-in">
-          <h3 class="text-lg font-semibold mb-6" data-i18n="dist.office_label">Customer Service Office</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
-            <p class="text-sm text-neutral-500" data-i18n="dist.office_desc">View our distribution offices and service points in the document below.</p>
-            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/CustomerServiceOffices%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=dd62fe4" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.office_pdf">Distribution Offices (PDF)</span></a>
-          </div>
-        </div>
-        <div id="dist-mnb" class="dist-panel fade-in hidden">
-          <h3 class="text-lg font-semibold mb-6" data-i18n="dist.mnb_label">MNB Online Report</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
-            <p class="text-sm text-neutral-500" data-i18n="dist.mnb_desc">View the MNB online securities account report guide in the document below.</p>
-            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/MNBOnlineReportForSecuritiesAccounts%2FMNB%20-%20%C3%A9rt%C3%A9kpap%C3%ADrsz%C3%A1mla%20online%20lek%C3%A9rdez%C3%A9s.pdf?alt=media&token=1474b38a-b7b1-4e8d-b16c-76b98538b40f" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.mnb_pdf">MNB Online Report (PDF)</span></a>
-          </div>
-        </div>
-        <div id="dist-partners" class="dist-panel fade-in hidden">
-          <h3 class="text-lg font-semibold mb-6" data-i18n="dist.partners_label">Distribution Partners</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
-            <p class="text-sm text-neutral-500" data-i18n="dist.partners_desc">View our distribution partners in the document below.</p>
-            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/DistributionPartners%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=fddc9d05-56a1-43d1-8d2f-73ca5a018bdd" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.partners_pdf">Distribution Partners (PDF)</span></a>
-          </div>
-        </div>
-        <div id="dist-settlement" class="dist-panel fade-in hidden">
-          <h3 class="text-lg font-semibold mb-6" data-i18n="dist.settlement_label">Settlement Information</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
-            <p class="text-sm text-neutral-500" data-i18n="dist.settlement_desc">View settlement dates in the document below.</p>
-            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/SettlementDates%2FElsz%C3%A1mol%C3%A1si%20d%C3%A1tumok.pdf?alt=media&token=0f650bcf-293e-4d9a-8d6e-4471e02899ea" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.settlement_pdf">Settlement Dates (PDF)</span></a>
-          </div>
-        </div>
-        <div id="dist-tc" class="dist-panel fade-in hidden">
-          <h3 class="text-lg font-semibold mb-6" data-i18n="dist.tc_label">Terms & Conditions</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
-            <p class="text-sm text-neutral-500" data-i18n="dist.tc_desc">View the terms and conditions in the document below.</p>
-            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/TermsAndConditions%2FD%C3%ADjszab%C3%A1lyzat.pdf?alt=media&token=fea1d12f-ca4d-4681-ab12-1f5a23d52c1d" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.tc_pdf">Terms & Conditions (PDF)</span></a>
-          </div>
-        </div>
-        <div id="dist-accounts" class="dist-panel fade-in hidden">
-          <h3 class="text-lg font-semibold mb-6" data-i18n="dist.accounts_label">Account Numbers</h3>
-          <div class="border border-neutral-100 rounded-lg p-6 flex flex-col items-start gap-4">
-            <p class="text-sm text-neutral-500" data-i18n="dist.accounts_desc">View account numbers in the document below.</p>
-            <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AccountNumbers%2FSz%C3%A1mlasz%C3%A1mok.pdf?alt=media&token=4cd59574-8cf9-44a4-9098-0633bccc18e1" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg><span data-i18n="dist.accounts_pdf">Account Numbers (PDF)</span></a>
-          </div>
-        </div>
+    </div>
+  </section>
+
+  <!-- Claims & Complaints -->
+  <section class="border-t border-neutral-100 bg-neutral-50/50">
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <h2 class="text-lg font-semibold mb-8" data-i18n="dist.claims_label">Claims & Complaints</h2>
+      <div class="space-y-6">
         <div id="dist-claims" class="dist-panel fade-in hidden">
           <h3 class="text-lg font-semibold mb-6" data-i18n="dist.claims_label">Claims & Complaints</h3>
           <div class="space-y-6">
@@ -782,6 +929,22 @@
               </div>
             </div>
           </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="bg-neutral-950">
+    <div class="mx-auto max-w-6xl px-6 py-16">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <div>
+          <h2 class="text-xl font-bold text-white" data-i18n="dist.cta_title">Need help getting started?</h2>
+          <p class="mt-2 text-sm text-white/50" data-i18n="dist.cta_desc">Our team is available Monday to Friday, 8:00 — 16:00 CET.</p>
+        </div>
+        <div class="flex flex-wrap gap-4 items-center">
+          <a href="tel:+3615222092" class="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+36-1-522-2092</a>
+          <a href="mailto:info@marketproginvestment.com" class="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>info@marketproginvestment.com</a>
+          <button onclick="openMeeting('distribution')" class="bg-accent-500 hover:bg-accent-600 text-white font-medium px-5 py-2.5 rounded text-sm transition-colors" data-i18n="dist.cta_meeting">Schedule a Meeting</button>
         </div>
       </div>
     </div>
@@ -820,28 +983,27 @@
 let curLang='en';
 const T={
   hu:{
-    'nav.home':'Főoldal','nav.about':'Rólunk','nav.funds':'Befektetési Alapok','nav.portfolios':'Portfóliók','nav.services':'Szolgáltatások','nav.documents':'Dokumentumok','nav.distribution':'Forgalmazás',
-    'home.subtitle':'Marketprog Alapkezelő Zrt.','home.title':'Strukturált befektetések,<br/>átlátható eredmények.','home.desc':'Befektetési alapok és személyre szabott portfóliók egy magyarországi, MNB által felügyelt, AIFMD szerint működő alapkezelőtől, 2014 óta.','home.cta1':'Alapjaink','home.cta2':'Személyre szabott portfóliók',
-    'home.perf_label':'Alap teljesítmény','home.perf_desc':'Kiválasztott alapok — illusztratív NAV történet (az YTD adatok 2026. májusi adatokon alapulnak)',
+    'nav.home':'Főoldal','nav.about':'Rólunk','nav.funds':'Befektetési Alapok','nav.portfolios':'Portfóliók','nav.services':'Szolgáltatások','nav.documents':'Dokumentumok','nav.distribution':'Forgalmazás','nav.signin':'Bejelentkezés',
+    'home.subtitle':'Marketprog Alapkezelő Zrt.','home.title_fixed':'Strukturált befektetés,','home.desc':'Befektetési alapok és személyre szabott portfóliók egy magyarországi, MNB által felügyelt, AIFMD szerint működő alapkezelőtől, 2014 óta.','home.cta1':'Alapjaink','home.cta2':'Személyre szabott portfóliók',
+    'home.top_label':'Legjobb teljesítők','home.top_desc':'Idei hozamok alapjaink között (NAV dátum: 2026. május 13.)','home.top_all':'Összes alap →','home.top_disclaimer':'A múltbeli teljesítmény nem garancia a jövőbeli eredményekre. Forrás: Hozam Plaza.',
+    'home.about_label':'Rólunk','home.about_text':'Hisszük, hogy a kivételes vagyonkezelés a bizalommal kezdődik. Bizalom a fegyelmezett folyamatban, bizalom az átlátható jelentésekben, és bizalom abban, hogy tőkéjét ugyanolyan gondossággal kezeljük, mint a sajátunkat. 2014 óta erre az elvre építettük a Marketprogot — Budapestről hozunk létre alternatív befektetési alapokat, amelyek strukturált derivatívákat ötvöznek szigorú kockázatkezeléssel. Nem kergetünk szalagcímeket és nem követjük a tömeget. Olyan stratégiákat építünk, amelyek minden piaci cikluson át teljesítenek, és befektetőinknek megadják a magabiztosságot a hosszú távú gondolkodáshoz.','home.about_link':'Tudjon meg többet rólunk →',
     'home.stat1':'Befektetési alap','home.stat2':'Devizanem (HUF/EUR/USD)','home.stat3':'Alapcsalád','home.stat4':'MNB felügyelt (AIFMD)',
-    'home.pillar1_title':'Abszolút hozamú stratégiák','home.pillar1_desc':'Allegro, Aurica, Convexity és további — pozitív hozamot célozva, piaci iránytól függetlenül.',
-    'home.pillar2_title':'Kötvény- és derivatív alapok','home.pillar2_desc':'Államkötvény-alapú portfóliók derivatív ráépítéssel a magasabb hozam érdekében.',
-    'home.pillar3_title':'Személyre szabott portfóliók','home.pillar3_desc':'Egyedi allokációk, az Ön kockázati profiljához, devizanem-preferenciájához és céljaihoz igazítva.',
     'about.label':'Rólunk','about.title':'Marketprog Alapkezelő Zrt.','about.desc':'A Marketprog Alapkezelő egy magyarországi, AIFMD szerint szabályozott alapkezelő, amely befektetési szolgáltatások széles körét kínálja, beleértve az alap- és portfóliókezelést, alaplétrehozást, alapadminisztrációt, letétkezelést, tőkebevonást és befektetési tanácsadást.',
     'about.point1':'Erős, elkötelezett helyi jelenléttel rendelkezünk, és szakembereink bizonyított eredményeire támaszkodunk.',
     'about.point2':'A Marketprog nulláról való elindításának motivációja egy független befektetéskezelési vállalkozás fejlesztése volt, nagyobb működési és befektetési rugalmassággal, valamint kivételes szolgáltatások és hozamok nyújtása szakmai tapasztalataink felhasználásával.',
     'about.point3':'Elkötelezettek vagyunk az átláthatóság, a rugalmasság és a végrehajtás gyorsasága mellett, és mindenben a kiválóságra törekszünk. Partnereinkkel és harmadik fél szolgáltatókkal való kapcsolatunk egyértelmű és teljesen átlátható.',
-    'about.mnb_btn':'MNB Nyilvántartás','about.leadership':'Vezetőség',
-    'funds.label':'Befektetési Alapok','funds.title_own':'Saját','funds.title_funds':'Alapok','funds.desc':'Saját befektetési alapjaink fix kamatozású és deviza stratégiákra összpontosítanak, alapkezelőink szakmai hátterét tükrözve.','funds.cta':'Kapcsolatfelvétel',
+    'about.mnb_btn':'MNB Nyilvántartás','about.leadership':'Vezetőség','about.team_tagline':'Évtizedes intézményi tapasztalat a kötvény- és derivatív piacokon.',
+    'funds.label':'Befektetési Alapok','funds.hero_title':'Befektetési Alapok','funds.desc':'Saját befektetési alapjaink fix kamatozású és deviza stratégiákra összpontosítanak, alapkezelőink szakmai hátterét tükrözve.','funds.cta':'Kapcsolatfelvétel',
+    'funds.filter_all':'Összes alap','funds.fund_count_label':'alap','funds.details':'Részletek','funds.documents':'Dokumentumok',
     'funds.all_families':'Összes alapcsalád (17)','funds.disclaimer':'A múltbeli teljesítmény nem garancia a jövőbeli eredményekre. YTD hozamok 2026. május 16-i állapot szerint (forrás: Hozam Plaza, NAV dátum: 2026. május 13.).',
     'funds.wl_fund1':'Primus All Weather Alap','funds.wl_fund2':'Primus All Weather Plus Alap','funds.wl_fund3':'Activity Alap','funds.wl_title1':'White Label','funds.wl_title2':'Alapok','funds.wl_desc':'A white label alapokat partner alappromotereink kezelik, és mi adminisztráljuk. Az alapok stratégiái széles spektrumot fednek le promotereink mandátumai alapján.','funds.wl_cta_text':'Érdekli saját befektetési alap indítása?','funds.wl_cta':'Kapcsolatfelvétel',
     'portfolios.label':'Személyre szabott portfóliók','portfolios.title':'Önre szabva.',
     'portfolios.desc':'Szisztematikus és szabályalapú befektetési folyamatunk révén globálisan diverzifikált portfólióba fektetünk — részvényekbe, állam- és vállalati kötvényekbe, valamint nyersanyagokba — kizárólag alacsony költségű ETF-eken keresztül. Kvantitatív kutatás segítségével dinamikusan optimalizáljuk az egyes portfóliókat a túlzott volatilitás elleni védelem és a különböző piaci körülmények közötti hozamszerzés érdekében.',
     'portfolios.desc2':'A potenciális veszteség számszerűsítéséhez Value-at-Risk (VaR) módszertant alkalmazunk, és jelenleg három portfólió-kategóriát kínálunk 5%-os, 10%-os és 15%-os VaR-szinttel — így Ön választhatja ki a befektetési céljaihoz legjobban illő kockázat-hozam profilt.',
     'portfolios.tab_conservative':'Konzervatív','portfolios.tab_balanced':'Kiegyensúlyozott','portfolios.tab_growth':'Növekedési',
-    'portfolios.stat_var':'Kockáztatott érték','portfolios.stat_etfs':'ETF-ek a portfólióban','portfolios.stat_rebal':'Újrasúlyozás','portfolios.dynamic':'Dinamikus',
+    'portfolios.stat_var':'Kockáztatott érték','portfolios.stat_etfs':'Eszközök a portfólióban','portfolios.stat_rebal':'Újrasúlyozás','portfolios.dynamic':'Dinamikus',
     'portfolios.get_in_touch':'Kapcsolatfelvétel','portfolios.how_label':'Hogyan működik',
-    'portfolios.etf_label':'Választott eszközünk','portfolios.etf_title':'Miért fektetünk kizárólag ETF-ekbe',
+    'portfolios.etf_label':'Választott eszközünk','portfolios.etf_title':'Miért fektetünk ETF-ekbe',
     'portfolios.etf_intro':'A költséghatékonyság kritikus egy dinamikusan kezelt portfólióban — a magas díjak idővel erodálják a hozamokat. Minden személyre szabott portfóliót kizárólag alacsony költségű tőzsdén kereskedett alapokból (ETF) építünk, amelyek széles piaci indexeket replikálnak a hagyományos aktív kezelés töredékéért.',
     'portfolios.etf_div_title':'Széles diverzifikáció','portfolios.etf_div_desc':'Egyetlen ETF egy teljes eszközosztályra vagy földrajzi régióra nyújt kitettséget. Ugyanezt a diverzifikációs szintet egyedi értékpapírokkal elérni rendkívül költséges és bonyolult lenne.',
     'portfolios.etf_cost_title':'Költségelőny','portfolios.etf_cost_desc':'Passzív eszközként az ETF-ek lényegesen alacsonyabb költséghányaddal rendelkeznek, mint az aktívan kezelt alapok — jellemzően 0,10%–0,50%. Nem számítanak fel sikerdíjat, és a méretgazdaságosság alacsonyan tartja a kezelési költségeket.',
@@ -849,9 +1011,9 @@ const T={
     'portfolios.sel_label':'Hogyan választjuk ki az ETF-eket','portfolios.sel1_title':'Alacsony költségek','portfolios.sel1_desc':'Költséghányadok és vételi-eladási spreadek alapján szűrünk, és mindkét szempont kombinációja alapján a legalacsonyabb költségű ETF-et választjuk.',
     'portfolios.sel2_title':'Likviditás','portfolios.sel2_desc':'A piaci kapitalizáció és a kereskedési volumen egyaránt fontos. A magasabb AUM csökkenti a spreadeket és minimalizálja a tranzakciós költségeket.',
     'portfolios.sel3_title':'Követési hiba','portfolios.sel3_desc':'A legalacsonyabb követési hibával rendelkező ETF-eket célozzuk meg — ez az ETF és az alapul szolgáló index közötti teljesítmény- és volatilitáskülönbség.',
-    'portfolios.cmp_label':'Portfóliók összehasonlítása','portfolios.cmp_var':'Kockáztatott érték','portfolios.cmp_eq':'Részvények','portfolios.cmp_bonds':'Kötvények','portfolios.cmp_comm':'Nyersanyagok','portfolios.cmp_cash':'Készpénz','portfolios.cmp_etfs':'ETF-ek',
+    'portfolios.cmp_label':'Portfóliók összehasonlítása','portfolios.cmp_var':'Kockáztatott érték','portfolios.cmp_eq':'Részvények','portfolios.cmp_bonds':'Kötvények','portfolios.cmp_comm':'Nyersanyagok','portfolios.cmp_cash':'Készpénz','portfolios.cmp_etfs':'Eszközök',
     'portfolios.step1_title':'Kockázati profilalkotás','portfolios.step1_desc':'Az Ön pénzügyi helyzetének és kockázatvállalási hajlandóságának részletes felmérése.',
-    'portfolios.step2_title':'Egyedi összeállítás','portfolios.step2_desc':'Alacsony költségű ETF-ekből összeállított portfólió, az Ön profiljához és devizanem-igényeihez igazítva.',
+    'portfolios.step2_title':'Egyedi összeállítás','portfolios.step2_desc':'A tökéletes portfólió, az Ön profiljához és kockázattűréséhez igazítva.',
     'portfolios.step3_title':'Folyamatos felülvizsgálat','portfolios.step3_desc':'Rendszeres monitorozás és újrasúlyozás a piaci változásoknak és az Ön céljainak megfelelően.',
     'services.label':'Szolgáltatások','services.title':'Professzionális útmutatás.','services.desc':'Alap- és portfóliókezelés, alaplétrehozás és adminisztráció, letétkezelés, tőkebevonás és befektetési tanácsadás — AIFMD-szabályozott szolgáltatási kínálatunknak megfelelően.',
     'services.adv_title':'Tanácsadás','services.adv_p1':'Sztenderd termékeink mellett testreszabott tanácsadói szolgáltatásokat kínálunk vállalati és magas nettó vagyonú ügyfeleinknek. Tanácsadási kínálatunk a befektetések teljes spektrumát lefedi, az egyszerű piaci tanácsadástól a magántőke-struktúrák megfelelő befektetési eszközének megtalálásáig.','services.adv_p2':'EU-székhelyű alapkezelőként (ABAK) engedéllyel rendelkezünk tanácsadási és kezelési szolgáltatások nyújtására az EU egész területén.',
@@ -859,7 +1021,7 @@ const T={
     'services.get_in_touch':'Kapcsolatfelvétel','services.get_in_touch2':'Kapcsolatfelvétel',
     'meeting.label':'Kapcsolatfelvétel','meeting.title':'Találkozó<br/>egyeztetése','meeting.desc':'Ha többet szeretne megtudni szolgáltatásainkról,<br/>kérjük, töltse ki elérhetőségeit','meeting.send':'Üzenet küldése','meeting.sent_label':'Elküldve!','meeting.ph_name':'Név','meeting.ph_email':'E-mail cím','meeting.ph_message':'Üzenet',
     'docs.label':'Dokumentumok','docs.title':'Szabályozói és alap dokumentáció.','docs.desc':'Ügyfél-tájékoztatás, szabályozói kiadványok, FATCA értesítések és CRS információk.',
-    'docs.cust_label':'Ügyfél-tájékoztatás','docs.cust_desc':'Az alapkezelőre vonatkozó dokumentumok','docs.reg_label':'Szabályozói kiadványok',
+    'docs.cust_label':'Ügyfél-tájékoztatás','docs.cust_desc':'Az alapkezelőre vonatkozó dokumentumok','docs.reg_label':'Szabályozói kiadványok','docs.reg_desc':'Szabályzatok, előírások és megfelelőségi dokumentumok','docs.fatca_desc':'Adóügyi megfelelőségi és jelentési dokumentumok',
     'dist.label':'Forgalmazás','dist.title':'Hogyan fektessen be nálunk.','dist.desc':'Ügyfélszolgálat, forgalmazó partnerek, elszámolási részletek és számlainformációk.',
     'dist.office_label':'Ügyfélszolgálati iroda','dist.office_desc':'Tekintse meg forgalmazási irodáinkat és szolgáltatási pontjainkat az alábbi dokumentumban.','dist.office_pdf':'Forgalmazói irodák (PDF)','dist.mnb_label':'MNB Online Jelentés','dist.mnb_desc':'Tekintse meg az MNB online értékpapírszámla-lekérdezési útmutatót az alábbi dokumentumban.','dist.mnb_pdf':'MNB Online Jelentés (PDF)',
     'dist.claims_label':'Panaszok és reklamációk',
@@ -889,32 +1051,34 @@ const T={
     'dist.settle_cycle':'Elszámolási ciklus','dist.settle_cutoff':'Határidő','dist.settle_nav':'NAV számítás','dist.settle_daily':'Napi',
     'dist.acc_contact':'Érdeklődjön nálunk','dist.acc_contact2':'Érdeklődjön nálunk','dist.acc_contact3':'Érdeklődjön nálunk',
     'dist.tc_label':'Általános Szerződési Feltételek','dist.tc_desc':'Tekintse meg az általános szerződési feltételeket az alábbi dokumentumban.','dist.tc_pdf':'Általános Szerződési Feltételek (PDF)',
+    'dist.office_desc2':'Irodáink és ügyfélszolgálati pontok','dist.mnb_desc2':'Értékpapírszámla online lekérdezési útmutató','dist.partners_desc2':'Alapjainkat forgalmazó bankok és brókerek','dist.settlement_desc2':'Alap elszámolási ciklusok és határidők','dist.tc_desc2':'Általános feltételek és díjszabályzat','dist.accounts_desc2':'Bank- és értékpapírszámla adatok',
+    'dist.cta_title':'Segítségre van szüksége?','dist.cta_desc':'Csapatunk hétfőtől péntekig, 8:00 — 16:00 CET áll rendelkezésére.','dist.cta_meeting':'Találkozó egyeztetése',
     'footer.disclaimer':'Ez az oldal nem minősül értékpapír-eladási ajánlatnak vagy vételi felkérésnek.',
+    'home.rw1':'abszolút hozam.','home.rw2':'kötvény derivatívák.','home.rw3':'személyre szabott portfóliók.','home.rw4':'alternatív stratégiák.',
     'home.meet_label':'Kapcsolatfelvétel','home.meet_title':'Találkozó<br/>egyeztetése','home.meet_desc':'ha szeretne többet megtudni szolgáltatásainkról,<br/>kérjük, adja meg elérhetőségeit'
   },
   en:{
-    'nav.home':'Home','nav.about':'About','nav.funds':'Investment Funds','nav.portfolios':'Portfolios','nav.services':'Services','nav.documents':'Documents','nav.distribution':'Distribution',
-    'home.subtitle':'Marketprog Asset Management Zrt.','home.title':'Structured investing,<br/>transparent results.','home.desc':'Investment funds and personalized portfolios from a Hungary-based, MNB-regulated asset manager operating under AIFMD since 2014.','home.cta1':'Explore Funds','home.cta2':'Personalized Portfolios',
-    'home.perf_label':'Fund Performance','home.perf_desc':'Selected funds — illustrative NAV history (YTD figures on fund cards reflect May 2026 data)',
+    'nav.home':'Home','nav.about':'About','nav.funds':'Investment Funds','nav.portfolios':'Portfolios','nav.services':'Services','nav.documents':'Documents','nav.distribution':'Distribution','nav.signin':'Sign in',
+    'home.subtitle':'Marketprog Asset Management Zrt.','home.title_fixed':'Structured investing in','home.desc':'Investment funds and personalized portfolios from a Hungary-based, MNB-regulated asset manager operating under AIFMD since 2014.','home.cta1':'Explore Funds','home.cta2':'Personalized Portfolios',
+    'home.top_label':'Top Performers','home.top_desc':'Year-to-date returns across our fund range (NAV date: 13 May 2026)','home.top_all':'All Funds →','home.top_disclaimer':'Past performance is not indicative of future results. Source: Hozam Plaza.',
+    'home.about_label':'About Us','home.about_text':'We believe that exceptional investment management starts with trust. Trust in a disciplined process, trust in transparent reporting, and trust that your capital is managed with the same care as our own. Since 2014, we’ve built Marketprog around this principle — creating alternative investment funds from Budapest that combine structured derivatives with rigorous risk management. We don’t chase headlines or follow the crowd. We build strategies designed to perform through every market cycle, giving our investors the confidence to think long-term.','home.about_link':'Learn more about us →',
     'home.stat1':'Investment Funds','home.stat2':'Currencies (HUF/EUR/USD)','home.stat3':'Fund Families','home.stat4':'Regulated (AIFMD)',
-    'home.pillar1_title':'Absolute Return Strategies','home.pillar1_desc':'Allegro, Aurica, Convexity, and more — targeting positive returns regardless of market direction.',
-    'home.pillar2_title':'Bond & Derivative Funds','home.pillar2_desc':'Government bond-based portfolios with derivative overlays for enhanced yield.',
-    'home.pillar3_title':'Personalized Portfolios','home.pillar3_desc':'Tailored allocations built to match your risk profile, currency preference, and goals.',
     'about.label':'About','about.title':'Marketprog Asset Management Zrt.','about.desc':'Marketprog Asset Management is a Hungary based and regulated Asset Manager according to AIFMD, offering a range of investment services including fund and portfolio management, fund set-up, fund administration, custody, capital introduction and investment advisory.',
     'about.point1':'We have a strong, dedicated local substance and benefit from the proven track record of our professionals.',
     'about.point2':'The motivation behind starting Marketprog from scratch was to develop an independent investment management business with greater operational and investment flexibility and to deliver exceptional services and returns by leveraging on our professional experience.',
     'about.point3':'We are dedicated to offer transparency, flexibility and speed of execution and aspire to excellence in everything we do. Our interaction with partners and third party providers is clear and fully transparent.',
-    'about.mnb_btn':'MNB Registry','about.leadership':'Leadership',
-    'funds.label':'Investment Funds','funds.title_own':'Own','funds.title_funds':'Funds','funds.desc':'Our own investment funds focus on fixed income and FX strategies reflecting the career backgrounds of our managers.','funds.cta':'Get in touch',
+    'about.mnb_btn':'MNB Registry','about.leadership':'Leadership','about.team_tagline':'Decades of institutional experience in fixed-income and derivatives markets.',
+    'funds.label':'Investment Funds','funds.hero_title':'Investment Funds','funds.desc':'Our own investment funds focus on fixed income and FX strategies reflecting the career backgrounds of our managers.','funds.cta':'Get in touch',
+    'funds.filter_all':'All Funds','funds.fund_count_label':'funds','funds.details':'Details','funds.documents':'Documents',
     'funds.all_families':'All Fund Families (17)','funds.disclaimer':'Past performance is not indicative of future results. YTD returns as of 16 May 2026 (source: Hozam Plaza, NAV date 13 May 2026).',
     'funds.wl_fund1':'Primus All Weather Fund','funds.wl_fund2':'Primus All Weather Plus Fund','funds.wl_fund3':'Activity Fund','funds.wl_title1':'White Label','funds.wl_title2':'Funds','funds.wl_desc':'White label funds are managed by our partner fund promoters and administered by us. The strategies of the funds cover a wide spectrum based on the mandates of our promoters.','funds.wl_cta_text':'Interested in launching your own investment fund?','funds.wl_cta':'Get in touch',
     'portfolios.label':'Personalized Portfolios','portfolios.title':'Built around you.',
     'portfolios.desc':'Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government and corporate bonds, and commodities — exclusively via low-cost ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.',
     'portfolios.desc2':'We employ Value-at-Risk (VaR) to quantify potential loss and currently offer three portfolio categories with 5%, 10%, and 15% VaR levels — allowing you to choose the risk-return profile that best matches your investment objectives.',
     'portfolios.tab_conservative':'Conservative','portfolios.tab_balanced':'Balanced','portfolios.tab_growth':'Growth',
-    'portfolios.stat_var':'Value at Risk','portfolios.stat_etfs':'ETFs in portfolio','portfolios.stat_rebal':'Rebalancing','portfolios.dynamic':'Dynamic',
+    'portfolios.stat_var':'Value at Risk','portfolios.stat_etfs':'Assets in portfolio','portfolios.stat_rebal':'Rebalancing','portfolios.dynamic':'Dynamic',
     'portfolios.get_in_touch':'Get in touch','portfolios.how_label':'How it works',
-    'portfolios.etf_label':'Our Instrument of Choice','portfolios.etf_title':'Why we invest exclusively in ETFs',
+    'portfolios.etf_label':'Our Instrument of Choice','portfolios.etf_title':'Why we invest in ETFs',
     'portfolios.etf_intro':'Cost efficiency is critical in a dynamically managed portfolio — high fees erode returns over time. We build every personalized portfolio exclusively from low-cost Exchange-Traded Funds that replicate broad market indices at a fraction of the cost of traditional active management.',
     'portfolios.etf_div_title':'Broad Diversification','portfolios.etf_div_desc':'A single ETF provides exposure to an entire asset class or geographic region. Achieving the same level of diversification through individual securities would be prohibitively expensive and operationally complex.',
     'portfolios.etf_cost_title':'Cost Advantage','portfolios.etf_cost_desc':'As passive instruments, ETFs carry significantly lower expense ratios than actively managed funds — typically 0.10% to 0.50%. They charge no performance fees, and economies of scale keep management costs low.',
@@ -922,9 +1086,9 @@ const T={
     'portfolios.sel_label':'How We Select ETFs','portfolios.sel1_title':'Low Costs','portfolios.sel1_desc':'We screen for expense ratios and bid-ask spreads, selecting the lowest-cost ETF based on the combination of both criteria.',
     'portfolios.sel2_title':'Liquidity','portfolios.sel2_desc':'Market capitalization and trading volume are equally important. Higher AUM reduces bid-offer spreads and minimizes transaction costs.',
     'portfolios.sel3_title':'Tracking Error','portfolios.sel3_desc':'We target ETFs with the lowest tracking error — the performance and volatility gap between the ETF and its underlying index.',
-    'portfolios.cmp_label':'Compare Portfolios','portfolios.cmp_var':'Value at Risk','portfolios.cmp_eq':'Equities','portfolios.cmp_bonds':'Bonds','portfolios.cmp_comm':'Commodities','portfolios.cmp_cash':'Cash','portfolios.cmp_etfs':'ETFs',
+    'portfolios.cmp_label':'Compare Portfolios','portfolios.cmp_var':'Value at Risk','portfolios.cmp_eq':'Equities','portfolios.cmp_bonds':'Bonds','portfolios.cmp_comm':'Commodities','portfolios.cmp_cash':'Cash','portfolios.cmp_etfs':'Assets',
     'portfolios.step1_title':'Risk Profiling','portfolios.step1_desc':'Detailed assessment of your financial situation and risk appetite.',
-    'portfolios.step2_title':'Custom Construction','portfolios.step2_desc':'Portfolio built from low-cost ETFs to match your profile and currency needs.',
+    'portfolios.step2_title':'Custom Construction','portfolios.step2_desc':'The perfect portfolio built to match your profile and risk tolerance.',
     'portfolios.step3_title':'Ongoing Review','portfolios.step3_desc':'Regular monitoring and rebalancing as markets and your goals evolve.',
     'services.label':'Services','services.title':'Professional guidance.','services.desc':'Fund and portfolio management, fund set-up and administration, custody, capital introduction, and investment advisory — aligned with our AIFMD-regulated service offering.',
     'services.adv_title':'Advisory','services.adv_p1':'Beyond our standard products we offer customized advisory services to our corporate and high net worth clients. Our advisory offering covers the whole spectrum around investments, from simply advising on market moves to finding the right investment vehicle for a private equity structure.','services.adv_p2':'As an EU based Asset Manager (AIFM) we are licenced to offer advisory and management services throughout the EU.',
@@ -932,7 +1096,7 @@ const T={
     'services.get_in_touch':'Get in touch','services.get_in_touch2':'Get in touch',
     'meeting.label':'Get in touch','meeting.title':'To schedule<br/>a meeting','meeting.desc':'to learn more about one of our offerings,<br/>please fill in your contact details','meeting.send':'Send message','meeting.sent_label':'Sent!','meeting.ph_name':'Name','meeting.ph_email':'E-mail address','meeting.ph_message':'Message',
     'docs.label':'Documents','docs.title':'Regulatory & fund documentation.','docs.desc':'Customer information, regulatory publications, FATCA notifications, and CRS information.',
-    'docs.cust_label':'Customer Information','docs.cust_desc':'Documents on the asset manager','docs.reg_label':'Regulatory Publications',
+    'docs.cust_label':'Customer Information','docs.cust_desc':'Documents on the asset manager','docs.reg_label':'Regulatory Publications','docs.reg_desc':'Policies, rules, and compliance documents','docs.fatca_desc':'Tax compliance and reporting documents',
     'dist.label':'Distribution','dist.title':'How to invest with us.','dist.desc':'Customer service, distribution partners, settlement details, and account information.',
     'dist.office_label':'Customer Service Office','dist.office_desc':'View our distribution offices and service points in the document below.','dist.office_pdf':'Distribution Offices (PDF)','dist.mnb_label':'MNB Online Report','dist.mnb_desc':'View the MNB online securities account report guide in the document below.','dist.mnb_pdf':'MNB Online Report (PDF)',
     'dist.claims_label':'Claims & Complaints',
@@ -962,7 +1126,10 @@ const T={
     'dist.settle_cycle':'Settlement cycle','dist.settle_cutoff':'Cut-off time','dist.settle_nav':'NAV calculation','dist.settle_daily':'Daily',
     'dist.acc_contact':'Contact for details','dist.acc_contact2':'Contact for details','dist.acc_contact3':'Contact for details',
     'dist.tc_label':'Terms & Conditions','dist.tc_desc':'View the terms and conditions in the document below.','dist.tc_pdf':'Terms & Conditions (PDF)',
+    'dist.office_desc2':'Office locations and service points','dist.mnb_desc2':'Securities account online query guide','dist.partners_desc2':'Banks and brokers distributing our funds','dist.settlement_desc2':'Fund settlement cycles and cut-off times','dist.tc_desc2':'General terms and fee schedule','dist.accounts_desc2':'Bank and securities account details',
+    'dist.cta_title':'Need help getting started?','dist.cta_desc':'Our team is available Monday to Friday, 8:00 — 16:00 CET.','dist.cta_meeting':'Schedule a Meeting',
     'footer.disclaimer':'This site does not constitute an offer to sell or solicitation to buy any securities.',
+    'home.rw1':'absolute return.','home.rw2':'bond derivatives.','home.rw3':'personalized portfolios.','home.rw4':'alternative strategies.',
     'home.meet_label':'Get in touch','home.meet_title':'To schedule<br/>a meeting','home.meet_desc':'to learn more about one of our offerings,<br/>please fill in your contact details'
   }
 };
@@ -983,6 +1150,13 @@ function setLang(lang){
   });
   const active=document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`);
   if(active){active.classList.add('bg-black','text-white');active.classList.remove('text-neutral-400');}
+  const sr=document.getElementById('scroll-reveal');
+  if(sr){const txt=sr.textContent.trim();sr.innerHTML=txt.split(/\s+/).map(w=>'<span class="scroll-reveal-word lit">'+w+'</span>').join(' ');}
+  // Re-trigger letter reveal if funds page is active
+  const fht=document.getElementById('funds-hero-title');
+  if(fht){fht.removeAttribute('data-text');letterReveal('funds-hero-title');}
+  const aht=document.getElementById('about-hero-title');
+  if(aht){aht.removeAttribute('data-text');wordReveal('about-hero-title');}
 }
 
 function nav(p){
@@ -990,6 +1164,11 @@ function nav(p){
   const t=document.getElementById('page-'+p);if(t)t.classList.add('active');
   document.querySelectorAll('#nav-links a').forEach(a=>{a.classList.remove('active');a.classList.add('text-neutral-400');if(a.dataset.page===p){a.classList.add('active');a.classList.remove('text-neutral-400')}});
   window.scrollTo(0,0);initCharts(p);
+  // Re-observe reveal elements on the newly active page
+  setTimeout(()=>{
+    const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('#page-'+p+' .reveal:not(.visible)').forEach(el=>io.observe(el));
+  },60);
 }
 function toggleMenu(){
   document.getElementById('mobile-menu').classList.toggle('hidden');
@@ -1005,24 +1184,6 @@ function genLine(n,s,v,t){const d=[s];for(let i=1;i<n;i++)d.push(d[i-1]+(Math.ra
 const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function labels(n,sy){const l=[];for(let i=0;i<n;i++)l.push(mo[i%12]+" '"+(sy+Math.floor(i/12)));return l}
 const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{boxWidth:8,padding:16,font:{size:11,family:'Inter'}}}},scales:{x:{grid:{display:false},ticks:{font:{size:10,family:'Inter'},color:'#a3a3a3',maxTicksLimit:8}},y:{grid:{color:'#f5f5f5'},ticks:{font:{size:10,family:'Inter'},color:'#a3a3a3'}}},interaction:{mode:'index',intersect:false},elements:{point:{radius:0,hoverRadius:5},line:{tension:.3}}};
-
-// HOME
-let hRange='3y';
-function buildHome(){
-  const r={1:{n:12,s:25},3:{n:36,s:23},5:{n:60,s:21}}[hRange.replace('y','')];
-  make('homeChart',{type:'line',data:{labels:labels(r.n,r.s),datasets:[
-    {label:'Allegro (HUF)',data:genLine(r.n,100,3.5,.9),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2},
-    {label:'Bond Derivativ (HUF)',data:genLine(r.n,100,1.5,.55),borderColor:'#000',fill:false,borderWidth:1.5},
-    {label:'Prestige Start (EUR)',data:genLine(r.n,100,2,.4),borderColor:'#a3a3a3',fill:false,borderWidth:1.5,borderDash:[4,4]}
-  ]},options:{...CO,plugins:{...CO.plugins,tooltip:{backgroundColor:'#000',titleFont:{size:11},bodyFont:{size:11},padding:10,cornerRadius:4}}}});
-}
-function setHR(r){
-  hRange=r;
-  document.querySelectorAll('.hr-btn').forEach(b=>{b.classList.remove('border-black','text-black','font-medium');b.classList.add('border-neutral-200','text-neutral-500')});
-  event.target.classList.add('border-black','text-black','font-medium');event.target.classList.remove('border-neutral-200','text-neutral-500');
-  buildHome();
-}
-
 
 // FUNDS
 const FB='https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/';
@@ -1133,65 +1294,94 @@ const FUNDS=[
 ];
 
 const fundCharts={};
+let activeFundFilter='all';
+
 function renderFunds(){
-  const container=document.getElementById('funds-list');
-  if(!container)return;
-  container.innerHTML=FUNDS.map((f,i)=>{
-    const typeColor=f.type==='Absolute Return'?'text-accent-600 bg-accent-50':f.type==='Bond Derivative'||f.type==='Bond / Rates'?'text-blue-600 bg-blue-50':f.type==='Equity Derivative'?'text-purple-600 bg-purple-50':'text-amber-600 bg-amber-50';
-    const trophy=f.featured?'<svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="shrink-0"><circle cx="24" cy="24" r="22" fill="#22c55e" opacity="0.15"/><circle cx="24" cy="24" r="18" fill="#22c55e" opacity="0.25"/><circle cx="24" cy="22" r="13" fill="#facc15"/><circle cx="24" cy="22" r="10.5" fill="#eab308"/><text x="24" y="27" text-anchor="middle" font-size="14" font-weight="bold" fill="white" font-family="Inter,sans-serif">1</text><path d="M18 36l2-5h8l2 5" fill="#22c55e"/><path d="M20 36h8" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/></svg>':'';
-    const pdfIcon='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  const grid=document.getElementById('funds-grid');
+  if(!grid)return;
+  const typeColors={'Absolute Return':'text-accent-600 bg-accent-50','Bond Derivative':'text-blue-600 bg-blue-50','Bond / Rates':'text-blue-600 bg-blue-50','Equity Derivative':'text-purple-600 bg-purple-50','Fund of Funds':'text-amber-600 bg-amber-50'};
+  const pdfIcon='<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  grid.innerHTML=FUNDS.map((f,i)=>{
+    const tc=typeColors[f.type]||'text-neutral-600 bg-neutral-100';
+    const returns=f.ytd.split('·').map(r=>r.trim()).filter(r=>r&&r.includes('+'));
+    const bestReturn=returns.length?returns[0]:'';
+    const hasPositive=bestReturn.includes('+');
     let pdfs='';
-    if(f.kiid)pdfs+=`<a href="${fbUrl(f.kiid)}" target="_blank" class="flex items-center gap-2 text-sm text-accent-600 hover:text-accent-700 transition-colors">${pdfIcon}<span>KID</span></a>`;
-    if(f.info)pdfs+=`<a href="${fbUrl(f.info)}" target="_blank" class="flex items-center gap-2 text-sm text-accent-600 hover:text-accent-700 transition-colors">${pdfIcon}<span>Tájékoztató</span></a>`;
-    if(f.rule)pdfs+=`<a href="${fbUrl(f.rule)}" target="_blank" class="flex items-center gap-2 text-sm text-accent-600 hover:text-accent-700 transition-colors">${pdfIcon}<span>Kezelési Szabályzat</span></a>`;
-    if(f.report)pdfs+=`<a href="${fbUrl(f.report)}" target="_blank" class="flex items-center gap-2 text-sm text-accent-600 hover:text-accent-700 transition-colors">${pdfIcon}<span>Latest Report</span></a>`;
-    return `<div class="border border-neutral-100 rounded-xl overflow-hidden bg-white">
-      <div class="p-6">
-        <div class="flex items-start justify-between gap-4">
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-3 flex-wrap">
-              <h3 class="text-lg font-semibold">${f.featured?'Marketprog ':''}<span>${f.name}</span></h3>
-              <span class="text-xs font-medium px-2.5 py-0.5 rounded-full ${typeColor}">${f.type}</span>
-              ${trophy}
-            </div>
-            <p class="mt-2 text-sm text-neutral-500 leading-relaxed">${f.desc}</p>
-            <div class="mt-3 flex items-center gap-4 flex-wrap">
-              <span class="text-xs text-neutral-400">${f.ccy}</span>
-              <span class="text-xs font-medium text-neutral-700">${f.ytd}</span>
-            </div>
-          </div>
+    if(f.kiid)pdfs+=`<a href="${fbUrl(f.kiid)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} KID</a>`;
+    if(f.info)pdfs+=`<a href="${fbUrl(f.info)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} Info</a>`;
+    if(f.rule)pdfs+=`<a href="${fbUrl(f.rule)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} Rules</a>`;
+    if(f.report)pdfs+=`<a href="${fbUrl(f.report)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} Report</a>`;
+    return `<div class="fund-card rounded-lg border border-neutral-200 bg-white cursor-pointer" data-type="${f.type}" data-idx="${i}" onclick="toggleFund(${i})" style="transition-delay:${i*50}ms">
+      <div class="px-4 py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded ${tc} shrink-0">${f.type.split(' ')[0]}</span>
+          <h3 class="text-sm font-semibold truncate">${f.name}</h3>
+          ${f.featured?'<span class="text-[9px] font-bold text-accent-500 shrink-0">★</span>':''}
         </div>
-        <button onclick="toggleFund(${i})" id="fund-btn-${i}" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors">
-          <span>Facts & Details</span>
-          <svg id="fund-chevron-${i}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-        </button>
+        <div class="flex items-center gap-2 shrink-0">
+          ${bestReturn?`<span class="text-sm font-bold ${hasPositive?'text-accent-600':'text-red-500'}">${bestReturn.split(' ').pop()}</span>`:'<span class="text-xs text-neutral-300">—</span>'}
+          <svg id="fund-chevron-${i}" class="w-3.5 h-3.5 text-neutral-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+        </div>
       </div>
-      <div id="fund-panel-${i}" class="hidden border-t border-neutral-100 bg-neutral-50/50 p-6">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 h-56"><canvas id="fund-chart-${i}"></canvas></div>
-          <div class="space-y-4">
-            <p class="text-xs font-medium uppercase tracking-widest text-neutral-400">Documents</p>
-            <div class="space-y-3">${pdfs||'<p class="text-xs text-neutral-400">No documents available</p>'}</div>
+      <div class="fund-expand" id="fund-expand-${i}">
+        <div class="border-t border-neutral-100 px-4 py-4 bg-neutral-50/60">
+          <p class="text-xs text-neutral-500 leading-relaxed">${f.desc}</p>
+          <div class="flex items-center gap-3 mt-3 text-xs text-neutral-400">
+            <span>${f.ccy}</span>
+            ${f.ytd.includes('·')?`<span class="font-medium text-neutral-600">${f.ytd}</span>`:''}
           </div>
+          <div class="mt-3 h-32"><canvas id="fund-chart-${i}"></canvas></div>
+          <div class="flex flex-wrap gap-3 mt-3">${pdfs||'<span class="text-xs text-neutral-300">—</span>'}</div>
         </div>
       </div>
     </div>`;
   }).join('');
+  // Staggered entrance animation
+  setTimeout(()=>{
+    grid.querySelectorAll('.fund-card').forEach((c,i)=>{
+      setTimeout(()=>c.classList.add('show'),i*50);
+    });
+  },100);
+}
+
+function filterFunds(type){
+  activeFundFilter=type;
+  // Update pills
+  document.querySelectorAll('.filter-pill').forEach(btn=>{
+    if(btn.dataset.filter===type){btn.classList.add('active');btn.classList.remove('text-neutral-500');}
+    else{btn.classList.remove('active');btn.classList.add('text-neutral-500');}
+  });
+  // Filter cards with animation
+  const cards=document.querySelectorAll('.fund-card');
+  let count=0;
+  cards.forEach((card,i)=>{
+    const match=type==='all'||card.dataset.type===type;
+    if(match){
+      card.classList.remove('hide');
+      card.style.transitionDelay=(count*50)+'ms';
+      count++;
+      requestAnimationFrame(()=>card.classList.add('show'));
+    }else{
+      card.classList.remove('show');
+      card.classList.add('hide');
+    }
+  });
+  document.getElementById('fund-count').textContent=count;
 }
 
 function toggleFund(i){
-  const panel=document.getElementById('fund-panel-'+i);
+  const expand=document.getElementById('fund-expand-'+i);
   const chevron=document.getElementById('fund-chevron-'+i);
-  const isOpen=!panel.classList.contains('hidden');
+  const isOpen=expand.classList.contains('open');
   if(isOpen){
-    panel.classList.add('hidden');
+    expand.classList.remove('open');
     chevron.style.transform='';
   }else{
-    panel.classList.remove('hidden');
+    expand.classList.add('open');
     chevron.style.transform='rotate(180deg)';
     if(!fundCharts[i]){
       const f=FUNDS[i];
-      fundCharts[i]=make('fund-chart-'+i,{type:'line',data:{labels:labels(36,23),datasets:[{label:f.name,data:genLine(36,100,2,.45),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2}]},options:CO});
+      setTimeout(()=>{fundCharts[i]=make('fund-chart-'+i,{type:'line',data:{labels:labels(36,23),datasets:[{label:f.name,data:genLine(36,100,2,.45),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2}]},options:CO});},50);
     }
   }
 }
@@ -1212,7 +1402,7 @@ function selectPortfolio(i){
   const colors={Equities:'#22c55e',Bonds:'#000',Commodities:'#a3a3a3',Cash:'#e5e5e5'};
   document.getElementById('allocBars').innerHTML=Object.entries(p.alloc).map(([k,v])=>`<div class="flex items-center gap-3"><span class="w-24 text-xs text-neutral-400">${k}</span><div class="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden"><div class="h-full rounded-full transition-all duration-300" style="width:${v}%;background:${colors[k]}"></div></div><span class="text-xs font-medium w-8 text-right">${v}%</span></div>`).join('');
   make('allocChart',{type:'doughnut',data:{labels:Object.keys(p.alloc),datasets:[{data:Object.values(p.alloc),backgroundColor:Object.values(colors),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom',labels:{boxWidth:8,padding:12,font:{size:11,family:'Inter'}}}}}});
-  document.querySelectorAll('.port-tab').forEach((b,idx)=>{if(idx===i){b.classList.add('border-accent-500','bg-accent-50/50');b.classList.remove('border-neutral-200')}else{b.classList.remove('border-accent-500','bg-accent-50/50');b.classList.add('border-neutral-200')}});
+  document.querySelectorAll('.port-tab').forEach((b,idx)=>{if(idx===i){b.classList.add('border-accent-500','bg-accent-50/50','active-glow');b.classList.remove('border-neutral-200')}else{b.classList.remove('border-accent-500','bg-accent-50/50','active-glow');b.classList.add('border-neutral-200')}});
 }
 
 // MEETING OVERLAY
@@ -1282,6 +1472,47 @@ function sendHomeMeeting(e){
   },3500);
 }
 
+// HERO ROTATING WORDS
+(function(){
+  const el=document.getElementById('hero-rotate');
+  if(!el)return;
+  const words=el.querySelectorAll('span');
+  let cur=0;
+  setInterval(()=>{
+    const prev=words[cur];
+    cur=(cur+1)%words.length;
+    const next=words[cur];
+    prev.classList.add('exit');
+    prev.classList.remove('active');
+    next.classList.add('active');
+    next.classList.remove('exit');
+    setTimeout(()=>{prev.classList.remove('exit');},600);
+  },2800);
+})();
+
+// SCROLL-REVEAL WORD-BY-WORD
+(function(){
+  const el=document.getElementById('scroll-reveal');
+  if(!el)return;
+  const raw=el.textContent.trim();
+  el.innerHTML=raw.split(/\s+/).map(w=>'<span class="scroll-reveal-word">'+w+'</span>').join(' ');
+  const words=el.querySelectorAll('.scroll-reveal-word');
+  function update(){
+    const rect=el.getBoundingClientRect();
+    const vh=window.innerHeight;
+    const start=vh*0.85;
+    const end=vh*0.25;
+    const progress=Math.max(0,Math.min(1,(start-rect.top)/(start-end)));
+    const litCount=Math.floor(progress*words.length);
+    words.forEach((w,i)=>{
+      if(i<litCount)w.classList.add('lit');
+      else w.classList.remove('lit');
+    });
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
+
 // DISTRIBUTION
 function selDist(id){
   document.querySelectorAll('.dist-panel').forEach(p=>p.classList.add('hidden'));
@@ -1292,13 +1523,86 @@ function selDist(id){
   if(nav){nav.classList.add('text-black','font-medium','bg-neutral-50','border-accent-500');nav.classList.remove('text-neutral-400','border-transparent');}
 }
 
+// LETTER-BY-LETTER TERMINAL REVEAL
+function letterReveal(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const text=el.getAttribute('data-text')||el.textContent.trim();
+  el.setAttribute('data-text',text);
+  el.classList.add('letter-reveal');
+  el.innerHTML=text.split('').map(ch=>ch===' '?'<span class="space"> </span>':'<span>'+ch+'</span>').join('');
+  const spans=el.querySelectorAll('span:not(.space)');
+  spans.forEach((s,i)=>{setTimeout(()=>s.classList.add('lit'),180+i*35);});
+}
+
+function wordReveal(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const text=el.getAttribute('data-text')||el.textContent.trim();
+  el.setAttribute('data-text',text);
+  el.classList.add('word-reveal');
+  el.innerHTML=text.split(/\s+/).map(w=>'<span>'+w+'</span>').join(' ');
+  const spans=el.querySelectorAll('span');
+  spans.forEach((s,i)=>{setTimeout(()=>s.classList.add('lit'),200+i*90);});
+}
+
+function lineReveal(id,delayStart){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const text=el.getAttribute('data-text')||el.textContent.trim();
+  el.setAttribute('data-text',text);
+  el.classList.add('line-reveal');
+  // Split on sentence boundaries (. , ; —) keeping meaningful chunks
+  const sentences=text.split(/(?<=[.,;—])\s+/).filter(s=>s.trim());
+  el.innerHTML=sentences.map(s=>'<span class="line-item">'+s+'</span>').join(' ');
+  const items=el.querySelectorAll('.line-item');
+  items.forEach((s,i)=>{setTimeout(()=>s.classList.add('lit'),(delayStart||400)+i*200);});
+}
+
+function triggerPillarReveal(){
+  ['about-p1','about-p2','about-p3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el){el.removeAttribute('data-text');lineReveal(id,400+i*600);}
+  });
+}
+
 function initCharts(p){setTimeout(()=>{
-  if(p==='home')buildHome();
-  if(p==='about'){}
-  if(p==='funds')renderFunds();
+  if(p==='about'){wordReveal('about-hero-title');triggerPillarReveal();}
+  if(p==='funds'){
+    renderFunds();
+    letterReveal('funds-hero-title');
+  }
   if(p==='portfolios')selectPortfolio(curPort);
 },50)}
 window.addEventListener('DOMContentLoaded',()=>initCharts('home'));
+
+// SCROLL-TRIGGERED REVEAL (IntersectionObserver)
+(function(){
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // Re-observe after page navigation
+  const origNav=window._origNav||nav;
+  window._origNav=origNav;
+})();
+
+// PARALLAX on hero images (portfolios + funds)
+(function(){
+  const heroes=[
+    document.querySelector('#page-portfolios > section:first-child img')
+  ].filter(Boolean);
+  if(!heroes.length)return;
+  window.addEventListener('scroll',()=>{
+    heroes.forEach(hero=>{
+      const rect=hero.parentElement.getBoundingClientRect();
+      if(rect.bottom>0&&rect.top<window.innerHeight){
+        const offset=(rect.top*0.3);
+        hero.style.transform='translateY('+offset+'px) scale(1.08)';
+      }
+    });
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
