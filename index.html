@@ -67,6 +67,16 @@
     .series-btn.active{background:#22c55e;color:#fff}.period-btn.active{background:#000;color:#fff}
     .fund-more{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.22,1,.36,1)}
     .fund-more.open{max-height:400px}
+    .doc-panel{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1)}
+    .doc-accordion.open .doc-panel{max-height:600px}
+    .doc-accordion.open .doc-chev{transform:rotate(180deg)}
+    .doc-accordion:hover p{color:#000}
+    .acc{border-bottom:1px solid #f5f5f5;overflow:hidden}
+    .acc-panel{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.22,1,.36,1)}
+    .acc.open .acc-panel{max-height:var(--panel-h,2000px)}
+    .acc .acc-chev{transition:transform .3s ease}
+    .acc.open .acc-chev{transform:rotate(180deg)}
+    .acc-head{cursor:pointer;user-select:none}
     .no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
     .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     /* Contact item stagger reveal */
@@ -94,6 +104,30 @@
     .mesh-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(34,197,94,.1) 0%,transparent 55%);pointer-events:none}
     .mesh-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,transparent 30%,transparent 70%,rgba(0,0,0,.5) 100%);pointer-events:none}
   </style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"YOUR_API_KEY",
+  authDomain:"marketprog-bf7d3.firebaseapp.com",
+  projectId:"marketprog-bf7d3",
+  storageBucket:"marketprog-bf7d3.appspot.com"
+});
+const FS=firebase.firestore();
+function loadDocList(cat,containerId){
+  const c=document.getElementById(containerId);if(!c)return;
+  c.innerHTML='<p class="text-sm text-neutral-400 py-4">Loading...</p>';
+  FS.collection('documents').where('category','==',cat).orderBy('order','asc').get().then(snap=>{
+    if(snap.empty){c.innerHTML='<p class="text-sm text-neutral-400 py-4">No documents available.</p>';return;}
+    let html='<ul class="divide-y divide-neutral-100">';
+    snap.forEach(doc=>{const d=doc.data();
+      html+='<li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">'+d.name+'</span><a href="'+d.url+'" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a></li>';
+    });
+    html+='</ul>';c.innerHTML=html;
+  }).catch(()=>{c.innerHTML='<p class="text-sm text-red-400 py-4">Could not load documents.</p>';});
+}
+</script>
 </head>
 <body class="bg-white text-black antialiased">
 
@@ -107,7 +141,18 @@
       <li><a href="#funds" data-page="funds" data-i18n="nav.funds" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('funds')">Investment Funds</a></li>
       <li><a href="#portfolios" data-page="portfolios" data-i18n="nav.portfolios" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('portfolios')">Portfolios</a></li>
       <li><a href="#services" data-page="services" data-i18n="nav.services" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('services')">Services</a></li>
-      <li><a href="#documents" data-page="documents" data-i18n="nav.documents" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('documents')">Documents</a></li>
+      <li class="relative group">
+        <a href="#documents" data-page="documents" data-i18n="nav.documents" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('documents')">Documents</a>
+        <div class="pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 transition-opacity duration-200 absolute top-full left-0 pt-2 z-50">
+          <div class="bg-white rounded-lg shadow-lg border border-neutral-100 py-2 w-56">
+            <a href="#docs-customer" onclick="nav('docs-customer')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.cust_label">Customer Information</a>
+            <a href="#docs-am" onclick="nav('docs-am')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.am_label">Documents on the Asset Manager</a>
+            <a href="#docs-regulatory" onclick="nav('docs-regulatory')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.reg_label">Regulatory Publications</a>
+            <a href="docs/FATCA-CRS-fogalomtar-1.pdf" target="_blank" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.fatca_label">FATCA Notification</a>
+            <a href="docs/CRS-tajekoztatas.pdf" target="_blank" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.crs_label">CRS Information</a>
+          </div>
+        </div>
+      </li>
       <li><a href="#distribution" data-page="distribution" data-i18n="nav.distribution" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('distribution')">Distribution</a></li>
     </ul>
     <div class="flex items-center gap-3">
@@ -461,7 +506,7 @@
     <div class="relative mx-auto max-w-6xl px-6 py-20 w-full">
       <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="portfolios.label">Personalized Portfolios</p>
       <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-white" data-i18n="portfolios.title">Built around you.</h1>
-      <p class="mt-4 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="portfolios.desc">Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government and corporate bonds, and commodities — exclusively via low-cost ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.</p>
+      <p class="mt-4 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="portfolios.desc">Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government/corporate bonds and commodities via ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.</p>
       <p class="mt-3 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="portfolios.desc2">We employ Value-at-Risk (VaR) to quantify potential loss and currently offer three portfolio categories with 5%, 10%, and 15% VaR levels — allowing you to choose the risk-return profile that best matches your investment objectives.</p>
     </div>
   </section>
@@ -652,28 +697,32 @@
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-8">
       <!-- Advisory -->
-      <div class="border border-neutral-100 rounded-lg p-10">
+      <div class="border border-neutral-100 rounded-lg p-10 flex flex-col">
         <div class="flex items-start justify-between mb-5">
           <h2 class="text-3xl font-bold text-black" data-i18n="services.adv_title">Advisory</h2>
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="black" stroke-width="1.2" class="flex-shrink-0 ml-4 mt-1">
             <rect x="6" y="10" width="24" height="30" rx="2"/><path d="M12 18h12M12 24h12M12 30h8"/><path d="M36 6v30"/><circle cx="36" cy="40" r="3"/><path d="M33 20l6-6M33 14l6 6"/>
           </svg>
         </div>
-        <p class="text-neutral-500 leading-relaxed" data-i18n="services.adv_p1">Beyond our standard products we offer customized advisory services to our corporate and high net worth clients. Our advisory offering covers the whole spectrum around investments, from simply advising on market moves to finding the right investment vehicle for a private equity structure.</p>
-        <p class="text-neutral-500 mt-4 leading-relaxed" data-i18n="services.adv_p2">As an EU based Asset Manager (AIFM) we are licenced to offer advisory and management services throughout the EU.</p>
+        <div class="flex-1">
+          <p class="text-neutral-500 leading-relaxed" data-i18n="services.adv_p1">Beyond our standard products we offer customized advisory services to our corporate and high net worth clients. Our advisory offering covers the whole spectrum around investments, from simply advising on market moves to finding the right investment vehicle for a private equity structure.</p>
+          <p class="text-neutral-500 mt-4 leading-relaxed" data-i18n="services.adv_p2">As an EU based Asset Manager (AIFM) we are licenced to offer advisory and management services throughout the EU.</p>
+        </div>
         <button onclick="openMeeting('advisory')" class="mt-8 bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm" data-i18n="services.get_in_touch">Get in touch</button>
       </div>
       <!-- Institutional -->
-      <div class="border border-neutral-100 rounded-lg p-10">
+      <div class="border border-neutral-100 rounded-lg p-10 flex flex-col">
         <div class="flex items-start justify-between mb-5">
           <h2 class="text-3xl font-bold text-black" data-i18n="services.inst_title">Institutional</h2>
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="black" stroke-width="1.2" class="flex-shrink-0 ml-4 mt-1">
             <path d="M24 6l18 10v2H6v-2L24 6z"/><rect x="10" y="18" width="4" height="16"/><rect x="18" y="18" width="4" height="16"/><rect x="26" y="18" width="4" height="16"/><rect x="34" y="18" width="4" height="16"/><rect x="6" y="34" width="36" height="4" rx="1"/><rect x="4" y="38" width="40" height="3" rx="1"/>
           </svg>
         </div>
-        <p class="text-neutral-500 leading-relaxed" data-i18n="services.inst_p1">We bring vast amounts of experience in managing public funds in the CEE region.</p>
-        <p class="text-neutral-500 mt-4 leading-relaxed" data-i18n="services.inst_p2">Our primary focus is the wider CEE fixed income markets and we leverage on our proven track record to offer tailor made solutions to our institutional clients.</p>
-        <p class="text-neutral-500 mt-4 leading-relaxed" data-i18n="services.inst_p3">Our extensive know how in derivative markets adds additional flexibility to our investment approach.</p>
+        <div class="flex-1">
+          <p class="text-neutral-500 leading-relaxed" data-i18n="services.inst_p1">We bring vast amounts of experience in managing public funds in the CEE region.</p>
+          <p class="text-neutral-500 mt-4 leading-relaxed" data-i18n="services.inst_p2">Our primary focus is the wider CEE fixed income markets and we leverage on our proven track record to offer tailor made solutions to our institutional clients.</p>
+          <p class="text-neutral-500 mt-4 leading-relaxed" data-i18n="services.inst_p3">Our extensive know how in derivative markets adds additional flexibility to our investment approach.</p>
+        </div>
         <button onclick="openMeeting('institutional')" class="mt-8 bg-accent-500 hover:bg-accent-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm" data-i18n="services.get_in_touch2">Get in touch</button>
       </div>
     </div>
@@ -726,57 +775,332 @@
   </section>
 
   <section class="border-t border-neutral-100">
-    <div class="mx-auto max-w-6xl px-6 py-16 space-y-12">
-      <div>
-        <div class="flex items-center gap-3 mb-5 border-l-2 border-accent-500 pl-4">
-          <div class="w-8 h-8 rounded-full bg-accent-50 flex items-center justify-center flex-shrink-0"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <div>
-            <p class="text-base font-semibold" data-i18n="docs.cust_label">Customer Information</p>
-            <p class="text-xs text-neutral-400" data-i18n="docs.cust_desc">Documents on the asset manager</p>
-          </div>
+    <div class="mx-auto max-w-4xl px-6 py-16">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="#docs-customer" onclick="nav('docs-customer')" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg></div>
+          <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.cust_label">Customer Information</p>
+          <p class="text-xs text-neutral-400 mt-1" data-i18n="docs.cust_desc">Documents on the asset manager</p>
+        </a>
+        <a href="#docs-am" onclick="nav('docs-am')" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21"/></svg></div>
+          <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.am_label">Documents on the Asset Manager</p>
+          <p class="text-xs text-neutral-400 mt-1">Policies, rules & corporate docs</p>
+        </a>
+        <a href="#docs-regulatory" onclick="nav('docs-regulatory')" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21"/></svg></div>
+          <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.reg_label">Regulatory Publications</p>
+          <p class="text-xs text-neutral-400 mt-1" data-i18n="docs.reg_desc">Policies, rules, and compliance documents</p>
+        </a>
+        <a href="docs/FATCA-CRS-fogalomtar-1.pdf" target="_blank" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+          <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.fatca_label">FATCA Notification</p>
+          <p class="text-xs text-neutral-400 mt-1" data-i18n="docs.fatca_desc">Tax compliance and reporting documents</p>
+          <span class="inline-flex items-center gap-1 mt-2 text-[10px] font-medium text-accent-600 opacity-0 group-hover:opacity-100 transition-opacity">Open PDF <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></span>
+        </a>
+        <a href="docs/CRS-tajekoztatas.pdf" target="_blank" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+          <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.crs_label">CRS Information</p>
+          <p class="text-xs text-neutral-400 mt-1">Common Reporting Standard</p>
+          <span class="inline-flex items-center gap-1 mt-2 text-[10px] font-medium text-accent-600 opacity-0 group-hover:opacity-100 transition-opacity">Open PDF <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCS: CUSTOMER INFORMATION ===================== -->
+<div id="page-docs-customer" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <button onclick="nav('documents')" class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-black transition-colors mb-6"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> <span data-i18n="nav.documents">Documents</span></button>
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="docs.cust_label">Customer Information</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="docs.cust_label">Customer Information</h1>
+    </div>
+  </section>
+
+  <!-- Company data bar -->
+  <section class="border-t border-neutral-100 bg-neutral-50/60">
+    <div class="mx-auto max-w-6xl px-6 py-10">
+      <p class="font-semibold italic text-black mb-4">Marketprog Asset Management Befektetési Alapkezelő Zrt.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-3 text-sm">
+        <div><span class="text-neutral-400">cím:</span><br/>1124 Budapest, Csörsz utca 45.</div>
+        <div><span class="text-neutral-400">weboldal:</span><br/><a href="https://www.marketprog.hu" target="_blank" class="text-accent-600 hover:underline">www.marketprog.hu</a></div>
+        <div><span class="text-neutral-400">e-mail:</span><br/><a href="mailto:info@mpi.fund" class="text-accent-600 hover:underline">info@mpi.fund</a></div>
+        <div><span class="text-neutral-400">telefonszám:</span><br/>+36-1-522-2091</div>
+        <div><span class="text-neutral-400">cégjegyzékszám:</span><br/>01-10-048141</div>
+        <div><span class="text-neutral-400">adószám:</span><br/>24980157-2-43</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Topic boxes -->
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-6xl px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- BOX 1: About & Regulation -->
+      <div class="border border-neutral-100 rounded-xl p-8 md:p-10 flex flex-col">
+        <div class="flex items-start justify-between mb-5">
+          <h2 class="text-2xl font-bold text-black">Szabályozás és kapcsolattartás</h2>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.2" class="shrink-0 ml-4 mt-1"><path d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21"/></svg>
         </div>
-        <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Asset Manager Overview</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Key Investor Information Documents (KIIDs)</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Fund Management Rules (Kezelesi Szabalyzat)</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Fund Prospectus</span></div><button class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</button></li>
-        </ul>
+        <p class="text-sm text-neutral-500 mb-6">Felügyeleti engedélyek, kapcsolattartási nyelvek és módok, összeférhetetlenségi és végrehajtási politika.</p>
+        <div class="flex-1 text-[15px] leading-relaxed text-neutral-600">
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Kapcsolattartás nyelvei</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+              <p>Az ügyfél és a Marketprog Asset Management Zrt. üzleti levelezési és kapcsolattartási nyelve kizárólag a magyar és az angol nyelv.</p>
+              <p>A Marketprog Asset Management Zrt. ügyfelei számára a tájékoztatásokat — pl. beszámolókat, riportokat egyéb jelentéseket — főszabályként magyar nyelven nyújtja. Angol nyelvű kapcsolattartás esetén az ügyfél és a Marketprog Asset Management Zrt. közötti egyedi megállapodás rendezi azt, hogy a Marketprog Asset Management Zrt. mely dokumentumokat bocsátja angol nyelven illetőleg angol nyelvű fordítást is mellékelve az Ön rendelkezésére.</p>
+              <p>A Marketprog Asset Management Zrt. a tájékoztatását teljes egészében ugyanazon a nyelven fogalmazza meg az Ön számára szolgáltatott információs és marketinganyagok mindegyikében, amely nyelv használatában a Marketprog Asset Management Zrt.-vel megállapodott.</p>
+              <p>Felhívjuk figyelmét ugyanakkor arra, hogy elképzelhető, hogy egyes pénzügyi eszközökkel kapcsolatos tájékoztatást a kapcsolattartás nyelvétől eltérő nyelven érheti csak el, így a Marketprog Asset Management Zrt. jogosult a tájékoztatás több nyelven történő nyújtására.</p>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Kapcsolattartás módjai</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-3 text-sm">
+              <p>A Marketprog Asset Management Zrt. és az ügyfél az alábbi módokon tarthatnak kapcsolatot egymással:</p>
+              <div><h3 class="font-semibold text-black mb-1">Írásban</h3><ul class="list-disc pl-5 space-y-0.5"><li>Postai úton</li><li>Futárszolgálat útján</li><li>Az Alapkezelő honlapján történő közzététel útján</li><li>E-mailben</li><li>Faxon</li></ul></div>
+              <div><h3 class="font-semibold text-black mb-1">Szóban</h3><ul class="list-disc pl-5 space-y-0.5"><li>Telefonon</li><li>Személyesen</li></ul></div>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Felügyeleti engedélyek</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-3 text-sm">
+              <p>A Marketprog Asset Management Zrt. a felügyelet <strong>H-EN-III-14/2015.</strong> számú engedélye alapján az alábbi tevékenységek végzésére jogosult:</p>
+              <div><h3 class="font-semibold text-black mb-1">Befektetési szolgáltatási tevékenységek</h3><ul class="list-disc pl-5 space-y-0.5"><li>Portfóliókezelés</li><li>Befektetési tanácsadás</li></ul><p class="mt-1.5">A Marketprog Asset Management Zrt. a befektetési tanácsadás során nem független alapon jár el.</p></div>
+              <div><h3 class="font-semibold text-black mb-1">Kiegészítő szolgáltatások</h3><ul class="list-disc pl-5 space-y-0.5"><li>Kollektív befektetési értékpapírok letéti őrzése, letétkezelése, amely dematerializált értékpapírok esetében az értékpapírszámla vezetését is tartalmazza, valamint a végzett tevékenység jellegétől függően ügyfélszámla vezetését is magában foglalja, továbbá a kollektív befektetési értékpapírokkal kapcsolatos adminisztratív szolgáltatások</li></ul></div>
+              <div><h3 class="font-semibold text-black mb-1">Felügyelet</h3><div class="bg-neutral-50 rounded-lg p-3"><p class="font-semibold text-black">Magyar Nemzeti Bank</p><p>cím: 1013 Budapest, Krisztina krt. 55.</p><p>központi levélcím: H-1534 Budapest BKKP, postafiók: 777.</p><p>telefon: +36-1-428-26-00</p><p>weboldal: <a href="https://www.mnb.hu/web/felugyelet" target="_blank" class="text-accent-600 hover:underline">www.mnb.hu/web/felugyelet</a></p></div></div>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Összeférhetetlenségi politika</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 text-sm">
+              <p class="mb-2">A dokumentum megnyitásához kérjük, kattintson az alábbi linkre:</p>
+              <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2F%C3%96sszeferhetetlensegi_politika.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-accent-600 hover:underline">Összeférhetetlenségi szabályzat <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Végrehajtási politika</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+              <p>A dokumentum megnyitásához kérjük, kattintson az alábbi linkre:</p>
+              <ul class="space-y-2">
+                <li><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FVegrehajtasi_politika_2024_02_20_14-es%20verzi%C3%B3_.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-accent-600 hover:underline">Végrehajtási és Kiegészítő Végrehajtási Politika <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a></li>
+                <li><a href="#" class="inline-flex items-center gap-1.5 text-accent-600 hover:underline">Legjelentősebb végrehajtási helyszínek <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a></li>
+              </ul>
+            </div></div>
+          </div>
+
+        </div>
       </div>
 
-      <div>
-        <div class="flex items-center gap-3 mb-5 border-l-2 border-accent-500 pl-4">
-          <div class="w-8 h-8 rounded-full bg-accent-50 flex items-center justify-center flex-shrink-0"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-          <div>
-            <p class="text-base font-semibold" data-i18n="docs.reg_label">Regulatory Publications</p>
-            <p class="text-xs text-neutral-400" data-i18n="docs.reg_desc">Policies, rules, and compliance documents</p>
-          </div>
+      <!-- BOX 2: Investor Protection -->
+      <div class="border border-neutral-100 rounded-xl p-8 md:p-10 flex flex-col">
+        <div class="flex items-start justify-between mb-5">
+          <h2 class="text-2xl font-bold text-black">Befektetővédelem</h2>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.2" class="shrink-0 ml-4 mt-1"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
         </div>
-        <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Üzletszabályzat</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FUzletszabalyzat_2025_03_28_13_as_verzi%C3%B3.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Díjszabályzat</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Végrehajtási politika</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FVegrehajtasi_politika_2024_02_20_14-es%20verzi%C3%B3_.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Összeférhetetlenségi politika</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2F%C3%96sszeferhetetlensegi_politika.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Javadalmazási Politika</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FJavadalmazasi_Politika_Szabalyzata.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Panaszkezelési Szabályzat</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FPanaszkezelesi_Szab%C3%A1lyzat_2025_03_27_11-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Panaszkezelési Eljárásrend</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FPanaszkezelesi_Elj%C3%A1r%C3%A1srend_2025_03_27_11-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Adatkezelési tájékoztató</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FAdatkezelesi_tajekoztato_2024_02_16_4-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">Belső visszaélés bejelentési szabályzat</span></div><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FBelso_visszaeles_bejelentesi_szabalyzat_20230724_1-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-        </ul>
+        <p class="text-sm text-neutral-500 mb-6">Pénzügyi eszközök megóvása, Befektetővédelmi Alap, harmadik fél igénybevétele, biztosítéki és zálogjog.</p>
+        <div class="flex-1 text-[15px] leading-relaxed text-neutral-600">
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Befektetővédelmi intézkedések</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+              <p>A Marketprog Asset Management Zrt. az ügyfél pénzügyi eszközeinek megóvása érdekében az alábbi intézkedéseket teszi meg:</p>
+              <p><strong>a)</strong> az ügyfél tulajdonában lévő vagy őt megillető pénzügyi eszközt és pénzeszközt az ügyfél rendelkezése szerinti célra használja fel;</p>
+              <p><strong>b)</strong> a kezelésében lévő, az ügyfél tulajdonában lévő vagy őt megillető pénzügyi eszközzel és pénzeszközzel sajátjaként nem rendelkezhet, és biztosítja, hogy az ügyfél ugyanezen pénzügyi eszközről és pénzeszközről bármikor rendelkezni tudjon, az Üzletszabályzat, valamint az egyes szerződések keretében vállalt korlátozásokat figyelembevételével;</p>
+              <p><strong>c)</strong> nyilvántartásait úgy vezeti, hogy azok pontosak legyenek és az ügyfelek pénzügyi eszközei és pénzeszközei állományáról mindenkor valós képet mutassanak;</p>
+              <p><strong>d)</strong> olyan belső szabályokat alakít ki, amelyek megakadályozzák a jogszerűtlen használatból, a csalásból, tőkebefektetési csalásból vagy tiltott piacbefolyásolásból, a nem megfelelő nyilvántartás-vezetésből vagy gondatlanságból eredő, az ügyfél pénzügyi eszközeinek és pénzeszközeinek vagy az ezekkel kapcsolatos jogainak sérelmét;</p>
+              <p><strong>e)</strong> a portfóliókezelési tevékenysége keretében megkötött megállapodás alapján átvett vagy az ügyfél megbízásának teljesítését követően a Marketprog Asset Management Zrt. kezelésébe kerülő, az ügyfél tulajdonában lévő vagy őt megillető pénzeszközt az átvételt követően haladéktalanul (i) központi banknál, (ii) hitelintézetnél, (iii) harmadik országban hitelintézeti tevékenység végzésére jogosító tevékenységi engedéllyel rendelkező hitelintézetnél helyezi el.</p>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Befektetővédelmi Alap</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+              <p>A Marketprog Asset Management Zrt. továbbá a Befektetővédelmi Alap (Alap) tagja.</p>
+              <p>Az Alap önálló jogi személy, amely a törvény rendelkezései, valamint saját szabályzatai alapján, tagjai díjbefizetései és egyéb bevételei felhasználásával korlátozott vagyoni biztosítást nyújt abban az esetben, ha valamely tagja a meghatározott ügyfélköveteléseket fedezet hiányában nem képes kiadni, vagyis a letétek kiszolgáltatására vonatkozó kötelezettségét nem tudja teljesíteni.</p>
+              <p>Az Alap által nyújtott biztosítás a bizományosi, kereskedelmi, portfóliókezelési, értékpapír letéti őrzési, illetve letétkezelési, ügyfélszámla vezetési és értékpapír-számlavezetési tevékenység körében megkötött szerződésekre terjed ki. Az Alap a kártalanításra jogosult befektető részére követelését — személyenként és Alap tagonként összevontan — legfeljebb százezer euró összeghatárig fizeti ki kártalanításként.</p>
+              <p>Az Alap által fizetett kártalanítás mértéke egymillió forint összeghatárig száz százalék, egymillió forint összeghatár felett egymillió forint és az egymillió forint feletti rész kilencven százaléka.</p>
+              <p>Részletesebb információk elérhetők a Marketprog Asset Management Zrt. <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FUzletszabalyzat_2025_03_28_13_as_verzi%C3%B3.pdf?alt=media" target="_blank" class="text-accent-600 hover:underline">Üzletszabályzatának</a> Befektetővédelmi intézkedések, illetve Befektetővédelmi alap pontjában, valamint az Alap honlapján (<a href="https://www.bva.hu" target="_blank" class="text-accent-600 hover:underline">www.bva.hu</a>).</p>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Harmadik fél igénybevétele, gyűjtőszámla</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 space-y-3 text-sm">
+              <div><h3 class="font-semibold text-black mb-1">Harmadik fél kezelésében álló eszközök</h3><p>A Marketprog Asset Management Zrt. a szolgáltatások nyújtása során jogosult a nála lévő ügyfél pénzeszközöket és értékpapírokat külső letétkezelőnél elhelyezni, „gyűjtőelven" elhelyezni. A gyűjtőelvű tárolás azt jelenti, hogy a letétkezelő partner nem tartja nyilván azt, hogy az adott pénzügyi eszköz a Marketprog Asset Management Zrt. melyik ügyfelének tulajdonát képezi. A Marketprog Asset Management Zrt. az ügyfél pénzügyi eszközeit a saját eszközeitől elkülönítetten kezeli feltéve, ha a letétkezelő partner erre lehetőséget biztosít.</p></div>
+              <div><h3 class="font-semibold text-black mb-1">Harmadik fél fizetésképtelensége</h3><p>A Marketprog Asset Management Zrt. a portfóliókezelési tevékenység ellátása során az ügyfél pénzügyi eszközének letéti őrzésére nem köt megállapodást, ez minden esetben az ügyfél feladata és felelőssége.</p></div>
+            </div></div>
+          </div>
+
+          <div class="acc" onclick="toggleAcc(this)">
+            <div class="acc-head flex items-center justify-between py-4">
+              <p class="text-sm font-semibold text-neutral-700">Biztosítéki jog, zálogjog</p>
+              <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="acc-panel"><div class="pb-5 text-sm">
+              <p>Az ügyfélnek a Marketprog Asset Management Zrt.-nél vezetett bármely számlájának egyenlege a Marketprog Asset Management Zrt. által felszámított díjak és költségek megfizetéséért óvadékul szolgál. A Marketprog Asset Management Zrt. jogosult a jelen szerződés alapján neki járó díjakkal és egyéb költségekkel elsősorban az ügyfél nála vezetett ügyfélszámláját megterhelni.</p>
+            </div></div>
+          </div>
+
+        </div>
       </div>
 
-      <div>
-        <div class="flex items-center gap-3 mb-5 border-l-2 border-accent-500 pl-4">
-          <div class="w-8 h-8 rounded-full bg-accent-50 flex items-center justify-center flex-shrink-0"><svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <!-- BOX 3: Services & Fees — full width -->
+      <div class="md:col-span-2 border border-neutral-100 rounded-xl p-8 md:p-10 flex flex-col">
+        <div class="flex items-start justify-between mb-5">
+          <h2 class="text-2xl font-bold text-black">Szolgáltatások és díjak</h2>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.2" class="shrink-0 ml-4 mt-1"><path d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
+        </div>
+        <p class="text-sm text-neutral-500 mb-6">Jelentések gyakorisága, díjszabályzat, pénzügyi eszközök tájékoztató, portfóliókezelési szolgáltatás.</p>
+        <div class="flex-1 text-[15px] leading-relaxed text-neutral-600 grid grid-cols-1 md:grid-cols-2 gap-x-10">
           <div>
-            <p class="text-base font-semibold">FATCA & CRS</p>
-            <p class="text-xs text-neutral-400" data-i18n="docs.fatca_desc">Tax compliance and reporting documents</p>
+
+            <div class="acc" onclick="toggleAcc(this)">
+              <div class="acc-head flex items-center justify-between py-4">
+                <p class="text-sm font-semibold text-neutral-700">Jelentések és beszámolók</p>
+                <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+                <p>A Marketprog Asset Management Zrt. számlavezetési tevékenysége esetén <em>havi rendszerességgel</em> számlakivonatot küld az ügyfelei részére, míg portfóliókezelési tevékenység esetén <em>negyedévente</em> jelentést készít. A negyedéves jelentés a kiállításának időpontjában az ügyfél tulajdonában lévő vagy őt megillető pénz- és pénzügyi eszköz egyenlegét mutatja.</p>
+                <p>A számlakivonat és a jelentés küldési módja megegyezik az ügyfél által megjelölt értesítési móddal.</p>
+              </div></div>
+            </div>
+
+            <div class="acc" onclick="toggleAcc(this)">
+              <div class="acc-head flex items-center justify-between py-4">
+                <p class="text-sm font-semibold text-neutral-700">Díjak és költségek</p>
+                <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+                <p>A felszámításra kerülő díjakat, költségeket, jutalékokat, kamatot — eltérő egyedi megállapodás hiányában — az Üzletszabályzat mellékletét képező mindenkor hatályos <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media" target="_blank" class="text-accent-600 hover:underline">Díjszabályzat</a> tartalmazza.</p>
+                <p>Eltérő előzetes megállapodás hiányában a Marketprog Asset Management Zrt. az egyes őt megillető díjakat, költségeket az adott számlán, illetőleg Tartós Befektetési Számlán terheli meg.</p>
+                <p>A késedelmi kamat mértéke a mindenkori jegybanki alapkamat kétszerese.</p>
+                <p>Aktuális Díjszabályzatunk: <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-accent-600 hover:underline">Díjszabályzat <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a></p>
+              </div></div>
+            </div>
+
+          </div>
+          <div>
+
+            <div class="acc" onclick="toggleAcc(this)">
+              <div class="acc-head flex items-center justify-between py-4">
+                <p class="text-sm font-semibold text-neutral-700">Pénzügyi eszközök tájékoztató</p>
+                <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <div class="acc-panel"><div class="pb-5 text-sm">
+                <p class="mb-2">A dokumentum megnyitásához kérjük, kattintson az alábbi linkre:</p>
+                <a href="#" class="inline-flex items-center gap-1.5 text-accent-600 hover:underline">Tájékoztató a pénzügyi eszközökről és kockázatokról <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a>
+              </div></div>
+            </div>
+
+            <div class="acc" onclick="toggleAcc(this)">
+              <div class="acc-head flex items-center justify-between py-4">
+                <p class="text-sm font-semibold text-neutral-700">Portfóliókezelési tájékoztató</p>
+                <svg class="acc-chev w-4 h-4 text-neutral-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <div class="acc-panel"><div class="pb-5 space-y-2 text-sm">
+                <p>A Marketprog Asset Management Zrt. portfóliókezelési szolgáltatásával összefüggő tájékoztatási kötelezettségeknek az alábbi dokumentumokban tesz eleget.</p>
+                <a href="#" class="inline-flex items-center gap-1.5 text-accent-600 hover:underline">Portfóliókezelési Megbízási Szerződés (Üzletszabályzat 2/1. melléklet) <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a>
+              </div></div>
+            </div>
+
           </div>
         </div>
-        <ul class="divide-y divide-neutral-100 border-t border-b border-neutral-100">
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">CRS Tájékoztatás</span></div><a href="docs/CRS-tajekoztatas.pdf" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">FATCA/CRS Fogalomtár I.</span></div><a href="docs/FATCA-CRS-fogalomtar-1.pdf" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-          <li class="flex items-center justify-between py-4"><div class="flex items-center gap-3"><svg width="16" height="16" fill="none" stroke="#a3a3a3" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="text-sm">FATCA/CRS Fogalomtár II.</span></div><a href="docs/FATCA-CRS-fogalomtar-2.pdf" target="_blank" class="text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact form -->
+  <section class="bg-neutral-900 text-white">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-500 mb-2">Get in touch</p>
+      <h2 class="text-2xl font-bold mb-1">To schedule a meeting</h2>
+      <p class="text-sm text-neutral-400 mb-8">to learn more about one of our offerings, please fill in your contact details</p>
+      <form onsubmit="sendDocContact(event)" class="flex flex-col gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input type="text" id="doc-contact-name" required placeholder="Name" class="bg-white/10 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-500 transition-colors" />
+          <input type="email" id="doc-contact-email" required placeholder="E-mail address" class="bg-white/10 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-500 transition-colors" />
+        </div>
+        <textarea id="doc-contact-message" rows="4" placeholder="Message" class="bg-white/10 border border-white/10 rounded-lg px-4 py-3.5 text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-500 transition-colors resize-none"></textarea>
+        <button type="submit" class="self-start px-6 py-3 rounded-lg bg-accent-500 text-white text-sm font-medium hover:bg-accent-600 transition-colors">Send message</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCS: ASSET MANAGER ===================== -->
+<div id="page-docs-am" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <button onclick="nav('documents')" class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-black transition-colors mb-6"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> <span data-i18n="nav.documents">Documents</span></button>
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="docs.am_label">Documents on the Asset Manager</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="docs.am_label">Documents on the Asset Manager</h1>
+    </div>
+  </section>
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <div id="dynamic-docs-am">
+        <!-- Firestore will populate this. Static fallback below. -->
+      </div>
+      <noscript>
+      <ul class="divide-y divide-neutral-100">
+        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Üzletszabályzat</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FUzletszabalyzat_2025_03_28_13_as_verzi%C3%B3.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
+        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Díjszabályzat</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
+        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Adatkezelési tájékoztató</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FAdatkezelesi_tajekoztato_2024_02_16_4-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
+        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Belső visszaélés bejelentési szabályzat</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FBelso_visszaeles_bejelentesi_szabalyzat_20230724_1-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
+      </ul>
+      </noscript>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCS: REGULATORY ===================== -->
+<div id="page-docs-regulatory" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <button onclick="nav('documents')" class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-black transition-colors mb-6"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> <span data-i18n="nav.documents">Documents</span></button>
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="docs.reg_label">Regulatory Publications</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="docs.reg_label">Regulatory Publications</h1>
+    </div>
+  </section>
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <div id="dynamic-docs-regulatory">
+        <!-- Firestore will populate this -->
       </div>
     </div>
   </section>
@@ -1049,7 +1373,7 @@ const T={
     'funds.all_families':'Összes alapcsalád (17)','funds.disclaimer':'A múltbeli teljesítmény nem garancia a jövőbeli eredményekre. YTD hozamok 2026. május 20-i állapot szerint (forrás: BAMOSZ, NAV dátum: 2026. május 19.).',
     'funds.wl_fund1':'Primus All Weather Alap','funds.wl_fund2':'Primus All Weather Plus Alap','funds.wl_fund3':'Activity Alap','funds.wl_title1':'White Label','funds.wl_title2':'Alapok','funds.wl_desc':'A white label alapokat partner alappromotereink kezelik, és mi adminisztráljuk. Az alapok stratégiái széles spektrumot fednek le promotereink mandátumai alapján.','funds.wl_cta_text':'Érdekli saját befektetési alap indítása?','funds.wl_cta':'Kapcsolatfelvétel',
     'portfolios.label':'Személyre szabott portfóliók','portfolios.title':'Önre szabva.',
-    'portfolios.desc':'Szisztematikus és szabályalapú befektetési folyamatunk révén globálisan diverzifikált portfólióba fektetünk — részvényekbe, állam- és vállalati kötvényekbe, valamint nyersanyagokba — kizárólag alacsony költségű ETF-eken keresztül. Kvantitatív kutatás segítségével dinamikusan optimalizáljuk az egyes portfóliókat a túlzott volatilitás elleni védelem és a különböző piaci körülmények közötti hozamszerzés érdekében.',
+    'portfolios.desc':'Szisztematikus és szabályalapú befektetési folyamatunk révén globálisan diverzifikált portfólióba fektetünk részvényekbe, állam-/vállalati kötvényekbe valamint nyersanyagokba ETF-eken keresztül. Kvantitatív kutatás segítségével dinamikusan optimalizáljuk az egyes portfóliókat a túlzott volatilitás elleni védelem és a különböző piaci körülmények közötti hozamszerzés érdekében.',
     'portfolios.desc2':'A potenciális veszteség számszerűsítéséhez Value-at-Risk (VaR) módszertant alkalmazunk, és jelenleg három portfólió-kategóriát kínálunk 5%-os, 10%-os és 15%-os VaR-szinttel — így Ön választhatja ki a befektetési céljaihoz legjobban illő kockázat-hozam profilt.',
     'portfolios.tab_conservative':'Konzervatív','portfolios.tab_balanced':'Kiegyensúlyozott','portfolios.tab_growth':'Növekedési',
     'portfolios.stat_var':'Kockáztatott érték','portfolios.stat_etfs':'Eszközök a portfólióban','portfolios.stat_rebal':'Újrasúlyozás','portfolios.dynamic':'Dinamikus',
@@ -1128,7 +1452,7 @@ const T={
     'funds.all_families':'All Fund Families (17)','funds.disclaimer':'Past performance is not indicative of future results. YTD returns as of 20 May 2026 (source: BAMOSZ, NAV date 19 May 2026).',
     'funds.wl_fund1':'Primus All Weather Fund','funds.wl_fund2':'Primus All Weather Plus Fund','funds.wl_fund3':'Activity Fund','funds.wl_title1':'White Label','funds.wl_title2':'Funds','funds.wl_desc':'White label funds are managed by our partner fund promoters and administered by us. The strategies of the funds cover a wide spectrum based on the mandates of our promoters.','funds.wl_cta_text':'Interested in launching your own investment fund?','funds.wl_cta':'Get in touch',
     'portfolios.label':'Personalized Portfolios','portfolios.title':'Built around you.',
-    'portfolios.desc':'Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government and corporate bonds, and commodities — exclusively via low-cost ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.',
+    'portfolios.desc':'Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government/corporate bonds and commodities via ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.',
     'portfolios.desc2':'We employ Value-at-Risk (VaR) to quantify potential loss and currently offer three portfolio categories with 5%, 10%, and 15% VaR levels — allowing you to choose the risk-return profile that best matches your investment objectives.',
     'portfolios.tab_conservative':'Conservative','portfolios.tab_balanced':'Balanced','portfolios.tab_growth':'Growth',
     'portfolios.stat_var':'Value at Risk','portfolios.stat_etfs':'Assets in portfolio','portfolios.stat_rebal':'Rebalancing','portfolios.dynamic':'Dynamic',
@@ -1221,8 +1545,12 @@ function setLang(lang){
 function nav(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   const t=document.getElementById('page-'+p);if(t)t.classList.add('active');
-  document.querySelectorAll('#nav-links a').forEach(a=>{a.classList.remove('active');a.classList.add('text-neutral-400');if(a.dataset.page===p){a.classList.add('active');a.classList.remove('text-neutral-400')}});
+  const navKey=p.startsWith('docs-')?'documents':p;
+  document.querySelectorAll('#nav-links a').forEach(a=>{a.classList.remove('active');a.classList.add('text-neutral-400');if(a.dataset.page===navKey){a.classList.add('active');a.classList.remove('text-neutral-400')}});
   window.scrollTo(0,0);initCharts(p);
+  // Dynamic document loading from Firestore
+  if(p==='docs-am')loadDocList('asset-manager','dynamic-docs-am');
+  if(p==='docs-regulatory')loadDocList('regulatory','dynamic-docs-regulatory');
   // Re-observe reveal elements on the newly active page
   setTimeout(()=>{
     const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
@@ -1569,6 +1897,20 @@ function toggleFundMore(i){
   chevron.style.transform=isOpen?'':'rotate(180deg)';
 }
 
+// Accordion toggle with dynamic height
+function toggleAcc(el){
+  const panel=el.querySelector('.acc-panel');
+  if(el.classList.contains('open')){
+    panel.style.maxHeight=panel.scrollHeight+'px';
+    requestAnimationFrame(()=>{panel.style.maxHeight='0';});
+    el.classList.remove('open');
+  } else {
+    panel.style.maxHeight=panel.scrollHeight+'px';
+    el.classList.add('open');
+    panel.addEventListener('transitionend',()=>{if(el.classList.contains('open'))panel.style.maxHeight='none';},{once:true});
+  }
+}
+
 // PORTFOLIOS
 const PORTFOLIOS=[
   {name:'Conservative',var:'5%',etfs:'6–8',desc:'A low-risk portfolio focused on capital preservation with broad bond exposure and limited equity allocation.',alloc:{Bonds:60,Equities:20,Commodities:10,Cash:10}},
@@ -1625,6 +1967,15 @@ function sendMeeting(e){
     svg.style.opacity='0';
     txt.style.opacity='0';
   },2500);
+}
+function sendDocContact(e){
+  e.preventDefault();
+  const name=document.getElementById('doc-contact-name').value;
+  const email=document.getElementById('doc-contact-email').value;
+  const msg=document.getElementById('doc-contact-message').value;
+  const subject=encodeURIComponent('Customer inquiry — '+name);
+  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+msg);
+  window.location.href='mailto:info@mpi.fund?subject='+subject+'&body='+body;
 }
 document.getElementById('meeting-overlay')?.addEventListener('click',function(e){if(e.target===this)closeMeeting();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('meeting-overlay').classList.contains('hidden'))closeMeeting();});
