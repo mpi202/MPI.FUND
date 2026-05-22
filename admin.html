@@ -47,12 +47,14 @@
 
   <div class="flex">
     <!-- Sidebar -->
-    <nav class="w-56 border-r border-white/10 min-h-[calc(100vh-57px)] p-4 space-y-1">
-      <button onclick="selectCat('asset-manager')" class="cat-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-cat="asset-manager">Az Alapkezelő dokumentumai</button>
-      <button onclick="selectCat('regulatory')" class="cat-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-cat="regulatory">Szabályozói kiadványok</button>
-      <button onclick="selectCat('customer-info')" class="cat-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-cat="customer-info">Ügyfél-tájékoztatás</button>
-      <button onclick="selectCat('fatca')" class="cat-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-cat="fatca">FATCA</button>
-      <button onclick="selectCat('crs')" class="cat-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-cat="crs">CRS</button>
+    <nav class="w-56 border-r border-white/10 h-[calc(100vh-57px)] p-4 flex flex-col sticky top-[57px]">
+      <div id="cat-sidebar" class="space-y-1 flex-1 overflow-y-auto pr-1">
+        <p class="text-xs text-neutral-500 px-3 py-2">Loading...</p>
+      </div>
+      <button onclick="openManageCats()" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2 border-t border-white/5 pt-4">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a6.759 6.759 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Manage categories
+      </button>
     </nav>
 
     <!-- Main content -->
@@ -117,11 +119,35 @@
 <div id="delete-overlay" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center px-6" onclick="if(event.target===this)closeDelete()">
   <div class="bg-neutral-900 border border-white/10 rounded-xl w-full max-w-sm p-6 text-center">
     <svg class="w-10 h-10 text-red-400 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
-    <p class="font-semibold mb-1">Delete document?</p>
+    <p id="delete-title" class="font-semibold mb-1">Delete document?</p>
     <p id="delete-name" class="text-sm text-neutral-400 mb-5"></p>
     <div class="flex gap-3">
       <button onclick="confirmDelete()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm">Delete</button>
       <button onclick="closeDelete()" class="flex-1 py-2.5 rounded-lg border border-white/10 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGE CATEGORIES MODAL -->
+<div id="cats-overlay" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center px-6" onclick="if(event.target===this)closeManageCats()">
+  <div class="bg-neutral-900 border border-white/10 rounded-xl w-full max-w-lg p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-bold">Manage categories</h3>
+      <button onclick="closeManageCats()" class="text-neutral-500 hover:text-white transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <p class="text-xs text-neutral-500 mb-4">Categories appear in the sidebar here AND as sections on the public Documents page.</p>
+    <div id="cats-list" class="space-y-2 mb-5 max-h-80 overflow-y-auto"></div>
+    <form onsubmit="addCat(event)" class="flex gap-2 pt-4 border-t border-white/10 mb-4">
+      <input id="new-cat-name" type="text" required placeholder="New category name (e.g. Quarterly Reports)" class="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>
+      <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors">Add</button>
+    </form>
+    <div class="pt-4 border-t border-white/10">
+      <p class="text-xs text-neutral-400 mb-2">One-click import from the old marketprog.hu collections (AccountNumbers, AssetManager, FATCA, etc.). Duplicates are skipped automatically.</p>
+      <button id="import-btn" onclick="importLegacyData()" class="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-sm text-white px-4 py-2.5 rounded-lg transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Import from old site
+      </button>
+      <div id="import-status" class="text-xs mt-2"></div>
     </div>
   </div>
 </div>
@@ -132,11 +158,13 @@
 // Firebase Console → Project Settings → General → Web API Key
 // ============================================================
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "marketprog-bf7d3.firebaseapp.com",
-  projectId: "marketprog-bf7d3",
-  storageBucket: "marketprog-bf7d3.appspot.com",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAWbHaY9iTSzopTKbnwVz03hWWCtzHHzek",
+  authDomain: "mpifund-v2.firebaseapp.com",
+  projectId: "mpifund-v2",
+  storageBucket: "mpifund-v2.firebasestorage.app",
+  messagingSenderId: "956363748860",
+  appId: "1:956363748860:web:e235858ce8a7a53ce5ee79",
+  measurementId: "G-FRK1RBRE7B"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -144,16 +172,50 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-const CATEGORIES = {
-  'asset-manager': 'Az Alapkezelő dokumentumai',
-  'regulatory': 'Szabályozói kiadványok',
-  'customer-info': 'Ügyfél-tájékoztatás',
-  'fatca': 'FATCA',
-  'crs': 'CRS'
+// Default seed categories — synced from Firestore on every load (missing ones auto-added)
+const SEED_CATEGORIES = [
+  // Original 5 — map to dedicated pages on the website
+  { slug: 'asset-manager',  name: 'Az Alapkezelő dokumentumai', order: 0 },
+  { slug: 'regulatory',     name: 'Szabályozói kiadványok',     order: 1 },
+  { slug: 'customer-info',  name: 'Ügyfél-tájékoztatás',         order: 2 },
+  { slug: 'fatca',          name: 'FATCA',                        order: 3 },
+  { slug: 'crs',            name: 'CRS',                          order: 4 },
+  // Granular policy categories — appear as cards on the Documents landing page
+  { slug: 'account-numbers',                name: 'Számlaszámok',                  order: 10, legacy: 'AccountNumbers' },
+  { slug: 'authorization-form',             name: 'Meghatalmazási nyomtatványok',  order: 11, legacy: 'AuthorizationForm' },
+  { slug: 'business-rules',                 name: 'Üzletszabályzat',               order: 12, legacy: 'BusinessRules' },
+  { slug: 'complaint-handling-policy',      name: 'Panaszkezelési szabályzat',     order: 13, legacy: 'ComplaintHandlingPolicy' },
+  { slug: 'complaint-handling-procedure',   name: 'Panaszkezelési eljárásrend',    order: 14, legacy: 'ComplaintHandlingProcedure' },
+  { slug: 'conflict-of-interest-policy',    name: 'Összeférhetetlenségi politika', order: 15, legacy: 'ConflictOfInterestPolicy' },
+  { slug: 'customer-service-offices',       name: 'Ügyfélszolgálati irodák',       order: 16, legacy: 'CustomerServiceOffices' },
+  { slug: 'distribution-partners',          name: 'Forgalmazási partnerek',        order: 17, legacy: 'DistributionPartners' },
+  { slug: 'enforcement-supplementary',      name: 'Végrehajtási politika (kieg.)', order: 18, legacy: 'EnforcementAndSupplementaryEnforcementPolicy' },
+  { slug: 'fee-policy',                     name: 'Díjszabályzat',                 order: 19, legacy: 'FeePolicy' },
+];
+
+// Map our category slugs to legacy collection names for import
+const LEGACY_COLLECTION_MAP = {
+  'asset-manager':                    'AssetManager',
+  'fatca':                            'FATCA',
+  'crs':                              'CRSInformation',
+  'account-numbers':                  'AccountNumbers',
+  'authorization-form':               'AuthorizationForm',
+  'business-rules':                   'BusinessRules',
+  'complaint-handling-policy':        'ComplaintHandlingPolicy',
+  'complaint-handling-procedure':     'ComplaintHandlingProcedure',
+  'conflict-of-interest-policy':      'ConflictOfInterestPolicy',
+  'customer-service-offices':         'CustomerServiceOffices',
+  'distribution-partners':            'DistributionPartners',
+  'enforcement-supplementary':        'EnforcementAndSupplementaryEnforcementPolicy',
+  'fee-policy':                       'FeePolicy'
 };
 
+const STORAGE_BUCKET = 'marketprog-test.appspot.com';
+
+let CATEGORIES = {}; // populated from Firestore: {slug: {name, order, id}}
 let currentCat = null;
 let deleteDocId = null;
+let deleteMode = 'document'; // 'document' or 'category'
 
 // AUTH
 auth.onAuthStateChanged(user => {
@@ -161,11 +223,183 @@ auth.onAuthStateChanged(user => {
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('admin-dashboard').classList.remove('hidden');
     document.getElementById('admin-email').textContent = user.email;
+    loadCategories();
   } else {
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('admin-dashboard').classList.add('hidden');
   }
 });
+
+// CATEGORIES — load from Firestore, seed missing defaults additively
+function loadCategories() {
+  db.collection('categories').get().then(snap => {
+    const existing = {};
+    snap.forEach(doc => { existing[doc.id] = doc.data(); });
+    // Add any seed categories that aren't in Firestore yet
+    const missing = SEED_CATEGORIES.filter(c => !existing[c.slug]);
+    if (missing.length > 0) {
+      const batch = db.batch();
+      missing.forEach(c => {
+        const ref = db.collection('categories').doc(c.slug);
+        batch.set(ref, { name: c.name, slug: c.slug, order: c.order });
+      });
+      batch.commit().then(() => loadCategories());
+      return;
+    }
+    CATEGORIES = {};
+    snap.forEach(doc => {
+      const d = doc.data();
+      CATEGORIES[d.slug] = { id: doc.id, name: d.name, order: d.order || 0 };
+    });
+    renderSidebar();
+    renderCatsList();
+  });
+}
+
+// IMPORT from legacy Firestore collections (one-click migration)
+function importLegacyData() {
+  const btn = document.getElementById('import-btn');
+  const status = document.getElementById('import-status');
+  if (!btn) return;
+  if (!confirm('Import documents from the old marketprog.hu Firestore collections?\n\nThis will read AccountNumbers, AssetManager, FATCA, CRSInformation, etc. and add them to the matching categories. Existing documents will not be duplicated.')) return;
+  btn.disabled = true; btn.textContent = 'Importing...';
+  status.textContent = '';
+  let totalImported = 0;
+  let totalSkipped = 0;
+  const slugs = Object.keys(LEGACY_COLLECTION_MAP);
+  const promises = slugs.map(slug => {
+    const legacyName = LEGACY_COLLECTION_MAP[slug];
+    return db.collection(legacyName).get()
+      .then(legacySnap => {
+        if (legacySnap.empty) return { slug: slug, imported: 0, skipped: 0 };
+        // Check existing docs in our `documents` collection for this category to avoid duplicates
+        return db.collection('documents').where('category','==',slug).get()
+          .then(existingSnap => {
+            const existingUrls = new Set();
+            existingSnap.forEach(d => existingUrls.add(d.data().url));
+            const batch = db.batch();
+            let imported = 0, skipped = 0;
+            legacySnap.forEach(legacyDoc => {
+              const d = legacyDoc.data();
+              if (!d.filePath || !d.name) { skipped++; return; }
+              const url = 'https://firebasestorage.googleapis.com/v0/b/' + STORAGE_BUCKET + '/o/' + encodeURIComponent(d.filePath) + '?alt=media';
+              if (existingUrls.has(url)) { skipped++; return; }
+              const newRef = db.collection('documents').doc();
+              batch.set(newRef, {
+                name: d.name.replace(/\.pdf$/i, ''),
+                url: url,
+                category: slug,
+                order: Date.now() + imported,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                importedFrom: legacyName
+              });
+              imported++;
+            });
+            if (imported > 0) {
+              return batch.commit().then(() => ({ slug: slug, imported: imported, skipped: skipped }));
+            }
+            return { slug: slug, imported: 0, skipped: skipped };
+          });
+      })
+      .catch(err => ({ slug: slug, error: err.message }));
+  });
+  Promise.all(promises).then(results => {
+    const summary = results.map(r => {
+      if (r.error) return r.slug + ': error (' + r.error + ')';
+      if (r.imported === 0 && r.skipped === 0) return null;
+      return r.slug + ': ' + r.imported + ' imported, ' + r.skipped + ' skipped';
+    }).filter(Boolean);
+    results.forEach(r => { totalImported += (r.imported || 0); totalSkipped += (r.skipped || 0); });
+    btn.disabled = false; btn.textContent = 'Import from old site';
+    status.innerHTML = '<p class="text-emerald-400 font-medium mb-1">Done. ' + totalImported + ' imported, ' + totalSkipped + ' skipped.</p>' +
+      '<p class="text-neutral-500 text-[10px]">' + summary.join(' · ') + '</p>';
+    if (currentCat) loadDocs();
+  });
+}
+
+function renderSidebar() {
+  const sb = document.getElementById('cat-sidebar');
+  const cats = Object.values(CATEGORIES).sort((a,b) => a.order - b.order);
+  sb.innerHTML = cats.map(c => {
+    const slug = Object.keys(CATEGORIES).find(k => CATEGORIES[k].id === c.id);
+    return `<button onclick="selectCat('${slug}')" class="cat-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-cat="${slug}">${c.name}</button>`;
+  }).join('');
+  // Restore highlight if a category was selected
+  if (currentCat) {
+    const btn = sb.querySelector('[data-cat="' + currentCat + '"]');
+    if (btn) { btn.classList.add('bg-white/10', 'text-white'); btn.classList.remove('text-neutral-400'); }
+  }
+}
+
+function openManageCats() {
+  renderCatsList();
+  document.getElementById('cats-overlay').classList.remove('hidden');
+}
+
+function closeManageCats() {
+  document.getElementById('cats-overlay').classList.add('hidden');
+}
+
+function renderCatsList() {
+  const list = document.getElementById('cats-list');
+  if (!list) return;
+  const cats = Object.values(CATEGORIES).sort((a,b) => a.order - b.order);
+  if (cats.length === 0) { list.innerHTML = '<p class="text-sm text-neutral-500">No categories yet.</p>'; return; }
+  list.innerHTML = cats.map(c => {
+    const slug = Object.keys(CATEGORIES).find(k => CATEGORIES[k].id === c.id);
+    return `
+      <div class="flex items-center gap-2 bg-white/5 border border-white/5 rounded-lg px-3 py-2">
+        <input type="text" value="${c.name.replace(/"/g,'&quot;')}" onblur="renameCat('${c.id}', this.value)" class="flex-1 bg-transparent text-sm focus:outline-none focus:bg-white/5 px-2 py-1 rounded"/>
+        <span class="text-xs text-neutral-500">${slug}</span>
+        <button onclick="deleteCat('${c.id}','${slug}','${c.name.replace(/'/g,"\\'")}')" class="p-1.5 rounded hover:bg-red-500/20 text-neutral-400 hover:text-red-400 transition-colors" title="Delete category">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function addCat(e) {
+  e.preventDefault();
+  const name = document.getElementById('new-cat-name').value.trim();
+  if (!name) return;
+  // Generate slug from name
+  let slug = name.toLowerCase()
+    .replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i')
+    .replace(/[óòöőô]/g,'o').replace(/[úùüűû]/g,'u')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+  if (!slug) slug = 'cat-' + Date.now();
+  // Check uniqueness
+  if (CATEGORIES[slug]) { alert('A category with similar name already exists.'); return; }
+  const order = Math.max(0, ...Object.values(CATEGORIES).map(c => c.order)) + 1;
+  db.collection('categories').doc(slug).set({ name: name, slug: slug, order: order }).then(() => {
+    document.getElementById('new-cat-name').value = '';
+    loadCategories();
+  });
+}
+
+function renameCat(id, newName) {
+  newName = newName.trim();
+  if (!newName) { loadCategories(); return; }
+  db.collection('categories').doc(id).update({ name: newName }).then(() => loadCategories());
+}
+
+function deleteCat(id, slug, name) {
+  if (!confirm('Delete category "' + name + '"?\n\nAll documents in this category will also be deleted.')) return;
+  // Delete all docs in this category first
+  db.collection('documents').where('category', '==', slug).get().then(snap => {
+    const batch = db.batch();
+    snap.forEach(d => batch.delete(d.ref));
+    batch.delete(db.collection('categories').doc(id));
+    return batch.commit();
+  }).then(() => {
+    if (currentCat === slug) currentCat = null;
+    loadCategories();
+    document.getElementById('cat-title').textContent = 'Select a category';
+    document.getElementById('add-btn').classList.add('hidden');
+    document.getElementById('doc-list').innerHTML = '<p class="text-neutral-500 text-sm">Select a category from the sidebar.</p>';
+  });
+}
 
 function doLogin(e) {
   e.preventDefault();
@@ -191,7 +425,8 @@ function selectCat(cat) {
     b.classList.toggle('text-white', b.dataset.cat === cat);
     b.classList.toggle('text-neutral-400', b.dataset.cat !== cat);
   });
-  document.getElementById('cat-title').textContent = CATEGORIES[cat];
+  const catData = CATEGORIES[cat];
+  document.getElementById('cat-title').textContent = catData ? catData.name : 'Select a category';
   document.getElementById('add-btn').classList.remove('hidden');
   document.getElementById('add-btn').classList.add('inline-flex');
   loadDocs();
@@ -206,7 +441,6 @@ function loadDocs() {
 
   db.collection('documents')
     .where('category', '==', currentCat)
-    .orderBy('order', 'asc')
     .get()
     .then(snap => {
       if (snap.empty) {
@@ -216,7 +450,12 @@ function loadDocs() {
       }
       empty.classList.add('hidden');
       list.innerHTML = '';
-      snap.forEach((doc, idx) => {
+      // Sort client-side by order
+      const docs = [];
+      snap.forEach(d => docs.push({id: d.id, data: d.data()}));
+      docs.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+      docs.forEach((item, idx) => {
+        const doc = {id: item.id, data: () => item.data};
         const d = doc.data();
         const el = document.createElement('div');
         el.className = 'flex items-center justify-between bg-white/5 border border-white/5 rounded-lg px-4 py-3.5 group hover:border-white/10 transition-colors';

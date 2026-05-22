@@ -109,23 +109,77 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
 firebase.initializeApp({
-  apiKey:"YOUR_API_KEY",
-  authDomain:"marketprog-bf7d3.firebaseapp.com",
-  projectId:"marketprog-bf7d3",
-  storageBucket:"marketprog-bf7d3.appspot.com"
+  apiKey:"AIzaSyAWbHaY9iTSzopTKbnwVz03hWWCtzHHzek",
+  authDomain:"mpifund-v2.firebaseapp.com",
+  projectId:"mpifund-v2",
+  storageBucket:"mpifund-v2.firebasestorage.app",
+  messagingSenderId:"956363748860",
+  appId:"1:956363748860:web:e235858ce8a7a53ce5ee79",
+  measurementId:"G-FRK1RBRE7B"
 });
 const FS=firebase.firestore();
+// Default categories — these have dedicated styled pages. Custom ones get the generic page.
+const DEFAULT_CAT_SLUGS=['asset-manager','regulatory','customer-info','fatca','crs'];
+let DYNAMIC_CATS={};
+
 function loadDocList(cat,containerId){
   const c=document.getElementById(containerId);if(!c)return;
   c.innerHTML='<p class="text-sm text-neutral-400 py-4">Loading...</p>';
-  FS.collection('documents').where('category','==',cat).orderBy('order','asc').get().then(snap=>{
+  FS.collection('documents').where('category','==',cat).get().then(snap=>{
     if(snap.empty){c.innerHTML='<p class="text-sm text-neutral-400 py-4">No documents available.</p>';return;}
+    const docs=[];snap.forEach(d=>docs.push(d.data()));
+    docs.sort((a,b)=>(a.order||0)-(b.order||0));
     let html='<ul class="divide-y divide-neutral-100">';
-    snap.forEach(doc=>{const d=doc.data();
+    docs.forEach(d=>{
       html+='<li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">'+d.name+'</span><a href="'+d.url+'" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></a></li>';
     });
     html+='</ul>';c.innerHTML=html;
   }).catch(()=>{c.innerHTML='<p class="text-sm text-red-400 py-4">Could not load documents.</p>';});
+}
+
+// Load custom categories on documents landing page — only show ones that have docs
+function loadDynamicCategories(){
+  const grid=document.getElementById('dynamic-categories-grid');if(!grid)return;
+  Promise.all([
+    FS.collection('categories').get(),
+    FS.collection('documents').get()
+  ]).then(([catSnap,docSnap])=>{
+    DYNAMIC_CATS={};
+    const customCats=[];
+    catSnap.forEach(doc=>{
+      const d=doc.data();
+      DYNAMIC_CATS[d.slug]=d;
+      if(!DEFAULT_CAT_SLUGS.includes(d.slug))customCats.push(d);
+    });
+    // Count docs per category
+    const docCounts={};
+    docSnap.forEach(d=>{const c=d.data().category;if(c)docCounts[c]=(docCounts[c]||0)+1;});
+    // Filter out empty categories
+    const nonEmpty=customCats.filter(c=>docCounts[c.slug]>0);
+    nonEmpty.sort((a,b)=>(a.order||0)-(b.order||0));
+    grid.innerHTML=nonEmpty.map(c=>{
+      const count=docCounts[c.slug];
+      return '<a href="#docs-'+c.slug+'" onclick="nav(\'docs-'+c.slug+'\')" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">'+
+      '<div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>'+
+      '<p class="font-semibold text-sm group-hover:text-accent-600 transition-colors">'+c.name+'</p>'+
+      '<p class="text-xs text-neutral-400 mt-1">'+count+' '+(count===1?'document':'documents')+'</p>'+
+      '</a>';
+    }).join('');
+  });
+}
+
+// Open dynamic custom category page
+function showCustomCategory(slug){
+  const cat=DYNAMIC_CATS[slug];
+  if(!cat){
+    // Fetch the category info, then render
+    FS.collection('categories').doc(slug).get().then(doc=>{
+      if(doc.exists){DYNAMIC_CATS[slug]=doc.data();showCustomCategory(slug);}
+    });
+    return;
+  }
+  document.getElementById('custom-cat-title').textContent=cat.name;
+  loadDocList(slug,'dynamic-docs-custom');
 }
 </script>
 </head>
@@ -148,8 +202,8 @@ function loadDocList(cat,containerId){
             <a href="#docs-customer" onclick="nav('docs-customer')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.cust_label">Customer Information</a>
             <a href="#docs-am" onclick="nav('docs-am')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.am_label">Documents on the Asset Manager</a>
             <a href="#docs-regulatory" onclick="nav('docs-regulatory')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.reg_label">Regulatory Publications</a>
-            <a href="docs/FATCA-CRS-fogalomtar-1.pdf" target="_blank" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.fatca_label">FATCA Notification</a>
-            <a href="docs/CRS-tajekoztatas.pdf" target="_blank" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.crs_label">CRS Information</a>
+            <a href="#docs-fatca" onclick="nav('docs-fatca')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.fatca_label">FATCA Notification</a>
+            <a href="#docs-crs" onclick="nav('docs-crs')" class="block px-4 py-2.5 text-sm text-neutral-600 hover:text-black hover:bg-neutral-50 transition-colors" data-i18n="docs.crs_label">CRS Information</a>
           </div>
         </div>
       </li>
@@ -792,19 +846,36 @@ function loadDocList(cat,containerId){
           <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.reg_label">Regulatory Publications</p>
           <p class="text-xs text-neutral-400 mt-1" data-i18n="docs.reg_desc">Policies, rules, and compliance documents</p>
         </a>
-        <a href="docs/FATCA-CRS-fogalomtar-1.pdf" target="_blank" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
-          <div class="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+        <a href="#docs-fatca" onclick="nav('docs-fatca')" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
           <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.fatca_label">FATCA Notification</p>
           <p class="text-xs text-neutral-400 mt-1" data-i18n="docs.fatca_desc">Tax compliance and reporting documents</p>
-          <span class="inline-flex items-center gap-1 mt-2 text-[10px] font-medium text-accent-600 opacity-0 group-hover:opacity-100 transition-opacity">Open PDF <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></span>
         </a>
-        <a href="docs/CRS-tajekoztatas.pdf" target="_blank" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
-          <div class="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+        <a href="#docs-crs" onclick="nav('docs-crs')" class="group block p-6 rounded-xl border border-neutral-100 hover:border-neutral-300 hover:shadow-sm transition-all cursor-pointer">
+          <div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center mb-4"><svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
           <p class="font-semibold text-sm group-hover:text-accent-600 transition-colors" data-i18n="docs.crs_label">CRS Information</p>
           <p class="text-xs text-neutral-400 mt-1">Common Reporting Standard</p>
-          <span class="inline-flex items-center gap-1 mt-2 text-[10px] font-medium text-accent-600 opacity-0 group-hover:opacity-100 transition-opacity">Open PDF <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg></span>
         </a>
       </div>
+      <!-- Custom categories (added via admin) appear here -->
+      <div id="dynamic-categories-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCS: DYNAMIC CATEGORY (custom categories) ===================== -->
+<div id="page-docs-custom" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <button onclick="nav('documents')" class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-black transition-colors mb-6"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> <span data-i18n="nav.documents">Documents</span></button>
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600">Documents</p>
+      <h1 id="custom-cat-title" class="mt-3 text-3xl font-bold tracking-tight md:text-4xl">Category</h1>
+    </div>
+  </section>
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <div id="dynamic-docs-custom"></div>
     </div>
   </section>
 </div>
@@ -1042,6 +1113,14 @@ function loadDocList(cat,containerId){
     </div>
   </section>
 
+  <!-- Related documents (admin-managed) -->
+  <section class="border-t border-neutral-100 bg-neutral-50/60">
+    <div class="mx-auto max-w-3xl px-6 py-12">
+      <h2 class="text-sm font-bold text-black uppercase tracking-widest mb-5">Kapcsolódó dokumentumok</h2>
+      <div id="dynamic-docs-customer-info"></div>
+    </div>
+  </section>
+
   <!-- Contact form -->
   <section class="bg-neutral-900 text-white">
     <div class="mx-auto max-w-3xl px-6 py-16">
@@ -1073,16 +1152,8 @@ function loadDocList(cat,containerId){
   <section class="border-t border-neutral-100">
     <div class="mx-auto max-w-3xl px-6 py-16">
       <div id="dynamic-docs-am">
-        <!-- Firestore will populate this. Static fallback below. -->
+        <!-- Firestore populates this -->
       </div>
-      <noscript>
-      <ul class="divide-y divide-neutral-100">
-        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Üzletszabályzat</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FUzletszabalyzat_2025_03_28_13_as_verzi%C3%B3.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Díjszabályzat</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Adatkezelési tájékoztató</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FAdatkezelesi_tajekoztato_2024_02_16_4-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-        <li class="flex items-center justify-between py-4"><span class="text-sm text-neutral-700">Belső visszaélés bejelentési szabályzat</span><a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FBelso_visszaeles_bejelentesi_szabalyzat_20230724_1-es%20verzi%C3%B3.pdf?alt=media" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-medium text-accent-600 hover:text-accent-700">PDF</a></li>
-      </ul>
-      </noscript>
     </div>
   </section>
 </div>
@@ -1102,6 +1173,42 @@ function loadDocList(cat,containerId){
       <div id="dynamic-docs-regulatory">
         <!-- Firestore will populate this -->
       </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCS: FATCA ===================== -->
+<div id="page-docs-fatca" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <button onclick="nav('documents')" class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-black transition-colors mb-6"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> <span data-i18n="nav.documents">Documents</span></button>
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="docs.fatca_label">FATCA Notification</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="docs.fatca_label">FATCA Notification</h1>
+      <p class="mt-4 max-w-xl text-neutral-500" data-i18n="docs.fatca_desc">Tax compliance and reporting documents</p>
+    </div>
+  </section>
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <div id="dynamic-docs-fatca"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== DOCS: CRS ===================== -->
+<div id="page-docs-crs" class="page fade-in">
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-accent-50/40 via-white to-white"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24">
+      <button onclick="nav('documents')" class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-black transition-colors mb-6"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg> <span data-i18n="nav.documents">Documents</span></button>
+      <p class="text-xs font-medium uppercase tracking-widest text-accent-600" data-i18n="docs.crs_label">CRS Information</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-4xl" data-i18n="docs.crs_label">CRS Information</h1>
+      <p class="mt-4 max-w-xl text-neutral-500">Common Reporting Standard documents</p>
+    </div>
+  </section>
+  <section class="border-t border-neutral-100">
+    <div class="mx-auto max-w-3xl px-6 py-16">
+      <div id="dynamic-docs-crs"></div>
     </div>
   </section>
 </div>
@@ -1544,13 +1651,23 @@ function setLang(lang){
 
 function nav(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
-  const t=document.getElementById('page-'+p);if(t)t.classList.add('active');
+  let t=document.getElementById('page-'+p);
+  const dedicatedDocPages=['docs-customer','docs-am','docs-regulatory','docs-fatca','docs-crs'];
+  // Custom category routes (docs-<slug>) without dedicated pages → use generic dynamic page
+  if(!t && p.startsWith('docs-') && !dedicatedDocPages.includes(p)){
+    t=document.getElementById('page-docs-custom');
+    if(t){t.classList.add('active');showCustomCategory(p.slice(5));}
+  } else if(t){t.classList.add('active');}
   const navKey=p.startsWith('docs-')?'documents':p;
   document.querySelectorAll('#nav-links a').forEach(a=>{a.classList.remove('active');a.classList.add('text-neutral-400');if(a.dataset.page===navKey){a.classList.add('active');a.classList.remove('text-neutral-400')}});
   window.scrollTo(0,0);initCharts(p);
-  // Dynamic document loading from Firestore
-  if(p==='docs-am')loadDocList('asset-manager','dynamic-docs-am');
+  // Dynamic document loading from Firestore (each category → its page)
+  if(p==='docs-am')        loadDocList('asset-manager','dynamic-docs-am');
   if(p==='docs-regulatory')loadDocList('regulatory','dynamic-docs-regulatory');
+  if(p==='docs-customer')  loadDocList('customer-info','dynamic-docs-customer-info');
+  if(p==='docs-fatca')     loadDocList('fatca','dynamic-docs-fatca');
+  if(p==='docs-crs')       loadDocList('crs','dynamic-docs-crs');
+  if(p==='documents')      loadDynamicCategories();
   // Re-observe reveal elements on the newly active page
   setTimeout(()=>{
     const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
