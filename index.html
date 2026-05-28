@@ -1236,7 +1236,7 @@ function showCustomCategory(slug){
         <!-- Service Points -->
         <div>
           <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-5" data-i18n="dist.cat_service">Service Points</p>
-          <ul class="space-y-0 divide-y divide-neutral-100 border-t border-neutral-100">
+          <ul id="dist-service-points" class="space-y-0 divide-y divide-neutral-100 border-t border-neutral-100">
             <li>
               <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/CustomerServiceOffices%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=dd62fe4" target="_blank" rel="noopener" class="group flex items-center justify-between py-4 hover:bg-neutral-50 -mx-3 px-3 rounded-lg transition-colors">
                 <div class="flex items-center gap-3">
@@ -1270,7 +1270,7 @@ function showCustomCategory(slug){
         <!-- Fund Operations -->
         <div>
           <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-5" data-i18n="dist.cat_operations">Fund Operations</p>
-          <ul class="space-y-0 divide-y divide-neutral-100 border-t border-neutral-100">
+          <ul id="dist-fund-operations" class="space-y-0 divide-y divide-neutral-100 border-t border-neutral-100">
             <li>
               <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/SettlementDates%2FElsz%C3%A1mol%C3%A1si%20d%C3%A1tumok.pdf?alt=media&token=0f650bcf-293e-4d9a-8d6e-4471e02899ea" target="_blank" rel="noopener" class="group flex items-center justify-between py-4 hover:bg-neutral-50 -mx-3 px-3 rounded-lg transition-colors">
                 <div class="flex items-center gap-3">
@@ -1318,7 +1318,7 @@ function showCustomCategory(slug){
           <p class="text-xs text-neutral-400 mt-4" data-i18n="cc.closing">For further detailed information on complaint handling, please refer to our Complaint Handling Policy, which is available at our registered office and on our website (<a href="https://www.marketprog.hu" target="_blank" rel="noopener" class="text-accent-600 hover:text-accent-700">www.marketprog.hu</a>) under the Complaint Handling menu.</p>
 
           <!-- PDFs -->
-          <div class="mt-8 space-y-2">
+          <div id="dist-claims" class="mt-8 space-y-2">
             <p class="text-xs font-medium uppercase tracking-widest text-neutral-400 mb-3" data-i18n="cc.docs_label">Documents</p>
             <a href="https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/ComplaintHandlingPolicy%2FPanaszkezelesi_Szabalyzat_2025_03_27_11-es%20verzi%C3%B3.pdf?alt=media" target="_blank" rel="noopener" class="group flex items-center justify-between py-2.5 hover:bg-white -mx-3 px-3 rounded-lg transition-colors">
               <div class="flex items-center gap-3">
@@ -1691,14 +1691,22 @@ const CO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:tru
 
 // FUNDS
 const FB='https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/';
-function fbUrl(p){return FB+encodeURIComponent(p)+'?alt=media'}
-const FUNDS=[
+function fbUrl(p){if(!p)return '#';if(p.startsWith('http'))return p;return FB+encodeURIComponent(p)+'?alt=media'}
+let fundsLoaded=false;
+let FUNDS=[
   {name:'Marketprog Bond Derivativ',type:'Fixed Income',ccy:'HUF · EUR · USD',ytd:'HUF +10.5% · EUR +4.4% · USD +16.6%',featured:true,
    desc:'Government bond-focused fund enhanced with interest rate derivatives. Aims to generate above-market fixed income returns through active rate positioning.',
    kiid:'Funds/BondDerivative/KIID/KID_BOND HUF.pdf',
    info:'Funds/BondDerivative/Information/MARKETPROG_Esernyoalap_Tajekoztato_20230928.docx.pdf',
    rule:'Funds/BondDerivative/RuleBook/MP Esernyalap Kez.szab_2026_01_10_hatályos.pdf',
-   report:'Funds/BondDerivative/Docs/Bond A 202503.pdf'},
+   report:'Funds/BondDerivative/Docs/Bond A 202503.pdf',
+   monthlyReports:{
+     2026:[{name:'March 2026',path:'Funds/BondDerivative/Docs/Bond A 202603.pdf'},{name:'February 2026',path:'Funds/BondDerivative/Docs/Bond A 202602.pdf'},{name:'January 2026',path:'Funds/BondDerivative/Docs/Bond A 202601.pdf'}],
+     2025:[{name:'December 2025',path:'Funds/BondDerivative/Docs/Bond A 202512.pdf'},{name:'November 2025',path:'Funds/BondDerivative/Docs/Bond A 202511.pdf'},{name:'October 2025',path:'Funds/BondDerivative/Docs/Bond A 202510.pdf'},{name:'September 2025',path:'Funds/BondDerivative/Docs/Bond A 202509.pdf'},{name:'August 2025',path:'Funds/BondDerivative/Docs/Bond A 202508.pdf'},{name:'July 2025',path:'Funds/BondDerivative/Docs/Bond A 202507.pdf'},{name:'June 2025',path:'Funds/BondDerivative/Docs/Bond A 202506.pdf'},{name:'May 2025',path:'Funds/BondDerivative/Docs/Bond A 202505.pdf'},{name:'April 2025',path:'Funds/BondDerivative/Docs/Bond A 202504.pdf'},{name:'March 2025',path:'Funds/BondDerivative/Docs/Bond A 202503.pdf'},{name:'February 2025',path:'Funds/BondDerivative/Docs/Bond A 202502.pdf'},{name:'January 2025',path:'Funds/BondDerivative/Docs/Bond A 202501.pdf'}],
+     2024:[{name:'December 2024',path:'Funds/BondDerivative/Docs/Bond A 202412.pdf'},{name:'November 2024',path:'Funds/BondDerivative/Docs/Bond A 202411.pdf'},{name:'October 2024',path:'Funds/BondDerivative/Docs/Bond A 202410.pdf'}],
+     2023:[{name:'December 2023',path:'Funds/BondDerivative/Docs/Bond A 202312.pdf'}],
+     2022:[{name:'December 2022',path:'Funds/BondDerivative/Docs/Bond A 202212.pdf'}]
+   }},
   {name:'Allegro Absolute',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF +6.2% · EUR +4.41% · USD +4.98%',
    desc:'Multi-strategy absolute return fund targeting consistent positive returns regardless of market direction. Uses fixed-income and derivative instruments with active duration management.',
    kiid:'Funds/AllegroAbsolute/KIID/KID_Allegro B.pdf',
@@ -1797,9 +1805,9 @@ const FUNDS=[
    report:null}
 ];
 
-// Real NAV data keyed by fund index. Each fund has series → period → {labels, data}
+// Real NAV data keyed by fund name. Each fund has series → period → {labels, data}
 const FUND_NAV={
-  0:{ // Marketprog Bond Derivativ
+  'Marketprog Bond Derivativ':{
     series:['I Series','HUF Series'],
     details:{inception:'2015-06-03',isin_huf:'HU0000714555',isin_eur:'HU0000714548',isin_usd:'—',benchmark:'No benchmark',mgmtFee:'0.75%',perfFee:'20% above hurdle',minInvest:'€10,000 / HUF eq.',nav:'Daily',riskLevel:'5/7 (Medium-high)',strategy:'Government bond-focused fund enhanced with interest rate derivatives. Active positioning on Hungarian and European rate curves with systematic risk management. Custodian: Erste Bank Hungary Zrt.'},
     'I Series':{
@@ -1840,19 +1848,14 @@ function renderFunds(){
   const grid=document.getElementById('funds-grid');
   if(!grid)return;
   const typeColors={'Absolute Return':'text-accent-600 bg-accent-50','Fixed Income':'text-blue-600 bg-blue-50','Equity':'text-purple-600 bg-purple-50','Fund of Funds':'text-amber-600 bg-amber-50'};
-  const pdfIcon='<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  const pdfCardIcon='<svg viewBox="0 0 40 48" class="w-10 h-12"><rect x="0" y="0" width="40" height="48" rx="4" fill="#fafafa" stroke="#e5e5e5"/><path d="M12 4h10l10 10v30a4 4 0 01-4 4H12a4 4 0 01-4-4V8a4 4 0 014-4z" fill="#f5f5f5" stroke="#e5e5e5" stroke-width=".5"/><path d="M22 4v10h10" fill="#eee" stroke="#e5e5e5" stroke-width=".5"/><rect x="4" y="33" width="32" height="11" rx="2" fill="#ef4444"/><text x="20" y="41.5" text-anchor="middle" fill="white" font-size="7" font-weight="bold" font-family="Inter,sans-serif">PDF</text></svg>';
   grid.innerHTML=FUNDS.map((f,i)=>{
     const tc=typeColors[f.type]||'text-neutral-600 bg-neutral-100';
     const returns=f.ytd.split('·').map(r=>r.trim()).filter(r=>r&&r.includes('+'));
     const bestReturn=returns.length?returns[0]:'';
     const hasPositive=bestReturn.includes('+');
-    const hasNav=!!FUND_NAV[i];
-    const nav=FUND_NAV[i];
-    let pdfs='';
-    if(f.kiid)pdfs+=`<a href="${fbUrl(f.kiid)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} KID</a>`;
-    if(f.info)pdfs+=`<a href="${fbUrl(f.info)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} Info</a>`;
-    if(f.rule)pdfs+=`<a href="${fbUrl(f.rule)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} Rules</a>`;
-    if(f.report)pdfs+=`<a href="${fbUrl(f.report)}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 text-[11px] text-accent-600 hover:text-accent-700">${pdfIcon} Report</a>`;
+    const hasNav=!!FUND_NAV[f.name];
+    const nav=FUND_NAV[f.name];
 
     // Series & period toggles for funds with real NAV data
     let chartControls='';
@@ -1872,13 +1875,10 @@ function renderFunds(){
     let moreSection='';
     if(hasNav&&nav.details){
       const d=nav.details;
-      moreSection=`<div class="mt-3 flex items-center justify-between">
-        <div class="flex flex-wrap gap-3">${pdfs||'<span class="text-xs text-neutral-300">—</span>'}</div>
-        <button onclick="event.stopPropagation();toggleFundMore(${i})" class="text-[11px] font-medium text-accent-600 hover:text-accent-700 flex items-center gap-1">
-          <span id="more-label-${i}">More</span>
+      moreSection=`<button onclick="event.stopPropagation();toggleFundMore(${i})" class="mt-3 w-full text-[11px] font-medium text-accent-600 hover:text-accent-700 flex items-center gap-1">
+          <span id="more-label-${i}">Fund details</span>
           <svg id="more-chevron-${i}" class="w-3 h-3 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
         </button>
-      </div>
       <div class="fund-more" id="fund-more-${i}">
         <div class="mt-3 pt-3 border-t border-neutral-100">
           <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-[11px]">
@@ -1897,6 +1897,35 @@ function renderFunds(){
         </div>
       </div>`;
     }
+
+    // Facts and regulatory documents — PDF cards
+    const docs=[];
+    if(f.rule)docs.push({label:'Rule Book and information in full',path:f.rule});
+    if(f.info)docs.push({label:'Information',path:f.info});
+    if(f.kiid)docs.push({label:f.kiid.split('/').pop().replace(/\.pdf$/i,''),path:f.kiid});
+    const docsGrid=docs.length?docs.map(d=>`<a href="${fbUrl(d.path)}" target="_blank" onclick="event.stopPropagation()" class="fund-doc-card flex flex-col items-center gap-2 p-3 rounded-lg border border-neutral-200 hover:border-accent-300 hover:shadow-sm transition-all bg-white text-center group/doc">
+      ${pdfCardIcon}
+      <span class="text-[10px] text-neutral-500 leading-tight line-clamp-2 group-hover/doc:text-accent-600 transition-colors">${d.label}</span>
+    </a>`).join(''):'<p class="text-[11px] text-neutral-400 col-span-2">No documents available.</p>';
+
+    // Monthly reports — year rows
+    const reportYears=[2026,2025,2024,2023,2022];
+    const monthlyReports=f.monthlyReports||{};
+    const reportsRows=reportYears.map(y=>{
+      const items=monthlyReports[y]||[];
+      const hasItems=items.length>0;
+      return `<div class="border-b border-accent-100/60 last:border-0">
+        <button onclick="event.stopPropagation();toggleReportYear(${i},${y})" class="flex items-center justify-between w-full py-2.5 text-sm font-semibold ${hasItems?'text-accent-600 hover:text-accent-700':'text-neutral-300 cursor-default'} transition-colors">
+          <span>${y}</span>
+          ${hasItems?`<svg class="w-4 h-4 transition-transform report-chev-${i}-${y}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m0 0l-4-4m4 4l-4 4"/></svg>`:'<span class="text-[10px] font-normal text-neutral-300">—</span>'}
+        </button>
+        ${hasItems?`<div class="report-year" id="report-${i}-${y}" style="max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.22,1,.36,1)">
+          <div class="pb-3 space-y-1.5">${items.map(r=>`<a href="${fbUrl(r.path)}" target="_blank" onclick="event.stopPropagation()" class="flex items-center gap-2 text-xs text-neutral-600 hover:text-accent-600 transition-colors py-1 px-2 rounded hover:bg-accent-50">
+            <svg class="w-3.5 h-3.5 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            ${r.name}</a>`).join('')}
+          </div>
+        </div>`:''}</div>`;
+    }).join('');
 
     return `<div class="fund-card rounded-lg border border-neutral-200 bg-white cursor-pointer" data-type="${f.type}" data-idx="${i}" onclick="toggleFund(${i})" style="transition-delay:${i*50}ms">
       <div class="px-4 py-3 flex items-center justify-between gap-3">
@@ -1919,11 +1948,22 @@ function renderFunds(){
           </div>
           ${chartControls}
           <div class="mt-2 h-36"><canvas id="fund-chart-${i}"></canvas></div>
-          ${hasNav&&nav.details?moreSection:`<div class="flex flex-wrap gap-3 mt-3">${pdfs||'<span class="text-xs text-neutral-300">—</span>'}</div>`}
+          ${moreSection}
+        </div>
+        <!-- Facts and regulatory documents -->
+        <div class="border-t border-neutral-100 px-4 py-4">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-800 mb-3">Facts and regulatory documents</h4>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">${docsGrid}</div>
+        </div>
+        <!-- Monthly reports -->
+        <div class="border-t border-neutral-100 px-4 py-4 bg-accent-50/40 rounded-b-lg">
+          <h4 class="text-sm font-bold text-neutral-800 mb-2">Monthly reports</h4>
+          <div>${reportsRows}</div>
         </div>
       </div>
     </div>`;
   }).join('');
+  document.getElementById('fund-count').textContent=FUNDS.length;
   // Staggered entrance animation
   setTimeout(()=>{
     grid.querySelectorAll('.fund-card').forEach((c,i)=>{
@@ -1959,7 +1999,7 @@ function filterFunds(type){
 
 // Track current series/period per fund
 const fundState={};
-function getFundState(i){if(!fundState[i])fundState[i]={series:FUND_NAV[i]?FUND_NAV[i].series[0]:'',period:'1Y'};return fundState[i]}
+function getFundState(i){const fn=FUNDS[i]?FUNDS[i].name:'';if(!fundState[i])fundState[i]={series:FUND_NAV[fn]?FUND_NAV[fn].series[0]:'',period:'1Y'};return fundState[i]}
 
 function toggleFund(i){
   const expand=document.getElementById('fund-expand-'+i);
@@ -1979,7 +2019,7 @@ function toggleFund(i){
 
 function buildFundChart(i){
   const f=FUNDS[i];
-  const nav=FUND_NAV[i];
+  const nav=FUND_NAV[f.name];
   if(nav){
     const st=getFundState(i);
     const d=nav[st.series][st.period];
@@ -2002,6 +2042,16 @@ function switchFundPeriod(i,period){
   const card=document.querySelector(`.fund-card[data-idx="${i}"]`);
   card.querySelectorAll('.period-btn').forEach(b=>{b.classList.toggle('active',b.dataset.period===period)});
   if(fundCharts[i])buildFundChart(i);
+}
+
+function toggleReportYear(i,year){
+  const el=document.getElementById('report-'+i+'-'+year);
+  if(!el)return;
+  const isOpen=el.style.maxHeight!=='0px'&&el.style.maxHeight!=='';
+  if(isOpen){el.style.maxHeight='0px';}
+  else{el.style.maxHeight=el.scrollHeight+'px';}
+  const chev=document.querySelector('.report-chev-'+i+'-'+year);
+  if(chev)chev.style.transform=isOpen?'':'rotate(90deg)';
 }
 
 function toggleFundMore(i){
@@ -2217,14 +2267,47 @@ function triggerPillarReveal(){
   });
 }
 
+function loadFundsFromFS(){
+  const defaults=FUNDS.reduce((m,f)=>{m[f.name]=f;return m;},{});
+  return FS.collection('funds').orderBy('order').get().then(snap=>{
+    if(snap.empty)return;
+    const arr=[];
+    snap.forEach(doc=>{const d=doc.data();const def=defaults[d.name]||{};arr.push({name:d.name||'',type:d.type||'',ccy:d.ccy||'',ytd:d.ytd||'',featured:!!d.featured,desc:d.desc||'',kiid:d.kiid||'',info:d.info||'',rule:d.rule||'',report:d.report||'',monthlyReports:d.monthlyReports||def.monthlyReports||{}});});
+    if(arr.length>0)FUNDS=arr;
+    fundsLoaded=true;
+  }).catch(()=>{fundsLoaded=true;});
+}
+
+let distLoaded=false;
+function loadDistribution(){
+  if(distLoaded)return;
+  FS.collection('distribution').orderBy('order').get().then(snap=>{
+    if(snap.empty)return;
+    distLoaded=true;
+    const bySection={'service-points':[],'fund-operations':[],'claims':[]};
+    snap.forEach(doc=>{const d=doc.data();const s=d.section||'service-points';if(!bySection[s])bySection[s]=[];bySection[s].push(d);});
+    const distLink=(d,py)=>'<a href="'+d.url+'" target="_blank" rel="noopener" class="group flex items-center justify-between py-'+py+' hover:bg-neutral-50 -mx-3 px-3 rounded-lg transition-colors"><div class="flex items-center gap-3"><svg class="w-4 h-4 text-neutral-300 group-hover:text-accent-500 transition-colors" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg><span class="text-sm text-neutral-700 group-hover:text-black transition-colors">'+d.name+'</span></div><span class="text-xs font-medium text-accent-600 opacity-0 group-hover:opacity-100 transition-opacity">PDF ↗</span></a>';
+    const fill=(id,arr,wrap)=>{const el=document.getElementById(id);if(!el||!arr.length)return;el.innerHTML=(wrap?'':'')+arr.map(d=>wrap?'<li>'+distLink(d,'4')+'</li>':distLink(d,'2.5')).join('');};
+    fill('dist-service-points',bySection['service-points'],true);
+    fill('dist-fund-operations',bySection['fund-operations'],true);
+    const cl=document.getElementById('dist-claims');
+    if(cl&&bySection['claims'].length){const hdr=cl.querySelector('[data-i18n]');const hdrHtml=hdr?hdr.outerHTML:'';cl.innerHTML=hdrHtml+bySection['claims'].map(d=>distLink(d,'2.5')).join('');}
+  }).catch(()=>{});
+}
+
 function initCharts(p){setTimeout(()=>{
   if(p==='about'){wordReveal('about-hero-title');triggerPillarReveal();}
   if(p==='funds'){
-    renderFunds();
-    letterReveal('funds-hero-title');
+    if(!fundsLoaded){
+      loadFundsFromFS().then(()=>{renderFunds();letterReveal('funds-hero-title');});
+    }else{
+      renderFunds();
+      letterReveal('funds-hero-title');
+    }
+    return;
   }
   if(p==='portfolios')selectPortfolio(curPort);
-  if(p==='distribution')initContactStagger();
+  if(p==='distribution'){loadDistribution();initContactStagger();}
 },50)}
 window.addEventListener('DOMContentLoaded',()=>initCharts('home'));
 

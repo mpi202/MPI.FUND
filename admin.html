@@ -48,17 +48,43 @@
   <div class="flex">
     <!-- Sidebar -->
     <nav class="w-56 border-r border-white/10 h-[calc(100vh-57px)] p-4 flex flex-col sticky top-[57px]">
-      <div id="cat-sidebar" class="space-y-1 flex-1 overflow-y-auto pr-1">
-        <p class="text-xs text-neutral-500 px-3 py-2">Loading...</p>
+      <!-- Admin tab toggle -->
+      <div class="flex gap-1 mb-4 p-0.5 bg-white/5 rounded-lg">
+        <button onclick="switchAdminTab('documents')" id="tab-documents" class="admin-tab flex-1 text-xs font-medium py-2 rounded-md bg-white/10 text-white transition-colors">Docs</button>
+        <button onclick="switchAdminTab('funds')" id="tab-funds" class="admin-tab flex-1 text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Funds</button>
+        <button onclick="switchAdminTab('distribution')" id="tab-distribution" class="admin-tab flex-1 text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Dist</button>
       </div>
-      <button onclick="openManageCats()" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2 border-t border-white/5 pt-4">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a6.759 6.759 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        Manage categories
-      </button>
+      <!-- Documents sidebar -->
+      <div id="docs-sidebar-wrap" class="flex flex-col flex-1 min-h-0">
+        <div id="cat-sidebar" class="space-y-1 flex-1 overflow-y-auto pr-1">
+          <p class="text-xs text-neutral-500 px-3 py-2">Loading...</p>
+        </div>
+        <button onclick="openManageCats()" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2 border-t border-white/5 pt-4">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a6.759 6.759 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Manage categories
+        </button>
+      </div>
+      <!-- Funds sidebar -->
+      <div id="funds-sidebar-wrap" class="hidden flex flex-col flex-1 min-h-0">
+        <p class="text-xs text-neutral-500 px-3 py-2 border-b border-white/5 mb-2">Manage fund families shown on the public Investment Funds page.</p>
+        <button onclick="seedFundsFromHardcoded()" id="seed-funds-btn" class="w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Seed from current site data
+        </button>
+      </div>
+      <!-- Distribution sidebar -->
+      <div id="dist-sidebar-wrap" class="hidden flex flex-col flex-1 min-h-0">
+        <p class="text-xs text-neutral-500 px-3 py-2 border-b border-white/5 mb-2">Manage PDF links on the public Distribution page.</p>
+        <div id="dist-section-list" class="space-y-1 flex-1 overflow-y-auto pr-1"></div>
+        <button onclick="seedDistFromHardcoded()" id="seed-dist-btn" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2 border-t border-white/5 pt-4">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Seed from current site data
+        </button>
+      </div>
     </nav>
 
-    <!-- Main content -->
-    <main class="flex-1 p-8">
+    <!-- Main content: Documents -->
+    <main id="main-documents" class="flex-1 p-8">
       <div class="flex items-center justify-between mb-6">
         <h2 id="cat-title" class="text-xl font-bold">Select a category</h2>
         <button id="add-btn" onclick="openAddModal()" class="hidden items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
@@ -79,6 +105,98 @@
         <p class="text-neutral-600 text-xs mt-1">Click "Add document" to upload one.</p>
       </div>
     </main>
+
+    <!-- Main content: Funds -->
+    <main id="main-funds" class="flex-1 p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold">Investment Funds</h2>
+        <button onclick="openFundModal()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add fund
+        </button>
+      </div>
+      <div id="fund-list" class="space-y-2">
+        <p class="text-neutral-500 text-sm">Loading funds...</p>
+      </div>
+      <div id="fund-empty" class="hidden text-center py-16">
+        <svg class="w-12 h-12 text-neutral-700 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
+        <p class="text-neutral-500 text-sm">No funds yet.</p>
+        <p class="text-neutral-600 text-xs mt-1">Click "Add fund" to create one, or "Seed from current site data" in the sidebar.</p>
+      </div>
+    </main>
+
+    <!-- Main content: Distribution -->
+    <main id="main-distribution" class="flex-1 p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold">Distribution Page Links</h2>
+        <button onclick="openDistModal()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Add link
+        </button>
+      </div>
+      <div id="dist-list" class="space-y-2">
+        <p class="text-neutral-500 text-sm">Loading...</p>
+      </div>
+      <div id="dist-empty" class="hidden text-center py-16">
+        <svg class="w-12 h-12 text-neutral-700 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+        <p class="text-neutral-500 text-sm">No distribution links yet.</p>
+        <p class="text-neutral-600 text-xs mt-1">Click "Add link" or "Seed from current site data" in the sidebar.</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- DIST ADD/EDIT MODAL -->
+<div id="dist-modal-overlay" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center px-6" onclick="if(event.target===this)closeDistModal()">
+  <div class="bg-neutral-900 border border-white/10 rounded-xl w-full max-w-md p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h3 id="dist-modal-title" class="text-lg font-bold">Add link</h3>
+      <button onclick="closeDistModal()" class="text-neutral-500 hover:text-white transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <form onsubmit="saveDist(event)" class="space-y-4">
+      <input type="hidden" id="dist-edit-id" value=""/>
+      <div>
+        <label class="block text-xs text-neutral-400 mb-1.5">Link name</label>
+        <input id="dist-name" type="text" required placeholder="e.g. Settlement Dates" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>
+      </div>
+      <div>
+        <label class="block text-xs text-neutral-400 mb-1.5">Section</label>
+        <select id="dist-section" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+          <option value="service-points">Service Points</option>
+          <option value="fund-operations">Fund Operations</option>
+          <option value="claims">Claims & Complaints</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs text-neutral-400 mb-1.5">PDF — upload or paste URL</label>
+        <div class="flex gap-2">
+          <input id="dist-url" type="text" required placeholder="https://firebasestorage..." class="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>
+          <label class="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-neutral-400 hover:text-white hover:border-white/20 transition-colors cursor-pointer shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+            Upload
+            <input type="file" accept=".pdf" class="hidden" onchange="uploadDistFile(this)"/>
+          </label>
+        </div>
+        <p id="dist-upload-status" class="text-xs text-neutral-500 mt-1.5 hidden"></p>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-lg transition-colors text-sm">Save</button>
+        <button type="button" onclick="closeDistModal()" class="px-6 py-3 rounded-lg border border-white/10 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- DIST DELETE CONFIRM -->
+<div id="dist-delete-overlay" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center px-6" onclick="if(event.target===this)closeDistDelete()">
+  <div class="bg-neutral-900 border border-white/10 rounded-xl w-full max-w-sm p-6 text-center">
+    <svg class="w-10 h-10 text-red-400 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+    <p class="font-semibold mb-1">Delete link?</p>
+    <p id="dist-delete-name" class="text-sm text-neutral-400 mb-5"></p>
+    <div class="flex gap-3">
+      <button onclick="confirmDistDelete()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm">Delete</button>
+      <button onclick="closeDistDelete()" class="flex-1 py-2.5 rounded-lg border border-white/10 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -148,6 +266,95 @@
         Import from old site
       </button>
       <div id="import-status" class="text-xs mt-2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FUND ADD/EDIT MODAL -->
+<div id="fund-overlay" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center px-6" onclick="if(event.target===this)closeFundModal()">
+  <div class="bg-neutral-900 border border-white/10 rounded-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between mb-6">
+      <h3 id="fund-modal-title" class="text-lg font-bold">Add fund</h3>
+      <button onclick="closeFundModal()" class="text-neutral-500 hover:text-white transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <form onsubmit="saveFund(event)" class="space-y-4">
+      <input type="hidden" id="fund-edit-id" value=""/>
+      <div>
+        <label class="block text-xs text-neutral-400 mb-1.5">Fund name</label>
+        <input id="fund-name" type="text" required placeholder="e.g. Allegro Absolute" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs text-neutral-400 mb-1.5">Category</label>
+          <select id="fund-type" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 transition-colors">
+            <option value="Absolute Return">Absolute Return</option>
+            <option value="Fixed Income">Fixed Income</option>
+            <option value="Equity">Equity</option>
+            <option value="Fund of Funds">Fund of Funds</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs text-neutral-400 mb-1.5">Currencies</label>
+          <input id="fund-ccy" type="text" placeholder="HUF · EUR · USD" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs text-neutral-400 mb-1.5">YTD returns</label>
+        <input id="fund-ytd" type="text" placeholder="HUF +10.5% · EUR +4.4% · USD +16.6%" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>
+      </div>
+      <div>
+        <label class="block text-xs text-neutral-400 mb-1.5">Description</label>
+        <textarea id="fund-desc" rows="3" placeholder="Short description of the fund strategy..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors resize-none"></textarea>
+      </div>
+      <div class="flex items-center gap-3">
+        <input id="fund-featured" type="checkbox" class="w-4 h-4 rounded border-white/20 bg-white/5 text-emerald-500 focus:ring-emerald-500"/>
+        <label for="fund-featured" class="text-sm text-neutral-400">Featured fund (shown with star)</label>
+      </div>
+      <div class="border-t border-white/10 pt-4">
+        <p class="text-xs text-neutral-500 mb-3">PDF document paths (Firebase Storage paths, e.g. <code class="text-neutral-400">Funds/BondDerivative/KIID/KID_BOND HUF.pdf</code>)</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] text-neutral-500 mb-1">KID / KIID</label>
+            <input id="fund-kiid" type="text" placeholder="Funds/..." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs placeholder-neutral-600 focus:outline-none focus:border-emerald-500 transition-colors"/>
+          </div>
+          <div>
+            <label class="block text-[11px] text-neutral-500 mb-1">Information</label>
+            <input id="fund-info" type="text" placeholder="Funds/..." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs placeholder-neutral-600 focus:outline-none focus:border-emerald-500 transition-colors"/>
+          </div>
+          <div>
+            <label class="block text-[11px] text-neutral-500 mb-1">Rule Book</label>
+            <input id="fund-rule" type="text" placeholder="Funds/..." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs placeholder-neutral-600 focus:outline-none focus:border-emerald-500 transition-colors"/>
+          </div>
+          <div>
+            <label class="block text-[11px] text-neutral-500 mb-1">Report</label>
+            <input id="fund-report" type="text" placeholder="Funds/..." class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-xs placeholder-neutral-600 focus:outline-none focus:border-emerald-500 transition-colors"/>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 pt-4">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs text-neutral-500">Monthly Reports (by year)</p>
+          <button type="button" onclick="addReportYear()" class="text-[11px] text-emerald-400 hover:text-emerald-300 transition-colors">+ Add year</button>
+        </div>
+        <div id="mr-editor" class="space-y-3"></div>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-lg transition-colors text-sm">Save</button>
+        <button type="button" onclick="closeFundModal()" class="px-6 py-3 rounded-lg border border-white/10 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- FUND DELETE CONFIRM -->
+<div id="fund-delete-overlay" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center px-6" onclick="if(event.target===this)closeFundDelete()">
+  <div class="bg-neutral-900 border border-white/10 rounded-xl w-full max-w-sm p-6 text-center">
+    <svg class="w-10 h-10 text-red-400 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+    <p class="font-semibold mb-1">Delete fund?</p>
+    <p id="fund-delete-name" class="text-sm text-neutral-400 mb-5"></p>
+    <div class="flex gap-3">
+      <button onclick="confirmFundDelete()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm">Delete</button>
+      <button onclick="closeFundDelete()" class="flex-1 py-2.5 rounded-lg border border-white/10 text-sm text-neutral-400 hover:text-white transition-colors">Cancel</button>
     </div>
   </div>
 </div>
@@ -592,6 +799,513 @@ function confirmDelete() {
   }).catch(err => {
     alert('Error: ' + err.message);
   });
+}
+
+// ============================================================
+// ADMIN TAB SWITCHING
+// ============================================================
+let adminTab = 'documents';
+
+function switchAdminTab(tab) {
+  adminTab = tab;
+  ['documents','funds','distribution'].forEach(t => {
+    document.getElementById('tab-' + t).className = 'admin-tab flex-1 text-xs font-medium py-2 rounded-md transition-colors ' + (tab === t ? 'bg-white/10 text-white' : 'text-neutral-500 hover:text-white');
+  });
+  document.getElementById('docs-sidebar-wrap').classList.toggle('hidden', tab !== 'documents');
+  document.getElementById('funds-sidebar-wrap').classList.toggle('hidden', tab !== 'funds');
+  document.getElementById('dist-sidebar-wrap').classList.toggle('hidden', tab !== 'distribution');
+  document.getElementById('main-documents').classList.toggle('hidden', tab !== 'documents');
+  document.getElementById('main-funds').classList.toggle('hidden', tab !== 'funds');
+  document.getElementById('main-distribution').classList.toggle('hidden', tab !== 'distribution');
+  if (tab === 'funds') loadFunds();
+  if (tab === 'distribution') loadDistItems();
+}
+
+// ============================================================
+// FUND MANAGEMENT
+// ============================================================
+let fundDeleteId = null;
+function fundSlug(name){return name.toLowerCase().replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i').replace(/[óòöőô]/g,'o').replace(/[úùüűû]/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+const FUND_TYPE_COLORS = {
+  'Absolute Return': 'text-emerald-400',
+  'Fixed Income': 'text-blue-400',
+  'Equity': 'text-purple-400',
+  'Fund of Funds': 'text-amber-400'
+};
+
+function loadFunds() {
+  const list = document.getElementById('fund-list');
+  const empty = document.getElementById('fund-empty');
+  list.innerHTML = '<p class="text-neutral-500 text-sm">Loading...</p>';
+  empty.classList.add('hidden');
+
+  db.collection('funds').orderBy('order').get().then(snap => {
+    if (snap.empty) {
+      list.innerHTML = '';
+      empty.classList.remove('hidden');
+      return;
+    }
+    empty.classList.add('hidden');
+    list.innerHTML = '';
+    snap.forEach(doc => {
+      const d = doc.data();
+      const tc = FUND_TYPE_COLORS[d.type] || 'text-neutral-400';
+      const el = document.createElement('div');
+      el.className = 'flex items-center justify-between bg-white/5 border border-white/5 rounded-lg px-4 py-3.5 group hover:border-white/10 transition-colors';
+      el.innerHTML = `
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-white/5 ${tc} shrink-0">${d.type || '—'}</span>
+          <div class="min-w-0">
+            <span class="text-sm font-medium truncate block">${d.name}${d.featured ? ' <span class="text-emerald-400">★</span>' : ''}</span>
+            <span class="text-xs text-neutral-500 truncate block">${d.ccy || '—'} &nbsp;·&nbsp; ${d.ytd || '—'}</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+          <button onclick="openEditFund('${doc.id}')" class="p-1.5 rounded hover:bg-white/10 text-neutral-400 hover:text-white transition-colors" title="Edit">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z"/></svg>
+          </button>
+          <button onclick="openFundDelete('${doc.id}','${d.name.replace(/'/g, "\\'")}')" class="p-1.5 rounded hover:bg-white/10 text-neutral-400 hover:text-red-400 transition-colors" title="Delete">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+          </button>
+        </div>
+      `;
+      list.appendChild(el);
+    });
+  }).catch(err => {
+    list.innerHTML = '<p class="text-red-400 text-sm">Error loading funds: ' + err.message + '</p>';
+  });
+}
+
+function openFundModal() {
+  document.getElementById('fund-modal-title').textContent = 'Add fund';
+  document.getElementById('fund-edit-id').value = '';
+  document.getElementById('fund-name').value = '';
+  document.getElementById('fund-type').value = 'Absolute Return';
+  document.getElementById('fund-ccy').value = '';
+  document.getElementById('fund-ytd').value = '';
+  document.getElementById('fund-desc').value = '';
+  document.getElementById('fund-featured').checked = false;
+  document.getElementById('fund-kiid').value = '';
+  document.getElementById('fund-info').value = '';
+  document.getElementById('fund-rule').value = '';
+  document.getElementById('fund-report').value = '';
+  editMR = {};
+  renderMREditor();
+  document.getElementById('fund-overlay').classList.remove('hidden');
+}
+
+function openEditFund(id) {
+  db.collection('funds').doc(id).get().then(doc => {
+    if (!doc.exists) return;
+    const d = doc.data();
+    document.getElementById('fund-modal-title').textContent = 'Edit fund';
+    document.getElementById('fund-edit-id').value = id;
+    document.getElementById('fund-name').value = d.name || '';
+    document.getElementById('fund-type').value = d.type || 'Absolute Return';
+    document.getElementById('fund-ccy').value = d.ccy || '';
+    document.getElementById('fund-ytd').value = d.ytd || '';
+    document.getElementById('fund-desc').value = d.desc || '';
+    document.getElementById('fund-featured').checked = !!d.featured;
+    document.getElementById('fund-kiid').value = d.kiid || '';
+    document.getElementById('fund-info').value = d.info || '';
+    document.getElementById('fund-rule').value = d.rule || '';
+    document.getElementById('fund-report').value = d.report || '';
+    editMR = d.monthlyReports ? JSON.parse(JSON.stringify(d.monthlyReports)) : {};
+    renderMREditor();
+    document.getElementById('fund-overlay').classList.remove('hidden');
+  });
+}
+
+function closeFundModal() {
+  document.getElementById('fund-overlay').classList.add('hidden');
+}
+
+function saveFund(e) {
+  e.preventDefault();
+  const id = document.getElementById('fund-edit-id').value;
+  const data = {
+    name: document.getElementById('fund-name').value.trim(),
+    type: document.getElementById('fund-type').value,
+    ccy: document.getElementById('fund-ccy').value.trim(),
+    ytd: document.getElementById('fund-ytd').value.trim(),
+    desc: document.getElementById('fund-desc').value.trim(),
+    featured: document.getElementById('fund-featured').checked,
+    kiid: document.getElementById('fund-kiid').value.trim(),
+    info: document.getElementById('fund-info').value.trim(),
+    rule: document.getElementById('fund-rule').value.trim(),
+    report: document.getElementById('fund-report').value.trim(),
+    monthlyReports: JSON.parse(JSON.stringify(editMR)),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  if (!data.name) return;
+
+  let promise;
+  if (id) {
+    promise = db.collection('funds').doc(id).update(data);
+  } else {
+    data.order = Date.now();
+    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+    promise = db.collection('funds').doc(fundSlug(data.name)).set(data);
+  }
+  promise.then(() => { closeFundModal(); loadFunds(); })
+    .catch(err => alert('Error: ' + err.message));
+}
+
+function openFundDelete(id, name) {
+  fundDeleteId = id;
+  document.getElementById('fund-delete-name').textContent = name;
+  document.getElementById('fund-delete-overlay').classList.remove('hidden');
+}
+
+function closeFundDelete() {
+  document.getElementById('fund-delete-overlay').classList.add('hidden');
+  fundDeleteId = null;
+}
+
+function confirmFundDelete() {
+  if (!fundDeleteId) return;
+  db.collection('funds').doc(fundDeleteId).delete().then(() => {
+    closeFundDelete();
+    loadFunds();
+  }).catch(err => alert('Error: ' + err.message));
+}
+
+// Seed funds from the hardcoded data currently on the public site
+function seedFundsFromHardcoded() {
+  const btn = document.getElementById('seed-funds-btn');
+  if (!confirm('Import the 17 funds currently hardcoded on the public site into Firestore?\n\nExisting funds with the same name will be skipped.')) return;
+  btn.textContent = 'Seeding...';
+  btn.style.pointerEvents = 'none';
+
+  const SEED = [
+    {name:'Marketprog Bond Derivativ',type:'Fixed Income',ccy:'HUF · EUR · USD',ytd:'HUF +10.5% · EUR +4.4% · USD +16.6%',featured:true,desc:'Government bond-focused fund enhanced with interest rate derivatives. Aims to generate above-market fixed income returns through active rate positioning.',kiid:'Funds/BondDerivative/KIID/KID_BOND HUF.pdf',info:'Funds/BondDerivative/Information/MARKETPROG_Esernyoalap_Tajekoztato_20230928.docx.pdf',rule:'Funds/BondDerivative/RuleBook/MP Esernyalap Kez.szab_2026_01_10_hatályos.pdf',report:'Funds/BondDerivative/Docs/Bond A 202503.pdf',monthlyReports:{2026:[{name:'March 2026',path:'Funds/BondDerivative/Docs/Bond A 202603.pdf'},{name:'February 2026',path:'Funds/BondDerivative/Docs/Bond A 202602.pdf'},{name:'January 2026',path:'Funds/BondDerivative/Docs/Bond A 202601.pdf'}],2025:[{name:'December 2025',path:'Funds/BondDerivative/Docs/Bond A 202512.pdf'},{name:'November 2025',path:'Funds/BondDerivative/Docs/Bond A 202511.pdf'},{name:'October 2025',path:'Funds/BondDerivative/Docs/Bond A 202510.pdf'},{name:'September 2025',path:'Funds/BondDerivative/Docs/Bond A 202509.pdf'},{name:'August 2025',path:'Funds/BondDerivative/Docs/Bond A 202508.pdf'},{name:'July 2025',path:'Funds/BondDerivative/Docs/Bond A 202507.pdf'},{name:'June 2025',path:'Funds/BondDerivative/Docs/Bond A 202506.pdf'},{name:'May 2025',path:'Funds/BondDerivative/Docs/Bond A 202505.pdf'},{name:'April 2025',path:'Funds/BondDerivative/Docs/Bond A 202504.pdf'},{name:'March 2025',path:'Funds/BondDerivative/Docs/Bond A 202503.pdf'},{name:'February 2025',path:'Funds/BondDerivative/Docs/Bond A 202502.pdf'},{name:'January 2025',path:'Funds/BondDerivative/Docs/Bond A 202501.pdf'}],2024:[{name:'December 2024',path:'Funds/BondDerivative/Docs/Bond A 202412.pdf'},{name:'November 2024',path:'Funds/BondDerivative/Docs/Bond A 202411.pdf'},{name:'October 2024',path:'Funds/BondDerivative/Docs/Bond A 202410.pdf'}],2023:[{name:'December 2023',path:'Funds/BondDerivative/Docs/Bond A 202312.pdf'}],2022:[{name:'December 2022',path:'Funds/BondDerivative/Docs/Bond A 202212.pdf'}]}},
+    {name:'Allegro Absolute',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF +6.2% · EUR +4.41% · USD +4.98%',desc:'Multi-strategy absolute return fund targeting consistent positive returns regardless of market direction.',kiid:'Funds/AllegroAbsolute/KIID/KID_Allegro B.pdf',info:'Funds/BondDerivative/Information/MARKETPROG_Esernyoalap_Tajekoztato_20230928.docx.pdf',rule:'Funds/AllegroAbsolute/RuleBook/MP Esernyalap Kez.szab_2026_01_10_hatályos.pdf',report:'Funds/AllegroAbsolute/Docs/Allegro HUF 202503.pdf'},
+    {name:'Aurica',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF +5.20% · EUR +4.6% · USD +4.76%',desc:'Absolute return strategy combining sovereign bond positions with derivative overlays.',kiid:'Funds/AuricaAbsoluteReturn/KIID/Aurica_HUF_EUR_USD_KID_2024_10.01..pdf',info:'Funds/AuricaAbsoluteReturn/Information/Aurica Tájékoztató_2024.10.01.pdf',rule:'Funds/AuricaAbsoluteReturn/RuleBook/AURICA kezelési szabályzat_2024.10.01..pdf',report:'Funds/AuricaAbsoluteReturn/Docs/Aurica HUF 202503.pdf'},
+    {name:'Compass',type:'Equity',ccy:'HUF · EUR · USD',ytd:'HUF',desc:'Equity derivative fund utilizing options strategies on major indices.',kiid:'Funds/Compass/KIID/KID_Compass HUF.pdf',info:'Funds/Compass/Information/Compass Részvény Származtatott Alap Tájékoztató_20250917.pdf',rule:'Funds/Compass/RuleBook/Compass Részvény Származtatott Alap Kezelési Szabályzat 2026.01.16 Hatályos.pdf',report:'Funds/Compass/Docs/Compass Alap A 2026-3 hu.pdf'},
+    {name:'Convexity',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF +3.42% · EUR +2.71% · USD +1.66%',desc:'Absolute return fund exploiting convexity in fixed income markets.',kiid:'Funds/Convexity/KIID/KID_CONVEXITY A.pdf',info:'Funds/Convexity/Information/Convexity Tájékoztató 2025_12.16._hatályos_signed.pdf',rule:'Funds/Convexity/RuleBook/Convexity KezSzab_2026.02.20-től hatályos.pdf',report:'Funds/Convexity/Docs/Convexity A 2026-3 hu.pdf'},
+    {name:'Creditum',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF -3.2% · EUR -3.94% · USD -3.93%',desc:'Credit-focused absolute return fund investing in investment-grade and high-yield debt.',kiid:'Funds/Creditum/KIID/KID_Creditum HUF.pdf',info:'Funds/Creditum/Information/FS_Creditum_Tajekoztato_20250601.pdf',rule:'Funds/Creditum/RuleBook/Creditum_KezSzab_20251216-tól.pdf',report:'Funds/Creditum/Docs/Creditum A 2026-3 hu.pdf'},
+    {name:'Diverz Nimbus',type:'Absolute Return',ccy:'HUF · EUR',ytd:'HUF +3.15% · EUR +2.2%',desc:'Diversified absolute return sub-fund within the Diverz umbrella.',kiid:'Funds/DiverzNimbus/KIID/DIVERZ NIMBUS EUR_KID_2024_08_CLEAN.pdf',info:'Funds/DiverzNimbus/Information/DIVERZ Tájékoztató_2025.07.14_CLEAN.pdf',rule:'Funds/DiverzNimbus/RuleBook/DIVERZ Esernyalap Kezelési szabályzat_Hatályos 2026.02.20.pdf',report:'Funds/DiverzNimbus/Docs/Diverz Nimbus 202503.pdf'},
+    {name:'Diverz Sapiens',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF +3.06% · EUR +2.35% · USD +0.7%',desc:'Multi-strategy absolute return sub-fund focusing on global macro themes.',kiid:'Funds/DiverzSapiens/KIID/DIVERZ SAPIENS HUF_EUR_USD KID_2024_08_CLEAN összm.pdf',info:'Funds/DiverzSapiens/Information/DIVERZ Tájékoztató_2025.07.14_CLEAN.pdf',rule:'Funds/DiverzSapiens/RuleBook/DIVERZ Esernyalap Kezelési szabályzat_Hatályos 2026.02.20.pdf',report:'Funds/DiverzSapiens/Docs/Diverz Sapiens HUF 202503.pdf'},
+    {name:'Diverz Specific',type:'Absolute Return',ccy:'HUF · EUR',ytd:'HUF +2.99% · EUR -0.8%',desc:'Concentrated absolute return sub-fund targeting specific market opportunities.',kiid:'Funds/DiverzSpecific/KIID/DIVERZ SPECIFIC HUF_EUR KID_2024_08_CLEAN összm.pdf',info:'Funds/DiverzSpecific/Information/DIVERZ Tájékoztató_2025.07.14_CLEAN.pdf',rule:'Funds/DiverzSpecific/RuleBook/DIVERZ Esernyalap Kezelési szabályzat_Hatályos 2026.02.20.pdf',report:'Funds/DiverzSpecific/Docs/Diverz Specific HUF 202503.pdf'},
+    {name:'Himalaja',type:'Absolute Return',ccy:'HUF · EUR',ytd:'HUF -3.5% · EUR -4.21%',desc:'Absolute return fund with a global multi-asset approach.',kiid:'Funds/HimalajaAbsoluteReturn/KIID/KID_Himalája HUF_20251113.pdf',info:'Funds/HimalajaAbsoluteReturn/Information/HIMALÁJA_Tájékoztató_20251021_HATÁLYOS.pdf',rule:'Funds/HimalajaAbsoluteReturn/RuleBook/HIMALAJA_Kezelési szabályzat_2026.01.16-tól hatályos.pdf',report:''},
+    {name:'Investrium',type:'Absolute Return',ccy:'HUF · EUR · USD',ytd:'HUF · EUR · USD',desc:'Absolute return fund with flexible allocation across fixed income, equity, and alternative strategies.',kiid:'Funds/InvestriumAbsoluteReturn/KIID/INVESTRIUM_A_B_KID_2025.01.09.pdf',info:'Funds/InvestriumAbsoluteReturn/Information/Investrium Tájékoztató_2024.04.29..pdf',rule:'Funds/InvestriumAbsoluteReturn/RuleBook/INVESTRIUM kezelési szabályzat_20260220 Hatályos.pdf',report:''},
+    {name:'Prestige',type:'Absolute Return',ccy:'HUF · EUR',ytd:'HUF +2.0% · EUR +2.29%',desc:'Core absolute return fund within the Marketprog umbrella structure.',kiid:'Funds/Prestige/KIID/KID_Prestige HUF.pdf',info:'Funds/Prestige/Information/MARKETPROG_Esernyoalap_Tajekoztato_20230928.docx.pdf',rule:'Funds/Prestige/RuleBook/MP Esernyalap  Kez.szab_2026_01_10_hatályos.pdf',report:''},
+    {name:'Prestige Select',type:'Fund of Funds',ccy:'HUF · EUR · USD',ytd:'HUF +0.49% · EUR -1.36% · USD -1.79%',desc:'Fund of funds strategy providing diversified exposure to multiple Marketprog sub-funds.',kiid:'Funds/PrestigeSelect/KIID/KID_PrestigeSelect HUF.pdf',info:'',rule:'Funds/PrestigeSelect/RuleBook/Prestige SELECT_Kezelési szabályzat 20250429.pdf',report:''},
+    {name:'Prestige Start',type:'Fixed Income',ccy:'HUF · EUR · USD',ytd:'HUF +1.71% · EUR +8.51% · USD +8.51%',desc:'Bond derivative fund designed as an entry point for investors seeking enhanced fixed income returns.',kiid:'Funds/PrestigeStart/KIID/Prestige Start_A_KID_2024_10_29.pdf',info:'Funds/PrestigeStart/Information/Prestige Start Tájékoztató_2023.10.06..pdf',rule:'Funds/PrestigeStart/RuleBook/Prestige_Start_Kezelesi_szabalyzat_20260206-tól Hatályos.pdf',report:''},
+    {name:'Reverse Max',type:'Fixed Income',ccy:'HUF',ytd:'HUF +2.6%',desc:'Interest rate fund that profits from rising rates.',kiid:'Funds/ReverseMax/KIID/Reverse Max_KID_mind 2023_01_01.pdf',info:'Funds/ReverseMax/Information/Reverse Max Tajekoztato_2022 03 01.pdf',rule:'Funds/ReverseMax/RuleBook/Reverse MAX  Kezelési Szabályzat 20250501.pdf',report:''},
+    {name:'Helios',type:'Absolute Return',ccy:'HUF · EUR',ytd:'HUF · EUR',desc:'Absolute return derivative fund combining fixed income and equity derivative positions.',kiid:'Funds/Helios/KIID/KID_Helios HUF.pdf',info:'Funds/Helios/Information/HELIOS_Abszolut_Hozamu_Szarmaztatott_Alap_Tajekoztato.pdf',rule:'Funds/Helios/RuleBook/HELIOS Kezelési Szabályzat Hatályos 2026.02.20..pdf',report:'Funds/Helios/Docs/Helios HUF 202503.pdf'},
+    {name:'Prospect Fund',type:'Fund of Funds',ccy:'HUF',ytd:'HUF',desc:'Fund of funds offering broad diversification across the Marketprog product range.',kiid:'Funds/ProspectFund/KIID/Primus ALL WEATHER_KID_mind 2023_01_01.pdf',info:'',rule:'Funds/ProspectFund/RuleBook/Primus All-Weather Abszolút Alap Kezelési Szab._20240902 clean.pdf',report:''}
+  ];
+
+  db.collection('funds').get().then(snap => {
+    const existing = new Set();
+    snap.forEach(d => existing.add(d.data().name));
+    const toAdd = SEED.filter(f => !existing.has(f.name));
+    if (toAdd.length === 0) {
+      alert('All 17 funds already exist in Firestore.');
+      btn.innerHTML = '<svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> Seed from current site data';
+      btn.style.pointerEvents = '';
+      return;
+    }
+    const batch = db.batch();
+    toAdd.forEach((f, i) => {
+      const ref = db.collection('funds').doc(fundSlug(f.name));
+      batch.set(ref, { ...f, order: i, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    });
+    return batch.commit().then(() => {
+      alert(toAdd.length + ' funds imported successfully.');
+      btn.innerHTML = '<svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> Seed from current site data';
+      btn.style.pointerEvents = '';
+      loadFunds();
+    });
+  }).catch(err => {
+    alert('Error: ' + err.message);
+    btn.textContent = 'Seed from current site data';
+    btn.style.pointerEvents = '';
+  });
+}
+
+// ============================================================
+// DISTRIBUTION MANAGEMENT
+// ============================================================
+const DIST_SECTIONS = {'service-points':'Service Points','fund-operations':'Fund Operations','claims':'Claims & Complaints'};
+let distDeleteId = null;
+let currentDistSection = null;
+
+function loadDistItems() {
+  const list = document.getElementById('dist-list');
+  const empty = document.getElementById('dist-empty');
+  const sidebar = document.getElementById('dist-section-list');
+  list.innerHTML = '<p class="text-neutral-500 text-sm">Loading...</p>';
+  empty.classList.add('hidden');
+
+  db.collection('distribution').orderBy('order').get().then(snap => {
+    if (snap.empty) {
+      list.innerHTML = '';
+      empty.classList.remove('hidden');
+      sidebar.innerHTML = Object.entries(DIST_SECTIONS).map(([k,v]) =>
+        '<button onclick="filterDist(\'' + k + '\')" class="dist-sec-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors text-neutral-400 hover:text-white hover:bg-white/5" data-sec="' + k + '">' + v + ' <span class="text-neutral-600 text-xs">(0)</span></button>'
+      ).join('');
+      return;
+    }
+    empty.classList.add('hidden');
+    const items = [];
+    snap.forEach(doc => items.push({id: doc.id, ...doc.data()}));
+
+    const counts = {};
+    items.forEach(d => { counts[d.section] = (counts[d.section] || 0) + 1; });
+    sidebar.innerHTML = Object.entries(DIST_SECTIONS).map(([k,v]) =>
+      '<button onclick="filterDist(\'' + k + '\')" class="dist-sec-btn w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors ' + (currentDistSection === k ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-white hover:bg-white/5') + '" data-sec="' + k + '">' + v + ' <span class="text-neutral-600 text-xs">(' + (counts[k]||0) + ')</span></button>'
+    ).join('');
+
+    const filtered = currentDistSection ? items.filter(d => d.section === currentDistSection) : items;
+    list.innerHTML = '';
+    filtered.forEach(d => {
+      const secLabel = DIST_SECTIONS[d.section] || d.section;
+      const el = document.createElement('div');
+      el.className = 'flex items-center justify-between bg-white/5 border border-white/5 rounded-lg px-4 py-3.5 group hover:border-white/10 transition-colors';
+      el.innerHTML =
+        '<div class="flex items-center gap-3 min-w-0 flex-1">' +
+          '<span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-white/5 text-neutral-400 shrink-0">' + secLabel + '</span>' +
+          '<span class="text-sm truncate">' + d.name + '</span>' +
+        '</div>' +
+        '<div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">' +
+          '<a href="' + d.url + '" target="_blank" class="p-1.5 rounded hover:bg-white/10 text-neutral-400 hover:text-emerald-400 transition-colors" title="Open PDF"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg></a>' +
+          '<button onclick="openEditDist(\'' + d.id + '\')" class="p-1.5 rounded hover:bg-white/10 text-neutral-400 hover:text-white transition-colors" title="Edit"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z"/></svg></button>' +
+          '<button onclick="openDistDelete(\'' + d.id + '\',\'' + d.name.replace(/'/g, "\\'") + '\')" class="p-1.5 rounded hover:bg-white/10 text-neutral-400 hover:text-red-400 transition-colors" title="Delete"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg></button>' +
+        '</div>';
+      list.appendChild(el);
+    });
+  }).catch(err => {
+    list.innerHTML = '<p class="text-red-400 text-sm">Error: ' + err.message + '</p>';
+  });
+}
+
+function filterDist(section) {
+  currentDistSection = currentDistSection === section ? null : section;
+  loadDistItems();
+}
+
+function openDistModal() {
+  document.getElementById('dist-modal-title').textContent = 'Add link';
+  document.getElementById('dist-edit-id').value = '';
+  document.getElementById('dist-name').value = '';
+  document.getElementById('dist-section').value = currentDistSection || 'service-points';
+  document.getElementById('dist-url').value = '';
+  document.getElementById('dist-upload-status').classList.add('hidden');
+  document.getElementById('dist-modal-overlay').classList.remove('hidden');
+}
+
+function openEditDist(id) {
+  db.collection('distribution').doc(id).get().then(doc => {
+    if (!doc.exists) return;
+    const d = doc.data();
+    document.getElementById('dist-modal-title').textContent = 'Edit link';
+    document.getElementById('dist-edit-id').value = id;
+    document.getElementById('dist-name').value = d.name || '';
+    document.getElementById('dist-section').value = d.section || 'service-points';
+    document.getElementById('dist-url').value = d.url || '';
+    document.getElementById('dist-upload-status').classList.add('hidden');
+    document.getElementById('dist-modal-overlay').classList.remove('hidden');
+  });
+}
+
+function closeDistModal() {
+  document.getElementById('dist-modal-overlay').classList.add('hidden');
+}
+
+function saveDist(e) {
+  e.preventDefault();
+  const id = document.getElementById('dist-edit-id').value;
+  const data = {
+    name: document.getElementById('dist-name').value.trim(),
+    section: document.getElementById('dist-section').value,
+    url: document.getElementById('dist-url').value.trim(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  if (!data.name || !data.url) return;
+  let promise;
+  if (id) {
+    promise = db.collection('distribution').doc(id).update(data);
+  } else {
+    data.order = Date.now();
+    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+    promise = db.collection('distribution').doc(fundSlug(data.name)).set(data);
+  }
+  promise.then(() => { closeDistModal(); loadDistItems(); })
+    .catch(err => alert('Error: ' + err.message));
+}
+
+function uploadDistFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const status = document.getElementById('dist-upload-status');
+  status.classList.remove('hidden');
+  status.textContent = 'Uploading...';
+  status.className = 'text-xs text-emerald-400 mt-1.5';
+  const path = 'Distribution/' + Date.now() + '_' + file.name;
+  const ref = storage.ref(path);
+  const task = ref.put(file);
+  task.on('state_changed',
+    snap => { status.textContent = 'Uploading... ' + Math.round((snap.bytesTransferred / snap.totalBytes) * 100) + '%'; },
+    err => { status.textContent = 'Upload failed: ' + err.message; status.className = 'text-xs text-red-400 mt-1.5'; },
+    () => { task.snapshot.ref.getDownloadURL().then(url => { document.getElementById('dist-url').value = url; status.textContent = 'Uploaded!'; setTimeout(() => status.classList.add('hidden'), 2000); }); }
+  );
+  input.value = '';
+}
+
+function openDistDelete(id, name) {
+  distDeleteId = id;
+  document.getElementById('dist-delete-name').textContent = name;
+  document.getElementById('dist-delete-overlay').classList.remove('hidden');
+}
+
+function closeDistDelete() {
+  document.getElementById('dist-delete-overlay').classList.add('hidden');
+  distDeleteId = null;
+}
+
+function confirmDistDelete() {
+  if (!distDeleteId) return;
+  db.collection('distribution').doc(distDeleteId).delete().then(() => { closeDistDelete(); loadDistItems(); })
+    .catch(err => alert('Error: ' + err.message));
+}
+
+function seedDistFromHardcoded() {
+  const btn = document.getElementById('seed-dist-btn');
+  if (!confirm('Import the 10 distribution links currently hardcoded on the public site into Firestore?\n\nExisting links with the same name will be skipped.')) return;
+  btn.textContent = 'Seeding...'; btn.style.pointerEvents = 'none';
+  const SEED = [
+    {name:'Customer Service Office',section:'service-points',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/CustomerServiceOffices%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=dd62fe4',order:0},
+    {name:'Distribution Partners',section:'service-points',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/DistributionPartners%2FAlapjaink%20Forgalmaz%C3%B3i.pdf?alt=media&token=fddc9d05-56a1-43d1-8d2f-73ca5a018bdd',order:1},
+    {name:'MNB Online Report',section:'service-points',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/MNBOnlineReportForSecuritiesAccounts%2FMNB%20-%20%C3%A9rt%C3%A9kpap%C3%ADrsz%C3%A1mla%20online%20lek%C3%A9rdez%C3%A9s.pdf?alt=media&token=1474b38a-b7b1-4e8d-b16c-76b98538b40f',order:2},
+    {name:'Settlement Dates',section:'fund-operations',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/SettlementDates%2FElsz%C3%A1mol%C3%A1si%20d%C3%A1tumok.pdf?alt=media&token=0f650bcf-293e-4d9a-8d6e-4471e02899ea',order:3},
+    {name:'Account Numbers',section:'fund-operations',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AccountNumbers%2FSz%C3%A1mlasz%C3%A1mok.pdf?alt=media&token=4cd59574-8cf9-44a4-9098-0633bccc18e1',order:4},
+    {name:'Terms & Conditions',section:'fund-operations',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/TermsAndConditions%2FD%C3%ADjszab%C3%A1lyzat.pdf?alt=media&token=fea1d12f-ca4d-4681-ab12-1f5a23d52c1d',order:5},
+    {name:'Complaint Handling Policy',section:'claims',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/ComplaintHandlingPolicy%2FPanaszkezelesi_Szabalyzat_2025_03_27_11-es%20verzi%C3%B3.pdf?alt=media',order:6},
+    {name:'Complaint Handling Procedure',section:'claims',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/ComplaintHandlingProcedure%2FPanaszkezelesi_Elj%C3%A1r%C3%A1srend_2025_03_27_11-es%20verzi%C3%B3%20(1).pdf?alt=media',order:7},
+    {name:'Authorization Form',section:'claims',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AuthorizationForm%2FPanaszbejelent%C5%91%20formanyomtatv%C3%A1ny.pdf?alt=media',order:8},
+    {name:'Informational Power of Attorney',section:'claims',url:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/InformationalPowerOfAttorney%2FPanaszbejelent%C5%91%20formanyomtatv%C3%A1ny.pdf?alt=media',order:9}
+  ];
+  db.collection('distribution').get().then(snap => {
+    const existing = new Set();
+    snap.forEach(d => existing.add(d.data().name));
+    const toAdd = SEED.filter(d => !existing.has(d.name));
+    if (toAdd.length === 0) {
+      alert('All 10 distribution links already exist.');
+      btn.innerHTML = '<svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> Seed from current site data';
+      btn.style.pointerEvents = ''; return;
+    }
+    const batch = db.batch();
+    toAdd.forEach(d => { batch.set(db.collection('distribution').doc(fundSlug(d.name)), { ...d, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); });
+    return batch.commit().then(() => {
+      alert(toAdd.length + ' distribution links imported.');
+      btn.innerHTML = '<svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> Seed from current site data';
+      btn.style.pointerEvents = '';
+      loadDistItems();
+    });
+  }).catch(err => { alert('Error: ' + err.message); btn.textContent = 'Seed from current site data'; btn.style.pointerEvents = ''; });
+}
+
+// ============================================================
+// MONTHLY REPORTS EDITOR
+// ============================================================
+let editMR = {};
+
+function renderMREditor() {
+  const wrap = document.getElementById('mr-editor');
+  if (!wrap) return;
+  const years = Object.keys(editMR).sort((a, b) => b - a);
+  if (years.length === 0) {
+    wrap.innerHTML = '<p class="text-xs text-neutral-600">No monthly reports. Click "+ Add year" to start.</p>';
+    return;
+  }
+  wrap.innerHTML = years.map(y => {
+    const entries = editMR[y] || [];
+    return '<div class="bg-white/5 rounded-lg p-3">' +
+      '<div class="flex items-center justify-between mb-2">' +
+        '<span class="text-sm font-medium text-white">' + y + '</span>' +
+        '<div class="flex gap-3">' +
+          '<button type="button" onclick="addMREntry(' + y + ')" class="text-[10px] text-emerald-400 hover:text-emerald-300">+ Add month</button>' +
+          '<button type="button" onclick="removeMRYear(' + y + ')" class="text-[10px] text-red-400 hover:text-red-300">Remove year</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="space-y-1.5">' +
+        (entries.length === 0 ? '<p class="text-[10px] text-neutral-600">No entries yet.</p>' :
+          entries.map((e, i) =>
+            '<div class="flex gap-2 items-center">' +
+              '<input type="text" value="' + (e.name || '').replace(/"/g, '&quot;') + '" onchange="editMR[\'' + y + '\'][' + i + '].name=this.value" placeholder="Month name" class="w-32 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-[11px] placeholder-neutral-600 focus:outline-none focus:border-emerald-500"/>' +
+              '<input type="text" value="' + (e.path || '').replace(/"/g, '&quot;') + '" onchange="editMR[\'' + y + '\'][' + i + '].path=this.value" placeholder="Funds/..." class="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-[11px] placeholder-neutral-600 focus:outline-none focus:border-emerald-500" id="mr-path-' + y + '-' + i + '"/>' +
+              '<label class="shrink-0 cursor-pointer text-neutral-500 hover:text-emerald-400 transition-colors" title="Upload PDF"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg><input type="file" accept=".pdf" class="hidden" onchange="uploadMR(\'' + y + '\',' + i + ',this)"/></label>' +
+              '<button type="button" onclick="removeMREntry(\'' + y + '\',' + i + ')" class="text-neutral-500 hover:text-red-400 text-sm px-1">&times;</button>' +
+            '</div>'
+          ).join('')) +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function addReportYear() {
+  const existing = Object.keys(editMR).map(Number);
+  const cur = new Date().getFullYear();
+  let ny = cur;
+  while (existing.includes(ny)) ny--;
+  const y = prompt('Enter year:', ny);
+  if (!y || isNaN(y)) return;
+  const yr = String(parseInt(y));
+  if (editMR[yr]) { alert('Year ' + yr + ' already exists.'); return; }
+  editMR[yr] = [];
+  renderMREditor();
+}
+
+function removeMRYear(y) {
+  if (!confirm('Remove all monthly reports for ' + y + '?')) return;
+  delete editMR[y];
+  renderMREditor();
+}
+
+function addMREntry(y) {
+  y = String(y);
+  if (!editMR[y]) editMR[y] = [];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const used = editMR[y].map(e => e.name);
+  const next = months.find(m => !used.includes(m + ' ' + y));
+  editMR[y].push({ name: next ? next + ' ' + y : '', path: '' });
+  renderMREditor();
+}
+
+function uploadMR(y, i, input) {
+  const file = input.files[0];
+  if (!file) return;
+  y = String(y);
+  const pathEl = document.getElementById('mr-path-' + y + '-' + i);
+  if (pathEl) pathEl.value = 'Uploading...';
+  const storagePath = 'MonthlyReports/' + y + '/' + Date.now() + '_' + file.name;
+  const ref = storage.ref(storagePath);
+  const task = ref.put(file);
+  task.on('state_changed',
+    snap => {
+      const pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+      if (pathEl) pathEl.value = 'Uploading... ' + pct + '%';
+    },
+    err => {
+      if (pathEl) pathEl.value = '';
+      alert('Upload failed: ' + err.message);
+    },
+    () => {
+      task.snapshot.ref.getDownloadURL().then(url => {
+        editMR[y][i].path = url;
+        renderMREditor();
+      });
+    }
+  );
+  input.value = '';
+}
+
+function removeMREntry(y, i) {
+  y = String(y);
+  editMR[y].splice(i, 1);
+  renderMREditor();
 }
 </script>
 </body>
