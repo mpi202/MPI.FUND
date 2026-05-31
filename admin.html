@@ -49,10 +49,12 @@
     <!-- Sidebar -->
     <nav class="w-56 border-r border-white/10 h-[calc(100vh-57px)] p-4 flex flex-col sticky top-[57px]">
       <!-- Admin tab toggle -->
-      <div class="flex gap-1 mb-4 p-0.5 bg-white/5 rounded-lg">
-        <button onclick="switchAdminTab('documents')" id="tab-documents" class="admin-tab flex-1 text-xs font-medium py-2 rounded-md bg-white/10 text-white transition-colors">Docs</button>
-        <button onclick="switchAdminTab('funds')" id="tab-funds" class="admin-tab flex-1 text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Funds</button>
-        <button onclick="switchAdminTab('distribution')" id="tab-distribution" class="admin-tab flex-1 text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Dist</button>
+      <div class="grid grid-cols-3 gap-1 mb-4 p-0.5 bg-white/5 rounded-lg">
+        <button onclick="switchAdminTab('documents')" id="tab-documents" class="admin-tab text-xs font-medium py-2 rounded-md bg-white/10 text-white transition-colors">Docs</button>
+        <button onclick="switchAdminTab('funds')" id="tab-funds" class="admin-tab text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Funds</button>
+        <button onclick="switchAdminTab('distribution')" id="tab-distribution" class="admin-tab text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Dist</button>
+        <button onclick="switchAdminTab('custinfo')" id="tab-custinfo" class="admin-tab text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Info</button>
+        <button onclick="switchAdminTab('contact')" id="tab-contact" class="admin-tab text-xs font-medium py-2 rounded-md text-neutral-500 hover:text-white transition-colors">Contact</button>
       </div>
       <!-- Documents sidebar -->
       <div id="docs-sidebar-wrap" class="flex flex-col flex-1 min-h-0">
@@ -79,6 +81,22 @@
         <button onclick="seedDistFromHardcoded()" id="seed-dist-btn" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2 border-t border-white/5 pt-4">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
           Seed from current site data
+        </button>
+      </div>
+      <!-- Customer Info sidebar -->
+      <div id="ci-sidebar-wrap" class="hidden flex flex-col flex-1 min-h-0">
+        <p class="text-xs text-neutral-500 px-3 py-2 border-b border-white/5 mb-2">Manage the PDF links shown in the Customer Information page text (e.g. Conflict of Interest, Execution Policy, Business Rules, Fee Schedule).</p>
+        <button onclick="seedCustomerInfo()" id="seed-ci-btn" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Seed from current site links
+        </button>
+      </div>
+      <!-- Contact sidebar -->
+      <div id="contact-sidebar-wrap" class="hidden flex flex-col flex-1 min-h-0">
+        <p class="text-xs text-neutral-500 px-3 py-2 border-b border-white/5 mb-2">Edit the contact details, bank transfer info and company data shown on the public Contact page and in the site footer.</p>
+        <button onclick="seedContactAdmin()" id="seed-contact-btn" class="mt-4 w-full text-left px-3 py-2.5 rounded-lg text-xs text-neutral-500 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-2">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Reset to current site values
         </button>
       </div>
     </nav>
@@ -141,6 +159,90 @@
         <svg class="w-12 h-12 text-neutral-700 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
         <p class="text-neutral-500 text-sm">No distribution links yet.</p>
         <p class="text-neutral-600 text-xs mt-1">Click "Add link" or "Seed from current site data" in the sidebar.</p>
+      </div>
+    </main>
+
+    <!-- Main content: Customer Info -->
+    <main id="main-custinfo" class="flex-1 p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold">Customer Information Documents</h2>
+        <button onclick="saveCustomerInfoAdmin()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Save changes
+        </button>
+      </div>
+      <p class="text-neutral-500 text-sm mb-6">These PDFs are linked inline within the Customer Information page text. Upload a new file or paste a URL for any slot, then click "Save changes". If a slot has no URL it will keep its current link on the public site.</p>
+      <div id="ci-list" class="space-y-3">
+        <p class="text-neutral-500 text-sm">Loading...</p>
+      </div>
+    </main>
+
+    <!-- Main content: Contact -->
+    <main id="main-contact" class="flex-1 p-8 hidden">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold">Contact Page &amp; Footer</h2>
+        <button onclick="saveContactAdmin()" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+          Save changes
+        </button>
+      </div>
+      <p class="text-neutral-500 text-sm mb-8 max-w-2xl">These values appear on the public Contact page and in the footer of every page. Fields are pre-filled with the values currently shown on the site — edit any of them and click "Save changes". Clearing a field reverts it to the built-in default.</p>
+
+      <div id="contact-form" class="max-w-3xl space-y-8">
+        <!-- Contact details -->
+        <section>
+          <h3 class="text-sm font-bold uppercase tracking-wide text-emerald-400 mb-4">Contact Details</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Primary e-mail</label><input id="cf-email1" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Secondary e-mail</label><input id="cf-email2" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Phone</label><input id="cf-phone" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Fax</label><input id="cf-fax" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+          </div>
+        </section>
+
+        <!-- Company name + address (bilingual) -->
+        <section>
+          <h3 class="text-sm font-bold uppercase tracking-wide text-emerald-400 mb-4">Company Name &amp; Address</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Company name (EN)</label><input id="cf-companyEn" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Company name (HU)</label><input id="cf-companyHu" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Office address (EN)</label><textarea id="cf-addressEn" rows="3" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"></textarea><p class="text-[11px] text-neutral-600 mt-1">One line per row — line breaks are preserved.</p></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Office address (HU)</label><textarea id="cf-addressHu" rows="3" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"></textarea><p class="text-[11px] text-neutral-600 mt-1">One line per row — line breaks are preserved.</p></div>
+          </div>
+        </section>
+
+        <!-- Bank transfer -->
+        <section>
+          <h3 class="text-sm font-bold uppercase tracking-wide text-emerald-400 mb-4">Bank Transfer</h3>
+          <p class="text-xs text-neutral-500 mb-4 -mt-2">The beneficiary name shown on both transfers is the company name above. The comment is shared by both transfers.</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Euro account number</label><input id="cf-euroAccount" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Hungarian clearing house number</label><input id="cf-securityClearing" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Transfer comment (EN)</label><input id="cf-commentEn" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Transfer comment (HU)</label><input id="cf-commentHu" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+          </div>
+        </section>
+
+        <!-- Company data -->
+        <section>
+          <h3 class="text-sm font-bold uppercase tracking-wide text-emerald-400 mb-4">Other Company Data</h3>
+          <div class="grid sm:grid-cols-3 gap-4">
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Company registration no.</label><input id="cf-regNumber" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">VAT number</label><input id="cf-vatNumber" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">License number (NBH)</label><input id="cf-licenseNumber" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <section>
+          <h3 class="text-sm font-bold uppercase tracking-wide text-emerald-400 mb-4">Footer (all pages)</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Footer e-mail</label><input id="cf-footerEmail" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Footer phone</label><input id="cf-footerPhone" type="text" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Footer address (EN)</label><textarea id="cf-footerAddressEn" rows="2" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"></textarea></div>
+            <div><label class="block text-xs text-neutral-400 mb-1.5">Footer address (HU)</label><textarea id="cf-footerAddressHu" rows="2" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"></textarea></div>
+          </div>
+        </section>
       </div>
     </main>
   </div>
@@ -808,17 +910,23 @@ let adminTab = 'documents';
 
 function switchAdminTab(tab) {
   adminTab = tab;
-  ['documents','funds','distribution'].forEach(t => {
-    document.getElementById('tab-' + t).className = 'admin-tab flex-1 text-xs font-medium py-2 rounded-md transition-colors ' + (tab === t ? 'bg-white/10 text-white' : 'text-neutral-500 hover:text-white');
+  ['documents','funds','distribution','custinfo','contact'].forEach(t => {
+    document.getElementById('tab-' + t).className = 'admin-tab text-xs font-medium py-2 rounded-md transition-colors ' + (tab === t ? 'bg-white/10 text-white' : 'text-neutral-500 hover:text-white');
   });
   document.getElementById('docs-sidebar-wrap').classList.toggle('hidden', tab !== 'documents');
   document.getElementById('funds-sidebar-wrap').classList.toggle('hidden', tab !== 'funds');
   document.getElementById('dist-sidebar-wrap').classList.toggle('hidden', tab !== 'distribution');
+  document.getElementById('ci-sidebar-wrap').classList.toggle('hidden', tab !== 'custinfo');
+  document.getElementById('contact-sidebar-wrap').classList.toggle('hidden', tab !== 'contact');
   document.getElementById('main-documents').classList.toggle('hidden', tab !== 'documents');
   document.getElementById('main-funds').classList.toggle('hidden', tab !== 'funds');
   document.getElementById('main-distribution').classList.toggle('hidden', tab !== 'distribution');
+  document.getElementById('main-custinfo').classList.toggle('hidden', tab !== 'custinfo');
+  document.getElementById('main-contact').classList.toggle('hidden', tab !== 'contact');
   if (tab === 'funds') loadFunds();
   if (tab === 'distribution') loadDistItems();
+  if (tab === 'custinfo') loadCustomerInfoAdmin();
+  if (tab === 'contact') loadContactAdmin();
 }
 
 // ============================================================
@@ -1205,6 +1313,182 @@ function seedDistFromHardcoded() {
       loadDistItems();
     });
   }).catch(err => { alert('Error: ' + err.message); btn.textContent = 'Seed from current site data'; btn.style.pointerEvents = ''; });
+}
+
+// ============================================================
+// CUSTOMER INFO DOCUMENTS
+// ============================================================
+const CI_DOCS = [
+  {id:'conflict-of-interest', name:'Conflict of Interest Policy',  def:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2F%C3%96sszeferhetetlensegi_politika.pdf?alt=media'},
+  {id:'execution-policy',     name:'Execution Policy',             def:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FVegrehajtasi_politika_2024_02_20_14-es%20verzi%C3%B3_.pdf?alt=media'},
+  {id:'execution-venues',     name:'Execution Venues',             def:''},
+  {id:'business-rules',       name:'Business Rules (Üzletszabályzat)', def:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FUzletszabalyzat_2025_03_28_13_as_verzi%C3%B3.pdf?alt=media'},
+  {id:'fee-schedule',         name:'Fee Schedule (Díjszabályzat)',     def:'https://firebasestorage.googleapis.com/v0/b/marketprog-bf7d3.appspot.com/o/AssetManager%2FD%C3%ADjszab%C3%A1lyzat_2025_09_10.pdf?alt=media'}
+];
+
+function loadCustomerInfoAdmin() {
+  document.getElementById('ci-list').innerHTML = '<p class="text-neutral-500 text-sm">Loading...</p>';
+  db.collection('customerInfo').get().then(snap => {
+    const data = {};
+    snap.forEach(d => { data[d.id] = d.data(); });
+    renderCIEditor(data);
+  }).catch(err => {
+    document.getElementById('ci-list').innerHTML = '<p class="text-red-400 text-sm">Error: ' + err.message + '</p>';
+  });
+}
+
+function renderCIEditor(data) {
+  const wrap = document.getElementById('ci-list');
+  wrap.innerHTML = CI_DOCS.map((c, i) => {
+    const cur = (data[c.id] && data[c.id].url) || '';
+    return '<div class="bg-white/5 border border-white/10 rounded-lg p-4">' +
+      '<div class="flex items-center justify-between mb-2">' +
+        '<span class="text-sm font-medium text-white">' + c.name + '</span>' +
+        (cur ? '<a href="' + cur.replace(/"/g, '&quot;') + '" target="_blank" class="text-[11px] text-emerald-400 hover:text-emerald-300">Open current &rarr;</a>' : '<span class="text-[11px] text-neutral-600">No URL set</span>') +
+      '</div>' +
+      '<div class="flex gap-2">' +
+        '<input id="ci-url-' + i + '" type="text" value="' + cur.replace(/"/g, '&quot;') + '" placeholder="https://firebasestorage..." class="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm placeholder-neutral-500 focus:outline-none focus:border-emerald-500 transition-colors"/>' +
+        '<label class="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 text-sm text-neutral-400 hover:text-white hover:border-white/20 transition-colors cursor-pointer shrink-0">' +
+          '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>' +
+          'Upload' +
+          '<input type="file" accept=".pdf" class="hidden" onchange="uploadCI(' + i + ',this)"/>' +
+        '</label>' +
+      '</div>' +
+      '<p id="ci-status-' + i + '" class="text-xs text-neutral-500 mt-1.5 hidden"></p>' +
+    '</div>';
+  }).join('');
+}
+
+function uploadCI(i, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const status = document.getElementById('ci-status-' + i);
+  status.classList.remove('hidden');
+  status.textContent = 'Uploading...';
+  status.className = 'text-xs text-emerald-400 mt-1.5';
+  const path = 'CustomerInfo/' + Date.now() + '_' + file.name;
+  const ref = storage.ref(path);
+  const task = ref.put(file);
+  task.on('state_changed',
+    snap => { status.textContent = 'Uploading... ' + Math.round((snap.bytesTransferred / snap.totalBytes) * 100) + '%'; },
+    err => { status.textContent = 'Upload failed: ' + err.message; status.className = 'text-xs text-red-400 mt-1.5'; },
+    () => { task.snapshot.ref.getDownloadURL().then(url => { document.getElementById('ci-url-' + i).value = url; status.textContent = 'Uploaded! Click "Save changes" to apply.'; }); }
+  );
+  input.value = '';
+}
+
+function saveCustomerInfoAdmin() {
+  const batch = db.batch();
+  CI_DOCS.forEach((c, i) => {
+    const url = document.getElementById('ci-url-' + i).value.trim();
+    batch.set(db.collection('customerInfo').doc(c.id), {
+      name: c.name,
+      url: url,
+      order: i,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  });
+  batch.commit().then(() => {
+    alert('Customer Information documents saved.');
+    loadCustomerInfoAdmin();
+  }).catch(err => alert('Error: ' + err.message));
+}
+
+function seedCustomerInfo() {
+  const btn = document.getElementById('seed-ci-btn');
+  if (!confirm('Import the document links currently hardcoded in the Customer Information page into Firestore?\n\nSlots that already exist will be skipped.')) return;
+  btn.style.pointerEvents = 'none';
+  db.collection('customerInfo').get().then(snap => {
+    const existing = new Set();
+    snap.forEach(d => existing.add(d.id));
+    const toAdd = CI_DOCS.filter(c => !existing.has(c.id));
+    if (toAdd.length === 0) {
+      alert('All Customer Information slots already exist.');
+      btn.style.pointerEvents = ''; return;
+    }
+    const batch = db.batch();
+    toAdd.forEach((c, idx) => {
+      batch.set(db.collection('customerInfo').doc(c.id), {
+        name: c.name,
+        url: c.def,
+        order: CI_DOCS.indexOf(c),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    });
+    return batch.commit().then(() => {
+      alert(toAdd.length + ' Customer Information slot(s) imported.');
+      btn.style.pointerEvents = '';
+      loadCustomerInfoAdmin();
+    });
+  }).catch(err => { alert('Error: ' + err.message); btn.style.pointerEvents = ''; });
+}
+
+// ============================================================
+// CONTACT PAGE / FOOTER EDITOR  (siteSettings/contact)
+// ============================================================
+const CONTACT_DEFAULTS = {
+  email1:'info@marketproginvestment.com',
+  email2:'varkonyi@marketproginvestment.com',
+  phone:'+36 1 522-2090',
+  fax:'+36 1 522 2099',
+  euroAccount:'1091 8001 0000 0078 4609 0011',
+  securityClearing:'0581/000001',
+  regNumber:'01-10-048141',
+  vatNumber:'24980157-1-43',
+  licenseNumber:'H-EN-III-14/2015.',
+  footerEmail:'info@mpi.fund',
+  footerPhone:'+36 1 522 2091',
+  companyEn:'MARKETPROG Asset Management Ltd.',
+  companyHu:'MARKETPROG Asset Management Zrt.',
+  addressEn:'Hungary, H-1124 Budapest<br/>Csörsz street 45.<br/>MOM Office Park, SAS Tower, 5th floor.',
+  addressHu:'Magyarország, H-1124 Budapest<br/>Csörsz utca 45.<br/>MOM Office Park, SAS torony, V. emelet.',
+  commentEn:"Client's name and account code, original buying price of security",
+  commentHu:'Ügyfél neve és számlakódja, az értékpapír eredeti vételára',
+  footerAddressEn:'MOM Park Towers, SAS Building,<br/>H-1124 Budapest, Csörsz u. 45',
+  footerAddressHu:'MOM Park Towers, SAS épület,<br/>H-1124 Budapest, Csörsz u. 45.'
+};
+const CONTACT_FIELDS = Object.keys(CONTACT_DEFAULTS);
+const CONTACT_BR_FIELDS = ['addressEn','addressHu','footerAddressEn','footerAddressHu'];
+
+function fillContactForm(data) {
+  CONTACT_FIELDS.forEach(k => {
+    const el = document.getElementById('cf-' + k);
+    if (!el) return;
+    let v = (data && data[k] !== undefined && data[k] !== null) ? data[k] : CONTACT_DEFAULTS[k];
+    if (CONTACT_BR_FIELDS.includes(k)) v = String(v).replace(/<br\s*\/?>/gi, '\n');
+    el.value = v;
+  });
+}
+
+function loadContactAdmin() {
+  db.collection('siteSettings').doc('contact').get().then(s => {
+    fillContactForm(s.exists ? s.data() : null);
+  }).catch(err => {
+    alert('Error loading contact settings: ' + err.message);
+    fillContactForm(null);
+  });
+}
+
+function saveContactAdmin() {
+  const obj = {};
+  CONTACT_FIELDS.forEach(k => {
+    const el = document.getElementById('cf-' + k);
+    let v = el ? el.value.trim() : '';
+    if (CONTACT_BR_FIELDS.includes(k)) {
+      v = v.split('\n').map(l => l.trim()).filter(Boolean).join('<br/>');
+    }
+    obj[k] = v;
+  });
+  obj.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+  db.collection('siteSettings').doc('contact').set(obj, { merge: true }).then(() => {
+    alert('Contact details saved. They are now live on the public site.');
+  }).catch(err => alert('Error: ' + err.message));
+}
+
+function seedContactAdmin() {
+  if (!confirm('Reset every field in this form to the built-in default values?\n\nThis only refills the form — nothing is saved until you click "Save changes".')) return;
+  fillContactForm(null);
 }
 
 // ============================================================
