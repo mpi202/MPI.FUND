@@ -62,11 +62,14 @@
     .fund-card.hide{opacity:0;transform:scale(.96);pointer-events:none;position:absolute;width:0;height:0;overflow:hidden;margin:0;padding:0;border:0}
     .fund-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);border-color:#d4d4d4}
     .fund-card .fund-expand{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1)}
-    .fund-card .fund-expand.open{max-height:900px}
+    .fund-card .fund-expand.open{max-height:2000px}
+    .fund-card.expanded{grid-column:1/-1}
+    .fund-sec{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.22,1,.36,1)}
+    .fund-sec.open{max-height:600px}
     .series-btn,.period-btn{transition:all .2s ease}
-    .series-btn.active{background:#22c55e;color:#fff}.period-btn.active{background:#000;color:#fff}
-    .fund-more{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.22,1,.36,1)}
-    .fund-more.open{max-height:400px}
+    .series-btn.active,.period-btn.active{background:#000;color:#fff;border-color:#000}
+    .fund-card.expanded .fund-head{padding-top:16px;padding-bottom:16px}
+    .fund-card.expanded .fund-head h3,.fund-card.expanded .fund-ret{font-size:18px;line-height:28px}
     .doc-panel{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1)}
     .doc-accordion.open .doc-panel{max-height:600px}
     .doc-accordion.open .doc-chev{transform:rotate(180deg)}
@@ -552,35 +555,7 @@ function showCustomCategory(slug){
   <!-- Fund cards grid -->
   <section class="bg-neutral-50/50">
     <div class="mx-auto max-w-6xl px-6 py-12">
-      <div id="funds-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </div>
-  </section>
-
-  <!-- White Label Funds -->
-  <section class="bg-neutral-950 text-white">
-    <div class="mx-auto max-w-6xl px-6 py-20">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        <div class="space-y-6">
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 rounded-full bg-accent-500"></div>
-            <p class="text-lg font-semibold" data-i18n="funds.wl_fund1">Primus All Weather Fund</p>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 rounded-full bg-accent-500"></div>
-            <p class="text-lg font-semibold" data-i18n="funds.wl_fund2">Primus All Weather Plus Fund</p>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 rounded-full bg-accent-500"></div>
-            <p class="text-lg font-semibold" data-i18n="funds.wl_fund3">Activity Fund</p>
-          </div>
-        </div>
-        <div>
-          <h2 class="text-3xl md:text-4xl font-bold"><span class="italic text-accent-400" data-i18n="funds.wl_title1">White Label</span> <span data-i18n="funds.wl_title2">Funds</span></h2>
-          <p class="mt-4 text-neutral-400 leading-relaxed" data-i18n="funds.wl_desc">White label funds are managed by our partner fund promoters and administered by us. The strategies of the funds cover a wide spectrum based on the mandates of our promoters.</p>
-          <p class="mt-4 text-neutral-300" data-i18n="funds.wl_cta_text">Interested in launching your own investment fund?</p>
-          <button onclick="openMeeting('White Label Funds')" class="mt-6 bg-accent-500 text-white px-8 py-3.5 rounded-xl text-sm font-semibold hover:bg-accent-600 transition-colors shadow-lg shadow-accent-500/25" data-i18n="funds.wl_cta">Get in touch</button>
-        </div>
-      </div>
+      <div id="funds-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row-dense items-start gap-5"></div>
     </div>
   </section>
 
@@ -1630,7 +1605,7 @@ const T={
     'funds.label':'Befektetési Alapok','funds.hero_title':'Befektetési Alapok','funds.desc':'Saját befektetési alapjaink fix kamatozású és deviza stratégiákra összpontosítanak, alapkezelőink szakmai hátterét tükrözve.','funds.cta':'Kapcsolatfelvétel',
     'funds.filter_all':'Összes alap','funds.fund_count_label':'alap','funds.details':'Részletek','funds.documents':'Dokumentumok',
     'funds.all_families':'Összes alapcsalád (17)','funds.disclaimer':'A múltbeli teljesítmény nem garancia a jövőbeli eredményekre. YTD hozamok 2026. május 20-i állapot szerint (forrás: BAMOSZ, NAV dátum: 2026. május 19.).',
-    'funds.wl_fund1':'Primus All Weather Alap','funds.wl_fund2':'Primus All Weather Plus Alap','funds.wl_fund3':'Activity Alap','funds.wl_title1':'White Label','funds.wl_title2':'Alapok','funds.wl_desc':'A white label alapokat partner alappromotereink kezelik, és mi adminisztráljuk. Az alapok stratégiái széles spektrumot fednek le promotereink mandátumai alapján.','funds.wl_cta_text':'Érdekli saját befektetési alap indítása?','funds.wl_cta':'Kapcsolatfelvétel',
+    
     'portfolios.label':'Személyre szabott portfóliók','portfolios.title':'Önre szabva.',
     'portfolios.desc':'Szisztematikus és szabályalapú befektetési folyamatunk révén globálisan diverzifikált portfólióba fektetünk részvényekbe, állam-/vállalati kötvényekbe valamint nyersanyagokba ETF-eken keresztül. Kvantitatív kutatás segítségével dinamikusan optimalizáljuk az egyes portfóliókat a túlzott volatilitás elleni védelem és a különböző piaci körülmények közötti hozamszerzés érdekében.',
     'portfolios.desc2':'A potenciális veszteség számszerűsítéséhez Value-at-Risk (VaR) módszertant alkalmazunk, és jelenleg három portfólió-kategóriát kínálunk 5%-os, 10%-os és 15%-os VaR-szinttel — így Ön választhatja ki a befektetési céljaihoz legjobban illő kockázat-hozam profilt.',
@@ -1719,7 +1694,7 @@ const T={
     'funds.label':'Investment Funds','funds.hero_title':'Investment Funds','funds.desc':'Our own investment funds focus on fixed income and FX strategies reflecting the career backgrounds of our managers.','funds.cta':'Get in touch',
     'funds.filter_all':'All Funds','funds.fund_count_label':'funds','funds.details':'Details','funds.documents':'Documents',
     'funds.all_families':'All Fund Families (17)','funds.disclaimer':'Past performance is not indicative of future results. YTD returns as of 20 May 2026 (source: BAMOSZ, NAV date 19 May 2026).',
-    'funds.wl_fund1':'Primus All Weather Fund','funds.wl_fund2':'Primus All Weather Plus Fund','funds.wl_fund3':'Activity Fund','funds.wl_title1':'White Label','funds.wl_title2':'Funds','funds.wl_desc':'White label funds are managed by our partner fund promoters and administered by us. The strategies of the funds cover a wide spectrum based on the mandates of our promoters.','funds.wl_cta_text':'Interested in launching your own investment fund?','funds.wl_cta':'Get in touch',
+    
     'portfolios.label':'Personalized Portfolios','portfolios.title':'Built around you.',
     'portfolios.desc':'Through a systematic and rule-based investment process we invest in a globally diversified portfolio of equities, government/corporate bonds and commodities via ETFs. Using quantitative research, we dynamically optimize each portfolio to protect against excessive volatility while delivering returns across varying market conditions.',
     'portfolios.desc2':'We employ Value-at-Risk (VaR) to quantify potential loss and currently offer three portfolio categories with 5%, 10%, and 15% VaR levels — allowing you to choose the risk-return profile that best matches your investment objectives.',
@@ -1984,29 +1959,29 @@ const FUND_NAV={
     details:{inception:'2015-06-03',isin_huf:'HU0000714555',isin_eur:'HU0000714548',isin_usd:'—',benchmark:'No benchmark',mgmtFee:'0.75%',perfFee:'20% above hurdle',minInvest:'€10,000 / HUF eq.',nav:'Daily',riskLevel:'5/7 (Medium-high)',strategy:'Government bond-focused fund enhanced with interest rate derivatives. Active positioning on Hungarian and European rate curves with systematic risk management. Custodian: Erste Bank Hungary Zrt.'},
     'I Series':{
       '1Y':{
-        labels:['May 25','Jun 3','Jun 17','Jul 1','Jul 15','Aug 1','Aug 15','Sep 1','Sep 15','Oct 1','Oct 15','Nov 1','Nov 15','Dec 1','Dec 15','Jan 1','Jan 15','Feb 1','Feb 15','Mar 1','Mar 15','Apr 1','Apr 15','May 1','May 15'],
+        labels:["May '25","3 Jun '25","17 Jun '25","1 Jul '25","15 Jul '25","1 Aug '25","15 Aug '25","1 Sep '25","15 Sep '25","1 Oct '25","15 Oct '25","1 Nov '25","15 Nov '25","1 Dec '25","15 Dec '25","1 Jan '26","15 Jan '26","1 Feb '26","15 Feb '26","1 Mar '26","15 Mar '26","1 Apr '26","15 Apr '26","1 May '26","15 May '26"],
         data:[2.11,2.11,2.10,2.12,2.12,2.13,2.14,2.15,2.15,2.15,2.15,2.16,2.18,2.19,2.21,2.23,2.25,2.24,2.18,2.10,2.04,2.30,2.35,2.38,2.40]
       },
       '3Y':{
-        labels:['May 23','Aug 23','Nov 23','Feb 24','May 24','Aug 24','Nov 24','Feb 25','May 25','Aug 25','Nov 25','Feb 26','May 26'],
+        labels:["May '23","Aug '23","Nov '23","Feb '24","May '24","Aug '24","Nov '24","Feb '25","May '25","Aug '25","Nov '25","Feb '26","May '26"],
         data:[1.85,1.97,2.05,2.04,2.12,2.13,2.12,2.12,2.11,2.15,2.20,2.10,2.40]
       },
       '5Y':{
-        labels:['May 21','Nov 21','May 22','Nov 22','May 23','Nov 23','May 24','Nov 24','May 25','Nov 25','May 26'],
+        labels:["May '21","Nov '21","May '22","Nov '22","May '23","Nov '23","May '24","Nov '24","May '25","Nov '25","May '26"],
         data:[1.38,1.40,1.39,1.72,1.88,2.08,2.12,2.13,2.12,2.22,2.40]
       }
     },
     'HUF Series':{
       '1Y':{
-        labels:['May 25','Jun 3','Jun 17','Jul 1','Jul 15','Aug 1','Aug 15','Sep 1','Sep 15','Oct 1','Oct 15','Nov 1','Nov 15','Dec 1','Dec 15','Jan 1','Jan 15','Feb 1','Feb 15','Mar 1','Mar 15','Apr 1','Apr 15','May 1','May 15'],
+        labels:["May '25","3 Jun '25","17 Jun '25","1 Jul '25","15 Jul '25","1 Aug '25","15 Aug '25","1 Sep '25","15 Sep '25","1 Oct '25","15 Oct '25","1 Nov '25","15 Nov '25","1 Dec '25","15 Dec '25","1 Jan '26","15 Jan '26","1 Feb '26","15 Feb '26","1 Mar '26","15 Mar '26","1 Apr '26","15 Apr '26","1 May '26","15 May '26"],
         data:[2.30,2.30,2.30,2.31,2.31,2.33,2.34,2.35,2.35,2.35,2.35,2.37,2.38,2.40,2.42,2.44,2.47,2.45,2.38,2.32,2.28,2.53,2.57,2.61,2.65]
       },
       '3Y':{
-        labels:['May 23','Aug 23','Nov 23','Feb 24','May 24','Aug 24','Nov 24','Feb 25','May 25','Aug 25','Nov 25','Feb 26','May 26'],
+        labels:["May '23","Aug '23","Nov '23","Feb '24","May '24","Aug '24","Nov '24","Feb '25","May '25","Aug '25","Nov '25","Feb '26","May '26"],
         data:[2.00,2.15,2.20,2.18,2.28,2.30,2.31,2.30,2.30,2.35,2.45,2.30,2.65]
       },
       '5Y':{
-        labels:['May 21','Nov 21','May 22','Nov 22','May 23','Nov 23','May 24','Nov 24','May 25','Nov 25','May 26'],
+        labels:["May '21","Nov '21","May '22","Nov '22","May '23","Nov '23","May '24","Nov '24","May '25","Nov '25","May '26"],
         data:[1.50,1.52,1.53,1.82,2.00,2.22,2.30,2.35,2.32,2.47,2.65]
       }
     }
@@ -2020,7 +1995,8 @@ function renderFunds(){
   const grid=document.getElementById('funds-grid');
   if(!grid)return;
   const typeColors={'Absolute Return':'text-accent-600 bg-accent-50','Fixed Income':'text-blue-600 bg-blue-50','Equity':'text-purple-600 bg-purple-50','Fund of Funds':'text-amber-600 bg-amber-50'};
-  const pdfCardIcon='<svg viewBox="0 0 40 48" class="w-10 h-12"><rect x="0" y="0" width="40" height="48" rx="4" fill="#fafafa" stroke="#e5e5e5"/><path d="M12 4h10l10 10v30a4 4 0 01-4 4H12a4 4 0 01-4-4V8a4 4 0 014-4z" fill="#f5f5f5" stroke="#e5e5e5" stroke-width=".5"/><path d="M22 4v10h10" fill="#eee" stroke="#e5e5e5" stroke-width=".5"/><rect x="4" y="33" width="32" height="11" rx="2" fill="#ef4444"/><text x="20" y="41.5" text-anchor="middle" fill="white" font-size="7" font-weight="bold" font-family="Inter,sans-serif">PDF</text></svg>';
+  const fileIcon='<svg class="w-3.5 h-3.5 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+  const downloadIcon='<svg class="w-3.5 h-3.5 text-neutral-300 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14"/></svg>';
   grid.innerHTML=FUNDS.map((f,i)=>{
     const tc=typeColors[f.type]||'text-neutral-600 bg-neutral-100';
     const returns=f.ytd.split('·').map(r=>r.trim()).filter(r=>r&&r.includes('+'));
@@ -2029,56 +2005,67 @@ function renderFunds(){
     const hasNav=!!FUND_NAV[f.name];
     const nav=FUND_NAV[f.name];
 
+    // Year-to-date returns per currency ("HUF +10.5% · EUR +4.4%"); falls back to the currency list
+    const ytdPairs=f.ytd.split('·').map(r=>r.trim().match(/^([A-Z]{3})\s+([+-][\d.,]+%)$/)).filter(Boolean);
+    const ytdRow=ytdPairs.length
+      ?`<div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 mt-3 text-xs">
+          <span class="text-neutral-400">YTD</span>
+          ${ytdPairs.map(([,c,v])=>`<span><span class="text-neutral-500">${c}</span> <span class="font-semibold ${v.startsWith('-')?'text-red-500':'text-accent-600'}">${v}</span></span>`).join('')}
+        </div>`
+      :`<p class="mt-3 text-xs text-neutral-400">${f.ccy}</p>`;
+
     // Series & period toggles for funds with real NAV data
     let chartControls='';
     if(hasNav){
-      const seriesBtns=nav.series.map((s,si)=>`<button onclick="event.stopPropagation();switchFundSeries(${i},'${s}')" class="series-btn text-[10px] font-medium px-2.5 py-1 rounded-full border border-neutral-200 ${si===0?'active':''}" data-series="${s}">${s}</button>`).join('');
-      chartControls=`<div class="flex items-center justify-between mt-3 mb-2" onclick="event.stopPropagation()">
+      const seriesBtns=nav.series.map((s,si)=>`<button onclick="event.stopPropagation();switchFundSeries(${i},'${s}')" class="series-btn text-xs font-medium h-7 px-3 rounded-md border border-neutral-200 hover:border-neutral-400 ${si===0?'active':''}" data-series="${s}">${s}</button>`).join('');
+      chartControls=`<div class="flex flex-wrap items-center justify-between gap-2 mt-5 mb-3">
         <div class="flex gap-1.5">${seriesBtns}</div>
         <div class="flex gap-1">
-          <button onclick="event.stopPropagation();switchFundPeriod(${i},'1Y')" class="period-btn text-[10px] font-medium px-2 py-0.5 rounded border border-neutral-200 active" data-period="1Y">1Y</button>
-          <button onclick="event.stopPropagation();switchFundPeriod(${i},'3Y')" class="period-btn text-[10px] font-medium px-2 py-0.5 rounded border border-neutral-200" data-period="3Y">3Y</button>
-          <button onclick="event.stopPropagation();switchFundPeriod(${i},'5Y')" class="period-btn text-[10px] font-medium px-2 py-0.5 rounded border border-neutral-200" data-period="5Y">5Y</button>
+          <button onclick="event.stopPropagation();switchFundPeriod(${i},'1Y')" class="period-btn text-xs font-medium h-7 px-3 rounded-md border border-neutral-200 hover:border-neutral-400 active" data-period="1Y">1Y</button>
+          <button onclick="event.stopPropagation();switchFundPeriod(${i},'3Y')" class="period-btn text-xs font-medium h-7 px-3 rounded-md border border-neutral-200 hover:border-neutral-400" data-period="3Y">3Y</button>
+          <button onclick="event.stopPropagation();switchFundPeriod(${i},'5Y')" class="period-btn text-xs font-medium h-7 px-3 rounded-md border border-neutral-200 hover:border-neutral-400" data-period="5Y">5Y</button>
         </div>
       </div>`;
     }
 
-    // More details section for funds with real NAV data
+    // Foldable section header (Fund details / Facts / Monthly reports)
+    const foldHead=(key,title)=>`<button onclick="toggleFundSection(${i},'${key}')" class="flex items-center justify-between w-full text-left">
+        <h4 class="text-[11px] font-semibold uppercase tracking-wider text-neutral-500">${title}</h4>
+        <svg id="${key}-chevron-${i}" class="w-3.5 h-3.5 text-neutral-400 transition-transform shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>`;
+
+    // Fund details section for funds with real NAV data
     let moreSection='';
     if(hasNav&&nav.details){
       const d=nav.details;
-      moreSection=`<button onclick="event.stopPropagation();toggleFundMore(${i})" class="mt-3 w-full text-[11px] font-medium text-accent-600 hover:text-accent-700 flex items-center gap-1">
-          <span id="more-label-${i}">Fund details</span>
-          <svg id="more-chevron-${i}" class="w-3 h-3 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-        </button>
-      <div class="fund-more" id="fund-more-${i}">
-        <div class="mt-3 pt-3 border-t border-neutral-100">
-          <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-[11px]">
-            <div class="flex justify-between"><span class="text-neutral-400">Inception</span><span class="font-medium">${d.inception}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">NAV Frequency</span><span class="font-medium">${d.nav}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">ISIN (HUF)</span><span class="font-medium font-mono text-[10px]">${d.isin_huf}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">ISIN (EUR)</span><span class="font-medium font-mono text-[10px]">${d.isin_eur}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">ISIN (USD)</span><span class="font-medium font-mono text-[10px]">${d.isin_usd}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">Risk Level</span><span class="font-medium">${d.riskLevel}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">Mgmt Fee</span><span class="font-medium">${d.mgmtFee}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">Perf Fee</span><span class="font-medium">${d.perfFee}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">Min Investment</span><span class="font-medium">${d.minInvest}</span></div>
-            <div class="flex justify-between"><span class="text-neutral-400">Benchmark</span><span class="font-medium">${d.benchmark}</span></div>
+      moreSection=`<div class="px-4 py-4">
+        ${foldHead('more','Fund details')}
+        <div class="fund-sec" id="fund-more-${i}">
+          <div class="pt-3 space-y-2 text-xs">
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">Inception</span><span class="font-medium">${d.inception}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">NAV Frequency</span><span class="font-medium">${d.nav}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">ISIN (HUF)</span><span class="font-medium font-mono">${d.isin_huf}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">ISIN (EUR)</span><span class="font-medium font-mono">${d.isin_eur}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">ISIN (USD)</span><span class="font-medium font-mono">${d.isin_usd}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">Risk Level</span><span class="font-medium">${d.riskLevel}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">Mgmt Fee</span><span class="font-medium">${d.mgmtFee}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">Perf Fee</span><span class="font-medium">${d.perfFee}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">Min Investment</span><span class="font-medium">${d.minInvest}</span></div>
+            <div class="flex justify-between gap-3"><span class="text-neutral-400">Benchmark</span><span class="font-medium text-right">${d.benchmark}</span></div>
+            <p class="pt-2 text-neutral-500 leading-relaxed">${d.strategy}</p>
           </div>
-          <p class="mt-3 text-[11px] text-neutral-500 leading-relaxed">${d.strategy}</p>
         </div>
       </div>`;
     }
 
-    // Facts and regulatory documents — PDF cards
+    // Facts and regulatory documents — list rows
     const docs=[];
     if(f.rule)docs.push({label:'Rule Book and information in full',path:f.rule});
     if(f.info)docs.push({label:'Information',path:f.info});
     if(f.kiid)docs.push({label:f.kiid.split('/').pop().replace(/\.pdf$/i,''),path:f.kiid});
-    const docsGrid=docs.length?docs.map(d=>`<a href="${fbUrl(d.path)}" target="_blank" onclick="event.stopPropagation()" class="fund-doc-card flex flex-col items-center gap-2 p-3 rounded-lg border border-neutral-200 hover:border-accent-300 hover:shadow-sm transition-all bg-white text-center group/doc">
-      ${pdfCardIcon}
-      <span class="text-[10px] text-neutral-500 leading-tight line-clamp-2 group-hover/doc:text-accent-600 transition-colors">${d.label}</span>
-    </a>`).join(''):'<p class="text-[11px] text-neutral-400 col-span-2">No documents available.</p>';
+    const docsList=docs.length?docs.map(d=>`<a href="${fbUrl(d.path)}" target="_blank" class="flex items-center gap-2 py-2.5 text-xs text-neutral-700 hover:text-accent-600 transition-colors">
+      ${fileIcon}<span class="flex-1 min-w-0">${d.label}</span>${downloadIcon}
+    </a>`).join(''):'<p class="py-2.5 text-xs text-neutral-400">No documents available.</p>';
 
     // Monthly reports — year rows
     const reportYears=[2026,2025,2024,2023,2022];
@@ -2086,51 +2073,53 @@ function renderFunds(){
     const reportsRows=reportYears.map(y=>{
       const items=monthlyReports[y]||[];
       const hasItems=items.length>0;
-      return `<div class="border-b border-accent-100/60 last:border-0">
-        <button onclick="event.stopPropagation();toggleReportYear(${i},${y})" class="flex items-center justify-between w-full py-2.5 text-sm font-semibold ${hasItems?'text-accent-600 hover:text-accent-700':'text-neutral-300 cursor-default'} transition-colors">
+      return `<div class="border-b border-neutral-100 last:border-0">
+        <button onclick="event.stopPropagation();toggleReportYear(${i},${y})" class="flex items-center justify-between w-full py-2.5 text-xs font-semibold ${hasItems?'text-neutral-800 hover:text-accent-600':'text-neutral-300 cursor-default'} transition-colors">
           <span>${y}</span>
-          ${hasItems?`<svg class="w-4 h-4 transition-transform report-chev-${i}-${y}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m0 0l-4-4m4 4l-4 4"/></svg>`:'<span class="text-[10px] font-normal text-neutral-300">—</span>'}
+          ${hasItems?`<svg class="w-3.5 h-3.5 text-neutral-400 transition-transform report-chev-${i}-${y}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m0 0l-4-4m4 4l-4 4"/></svg>`:'<span class="text-[10px] font-normal text-neutral-300">—</span>'}
         </button>
         ${hasItems?`<div class="report-year" id="report-${i}-${y}" style="max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.22,1,.36,1)">
-          <div class="pb-3 space-y-1.5">${items.map(r=>`<a href="${fbUrl(r.path)}" target="_blank" onclick="event.stopPropagation()" class="flex items-center gap-2 text-xs text-neutral-600 hover:text-accent-600 transition-colors py-1 px-2 rounded hover:bg-accent-50">
-            <svg class="w-3.5 h-3.5 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <div class="pb-3 space-y-1.5">${items.map(r=>`<a href="${fbUrl(r.path)}" target="_blank" onclick="event.stopPropagation()" class="flex items-center gap-2 text-xs text-neutral-600 hover:text-accent-600 transition-colors py-1 px-2 rounded hover:bg-neutral-50">
+            ${fileIcon}
             ${r.name}</a>`).join('')}
           </div>
         </div>`:''}</div>`;
     }).join('');
 
-    return `<div class="fund-card rounded-lg border border-neutral-200 bg-white cursor-pointer" data-type="${f.type}" data-idx="${i}" onclick="toggleFund(${i})" style="transition-delay:${i*50}ms">
-      <div class="px-4 py-3 flex items-center justify-between gap-3">
+    return `<div class="fund-card rounded-lg border border-neutral-200 bg-white" data-type="${f.type}" data-idx="${i}" style="transition-delay:${i*50}ms">
+      <div class="fund-head px-4 py-3 flex items-center justify-between gap-3 cursor-pointer" onclick="toggleFund(${i})">
         <div class="flex items-center gap-2.5 min-w-0">
-          <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded ${tc} shrink-0">${f.type.split(' ')[0]}</span>
+          <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded ${tc} shrink-0">${f.type.split(' ')[0]}</span>
           <h3 class="text-sm font-semibold truncate">${f.name}</h3>
-          ${f.featured?'<span class="text-[9px] font-bold text-accent-500 shrink-0">★</span>':''}
+          ${f.featured?'<span class="text-[10px] font-bold text-accent-500 shrink-0">★</span>':''}
         </div>
         <div class="flex items-center gap-2 shrink-0">
-          ${bestReturn?`<span class="text-sm font-bold ${hasPositive?'text-accent-600':'text-red-500'}">${bestReturn.split(' ').pop()}</span>`:'<span class="text-xs text-neutral-300">—</span>'}
+          ${bestReturn?`<span class="fund-ret text-sm font-bold ${hasPositive?'text-accent-600':'text-red-500'}">${bestReturn.split(' ').pop()}</span>`:'<span class="text-xs text-neutral-300">—</span>'}
           <svg id="fund-chevron-${i}" class="w-3.5 h-3.5 text-neutral-400 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
         </div>
       </div>
       <div class="fund-expand" id="fund-expand-${i}">
         <div class="border-t border-neutral-100 px-4 py-4 bg-neutral-50/60">
-          <p class="text-xs text-neutral-500 leading-relaxed">${f.desc}</p>
-          <div class="flex items-center gap-3 mt-3 text-xs text-neutral-400">
-            <span>${f.ccy}</span>
-            ${f.ytd.includes('·')?`<span class="font-medium text-neutral-600">${f.ytd}</span>`:''}
-          </div>
+          <p class="text-sm text-neutral-600 leading-relaxed max-w-[65ch]">${f.desc}</p>
+          ${ytdRow}
           ${chartControls}
-          <div class="mt-2 h-36"><canvas id="fund-chart-${i}"></canvas></div>
+          <div class="mt-2 h-44 md:h-64"><canvas id="fund-chart-${i}"></canvas></div>
+        </div>
+        <!-- Foldable sections: Fund details / Facts and regulatory documents / Monthly reports -->
+        <div class="grid ${moreSection?'md:grid-cols-3':'md:grid-cols-2'} border-t border-neutral-100 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
           ${moreSection}
-        </div>
-        <!-- Facts and regulatory documents -->
-        <div class="border-t border-neutral-100 px-4 py-4">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-neutral-800 mb-3">Facts and regulatory documents</h4>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">${docsGrid}</div>
-        </div>
-        <!-- Monthly reports -->
-        <div class="border-t border-neutral-100 px-4 py-4 bg-accent-50/40 rounded-b-lg">
-          <h4 class="text-sm font-bold text-neutral-800 mb-2">Monthly reports</h4>
-          <div>${reportsRows}</div>
+          <div class="px-4 py-4">
+            ${foldHead('docs','Facts and regulatory documents')}
+            <div class="fund-sec" id="fund-docs-${i}">
+              <div class="pt-1 divide-y divide-neutral-100">${docsList}</div>
+            </div>
+          </div>
+          <div class="px-4 py-4">
+            ${foldHead('reports','Monthly reports')}
+            <div class="fund-sec" id="fund-reports-${i}">
+              <div class="mt-2 max-h-52 overflow-y-auto overscroll-contain pr-1">${reportsRows}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>`;
@@ -2177,6 +2166,7 @@ function toggleFund(i){
   const expand=document.getElementById('fund-expand-'+i);
   const chevron=document.getElementById('fund-chevron-'+i);
   const isOpen=expand.classList.contains('open');
+  document.querySelector(`.fund-card[data-idx="${i}"]`).classList.toggle('expanded',!isOpen);
   if(isOpen){
     expand.classList.remove('open');
     chevron.style.transform='';
@@ -2189,15 +2179,25 @@ function toggleFund(i){
   }
 }
 
+// Fund charts: no legend (the series toggle already names the line); axis shows "Jun '25",
+// tooltip keeps the full "3 Jun '25" label
+function fundChartOptions(yCallback){
+  const font={size:12,family:'Inter'};
+  return {...CO,plugins:{...CO.plugins,legend:{display:false}},scales:{
+    x:{...CO.scales.x,ticks:{...CO.scales.x.ticks,font,maxRotation:0,autoSkipPadding:24,callback(v){return this.getLabelForValue(v).replace(/^\d+ /,'')}}},
+    y:{...CO.scales.y,ticks:{...CO.scales.y.ticks,font,...(yCallback?{callback:yCallback}:{})}}
+  }};
+}
+
 function buildFundChart(i){
   const f=FUNDS[i];
   const nav=FUND_NAV[f.name];
   if(nav){
     const st=getFundState(i);
     const d=nav[st.series][st.period];
-    fundCharts[i]=make('fund-chart-'+i,{type:'line',data:{labels:d.labels,datasets:[{label:st.series,data:d.data,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.08)',fill:true,borderWidth:2}]},options:{...CO,scales:{...CO.scales,y:{...CO.scales.y,ticks:{...CO.scales.y.ticks,callback:v=>v.toFixed(2)}}}}});
+    fundCharts[i]=make('fund-chart-'+i,{type:'line',data:{labels:d.labels,datasets:[{label:st.series,data:d.data,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.08)',fill:true,borderWidth:2}]},options:fundChartOptions(v=>v.toFixed(2))});
   }else{
-    fundCharts[i]=make('fund-chart-'+i,{type:'line',data:{labels:labels(36,23),datasets:[{label:f.name,data:genLine(36,100,2,.45),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2}]},options:CO});
+    fundCharts[i]=make('fund-chart-'+i,{type:'line',data:{labels:labels(36,23),datasets:[{label:f.name,data:genLine(36,100,2,.45),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.05)',fill:true,borderWidth:2}]},options:fundChartOptions()});
   }
 }
 
@@ -2226,14 +2226,10 @@ function toggleReportYear(i,year){
   if(chev)chev.style.transform=isOpen?'':'rotate(90deg)';
 }
 
-function toggleFundMore(i){
-  const more=document.getElementById('fund-more-'+i);
-  const label=document.getElementById('more-label-'+i);
-  const chevron=document.getElementById('more-chevron-'+i);
-  const isOpen=more.classList.contains('open');
-  more.classList.toggle('open');
-  label.textContent=isOpen?'More':'Less';
-  chevron.style.transform=isOpen?'':'rotate(180deg)';
+// key: 'more' (Fund details), 'docs' (Facts and regulatory documents), 'reports' (Monthly reports)
+function toggleFundSection(i,key){
+  const isOpen=document.getElementById(`fund-${key}-${i}`).classList.toggle('open');
+  document.getElementById(`${key}-chevron-${i}`).style.transform=isOpen?'rotate(180deg)':'';
 }
 
 // Accordion toggle with dynamic height
