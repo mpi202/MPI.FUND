@@ -544,9 +544,9 @@ function showCustomCategory(slug){
       <div class="flex gap-2 overflow-x-auto no-scrollbar" id="fund-filters">
         <button onclick="filterFunds('all')" class="filter-pill active text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap" data-filter="all" data-i18n="funds.filter_all">All Funds</button>
         <button onclick="filterFunds('Absolute Return')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Absolute Return">Absolute Return</button>
-        <button onclick="filterFunds('Fixed Income')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Fixed Income">Fixed Income</button>
-        <button onclick="filterFunds('Equity')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Equity">Equity</button>
-        <button onclick="filterFunds('Fund of Funds')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Fund of Funds">Fund of Funds</button>
+        <button onclick="filterFunds('Fixed Income')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Fixed Income" data-i18n="funds.filter_fixed">Fixed Income</button>
+        <button onclick="filterFunds('Equity')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Equity" data-i18n="funds.filter_equity">Equity</button>
+        <button onclick="filterFunds('Fund of Funds')" class="filter-pill text-xs font-medium px-4 py-2 rounded-full border border-neutral-200 whitespace-nowrap text-neutral-500" data-filter="Fund of Funds" data-i18n="funds.filter_fof">Fund of Funds</button>
       </div>
       <p class="mt-2 text-xs text-neutral-400"><span id="fund-count">17</span> <span data-i18n="funds.fund_count_label">funds</span></p>
     </div>
@@ -1603,7 +1603,7 @@ const T={
     'about.point3':'Elkötelezettek vagyunk az átláthatóság, a rugalmasság és a végrehajtás gyorsasága mellett, és mindenben a kiválóságra törekszünk. Partnereinkkel és harmadik fél szolgáltatókkal való kapcsolatunk egyértelmű és teljesen átlátható.',
     'about.mnb_btn':'MNB Nyilvántartás','about.leadership':'Vezetőség','about.team_tagline':'Évtizedes intézményi tapasztalat a kötvény- és derivatív piacokon.',
     'funds.label':'Befektetési Alapok','funds.hero_title':'Befektetési Alapok','funds.desc':'Saját befektetési alapjaink fix kamatozású és deviza stratégiákra összpontosítanak, alapkezelőink szakmai hátterét tükrözve.','funds.cta':'Kapcsolatfelvétel',
-    'funds.filter_all':'Összes alap','funds.fund_count_label':'alap','funds.details':'Részletek','funds.documents':'Dokumentumok',
+    'funds.filter_all':'Összes alap','funds.filter_fixed':'Kötvény','funds.filter_equity':'Részvények','funds.filter_fof':'Alapok alapja','funds.fund_count_label':'alap','funds.details':'Részletek','funds.documents':'Dokumentumok',
     'funds.all_families':'Összes alapcsalád (17)','funds.disclaimer':'A múltbeli teljesítmény nem garancia a jövőbeli eredményekre. YTD hozamok 2026. május 20-i állapot szerint (forrás: BAMOSZ, NAV dátum: 2026. május 19.).',
     
     'portfolios.label':'Személyre szabott portfóliók','portfolios.title':'Önre szabva.',
@@ -1692,7 +1692,7 @@ const T={
     'about.point3':'We are dedicated to offer transparency, flexibility and speed of execution and aspire to excellence in everything we do. Our interaction with partners and third party providers is clear and fully transparent.',
     'about.mnb_btn':'MNB Registry','about.leadership':'Leadership','about.team_tagline':'Decades of institutional experience in fixed-income and derivatives markets.',
     'funds.label':'Investment Funds','funds.hero_title':'Investment Funds','funds.desc':'Our own investment funds focus on fixed income and FX strategies reflecting the career backgrounds of our managers.','funds.cta':'Get in touch',
-    'funds.filter_all':'All Funds','funds.fund_count_label':'funds','funds.details':'Details','funds.documents':'Documents',
+    'funds.filter_all':'All Funds','funds.filter_fixed':'Fixed Income','funds.filter_equity':'Equity','funds.filter_fof':'Fund of Funds','funds.fund_count_label':'funds','funds.details':'Details','funds.documents':'Documents',
     'funds.all_families':'All Fund Families (17)','funds.disclaimer':'Past performance is not indicative of future results. YTD returns as of 20 May 2026 (source: BAMOSZ, NAV date 19 May 2026).',
     
     'portfolios.label':'Personalized Portfolios','portfolios.title':'Built around you.',
