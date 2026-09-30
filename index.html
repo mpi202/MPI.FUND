@@ -441,17 +441,18 @@ function showCustomCategory(slug){
 
 <!-- ===================== ABOUT ===================== -->
 <div id="page-about" class="page fade-in">
-  <!-- Hero with office photo -->
-  <section class="relative overflow-hidden min-h-[55vh] flex items-end">
-    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover">
-      <source src="img/office.mp4" type="video/mp4" />
-    </video>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/20"></div>
-    <div class="relative z-10 mx-auto max-w-6xl px-6 py-20 w-full">
-      <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="about.label">About</p>
-      <h1 id="about-hero-title" class="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-white" data-i18n="about.title">Marketprog Asset Management Zrt.</h1>
-      <p class="mt-4 max-w-2xl text-neutral-300 leading-relaxed" data-i18n="about.desc">Marketprog Asset Management is a Hungary based and regulated Asset Manager according to AIFMD, offering a range of investment services including fund and portfolio management, fund set-up, fund administration, custody, capital introduction and investment advisory.</p>
-      <a href="https://intezmenykereso.mnb.hu/en/Details/Index?LId=171289&EntityType=Institute&expandAccordions=IntezmenyAlapadatok" target="_blank" class="mt-6 inline-block bg-accent-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-accent-600 transition-colors" data-i18n="about.mnb_btn">MNB Registry</a>
+  <!-- Hero: copy beside the sail photo, never on top of it; photo kept at its native 4:3 so the lettering and hull stay in frame -->
+  <section class="bg-neutral-950">
+    <div class="mx-auto max-w-6xl px-6 py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center">
+      <div class="md:col-span-5">
+        <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="about.label">About</p>
+        <h1 id="about-hero-title" class="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-white" data-i18n="about.title">Marketprog Asset Management Zrt.</h1>
+        <p class="mt-4 text-white/60 leading-relaxed" data-i18n="about.desc">Marketprog Asset Management is a Hungary based and regulated Asset Manager according to AIFMD, offering a range of investment services including fund and portfolio management, fund set-up, fund administration, custody, capital introduction and investment advisory.</p>
+        <a href="https://intezmenykereso.mnb.hu/en/Details/Index?LId=171289&EntityType=Institute&expandAccordions=IntezmenyAlapadatok" target="_blank" class="mt-6 inline-block bg-accent-500 text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-accent-600 transition-colors" data-i18n="about.mnb_btn">MNB Registry</a>
+      </div>
+      <div class="md:col-span-7">
+        <img src="img/PHOTO-2026-09-22-21-28-18.jpg" alt="mpi.fund sail on a racing catamaran" width="1600" height="1200" class="w-full h-auto aspect-[4/3] object-cover rounded-xl ring-1 ring-white/10" />
+      </div>
     </div>
   </section>
 
