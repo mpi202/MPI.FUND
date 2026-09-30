@@ -190,9 +190,9 @@ function showCustomCategory(slug){
 
 <!-- HEADER -->
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-neutral-100">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
     <a href="#home" onclick="nav('home')" class="flex-shrink-0"><img src="img/logo.svg" alt="mpi.fund — Marketprog" class="h-10" /></a>
-    <ul class="hidden lg:flex items-center gap-7" id="nav-links">
+    <ul class="hidden xl:flex items-center gap-5 whitespace-nowrap" id="nav-links">
       <li><a href="#home" data-page="home" data-i18n="nav.home" class="nav-link active text-sm hover:text-black transition-colors" onclick="nav('home')">Home</a></li>
       <li><a href="#about" data-page="about" data-i18n="nav.about" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('about')">About</a></li>
       <li><a href="#funds" data-page="funds" data-i18n="nav.funds" class="nav-link text-sm text-neutral-400 hover:text-black transition-colors" onclick="nav('funds')">Investment Funds</a></li>
@@ -218,17 +218,17 @@ function showCustomCategory(slug){
         <button onclick="setLang('hu')" class="lang-btn px-2.5 py-1 transition-colors text-neutral-400 hover:text-black">HU</button>
         <button onclick="setLang('en')" class="lang-btn px-2.5 py-1 transition-colors bg-black text-white">EN</button>
       </div>
-      <div class="hidden lg:inline-flex relative group">
+      <div class="hidden xl:inline-flex relative group">
         <a href="https://www.marketprog.hu/#/sign-in" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg border border-black text-xs font-medium text-black bg-transparent hover:bg-black hover:text-white transition-colors" data-i18n="nav.signin">Sign in</a>
         <span class="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 rounded-md bg-neutral-800 text-white text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">Intentionally redirecting to old page</span>
       </div>
-      <button class="lg:hidden" onclick="toggleMenu()" aria-label="Menu">
+      <button class="xl:hidden" onclick="toggleMenu()" aria-label="Menu">
         <svg id="ico-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 17h16"/></svg>
         <svg id="ico-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="hidden"><path d="M6 6l12 12M6 18L18 6"/></svg>
       </button>
     </div>
   </nav>
-  <div id="mobile-menu" class="lg:hidden hidden border-t border-neutral-100 bg-white px-6 py-5">
+  <div id="mobile-menu" class="xl:hidden hidden border-t border-neutral-100 bg-white px-6 py-5">
     <ul class="flex flex-col gap-4">
       <li><a href="#home" class="text-sm text-neutral-500" data-i18n="nav.home" onclick="nav('home');toggleMenu()">Home</a></li>
       <li><a href="#about" class="text-sm text-neutral-500" data-i18n="nav.about" onclick="nav('about');toggleMenu()">About</a></li>
@@ -1593,7 +1593,7 @@ function showCustomCategory(slug){
 let curLang='en';
 const T={
   hu:{
-    'nav.home':'Főoldal','nav.about':'Rólunk','nav.funds':'Befektetési Alapok','nav.portfolios':'Portfóliók','nav.services':'Szolgáltatások','nav.documents':'Dokumentumok','nav.distribution':'Forgalmazás','nav.signin':'Bejelentkezés',
+    'nav.home':'Főoldal','nav.about':'Rólunk','nav.funds':'Alapok','nav.portfolios':'Portfóliók','nav.services':'Szolgáltatások','nav.documents':'Dokumentumok','nav.distribution':'Forgalmazás','nav.signin':'Bejelentkezés',
     'home.subtitle':'Marketprog Alapkezelő Zrt.','home.title_fixed':'Strukturált befektetés,','home.desc':'Befektetési alapok és személyre szabott portfóliók egy magyarországi, MNB által felügyelt, AIFMD szerint működő alapkezelőtől, 2014 óta.','home.cta1':'Alapjaink','home.cta2':'Személyre szabott portfóliók',
     'home.top_label':'Legjobb teljesítők','home.top_desc':'Idei hozamok alapjaink között (NAV dátum: 2026. május 19.)','home.top_all':'Összes alap →','home.top_disclaimer':'A múltbeli teljesítmény nem garancia a jövőbeli eredményekre. Forrás: BAMOSZ.',
     'home.about_label':'Rólunk','home.about_text':'Hisszük, hogy a kivételes vagyonkezelés a bizalommal kezdődik. Bizalom a fegyelmezett folyamatban, bizalom az átlátható jelentésekben, és bizalom abban, hogy tőkéjét ugyanolyan gondossággal kezeljük, mint a sajátunkat. 2014 óta erre az elvre építettük a Marketprogot — Budapestről hozunk létre alternatív befektetési alapokat, amelyek strukturált derivatívákat ötvöznek szigorú kockázatkezeléssel. Nem kergetünk szalagcímeket és nem követjük a tömeget. Olyan stratégiákat építünk, amelyek minden piaci cikluson át teljesítenek, és befektetőinknek megadják a magabiztosságot a hosszú távú gondolkodáshoz.','home.about_link':'Tudjon meg többet rólunk →','home.svt_story_title':'Történetünk','home.svt_story_text':'Több mint 15 évet töltöttünk pályánk építésével a legtekintélyesebb intézményeknél, majd 2015-ben úgy döntöttünk, hogy saját utunkat járjuk, és iparági tapasztalatunkra és szaktudásunkra építve nyomot hagyunk magunk után.','home.svt_story_link':'Csapatunk →','home.svt_vision_title':'Jövőképünk','home.svt_vision_text':'A pénzügyi túlszabályozás és uniformizálás világában szilárdan hisszük, hogy egyre nagyobb szükség van testreszabott és rugalmas megoldásokra. Termékeinket és szolgáltatásainkat ennek szellemében alakítjuk ki.','home.svt_tech_title':'Technológia','home.svt_tech_text':'Az intelligens szoftverek alkalmazása az első naptól kezdve kulcsfontosságú volt számunkra. Saját fejlesztésű hasonlósági modellünk, az Investigent azóta is segíti befektetési döntéseinket.',
