@@ -41,6 +41,10 @@
     .rotate-words span{grid-area:1/1;opacity:0;transform:translateY(100%);transition:opacity .5s ease,transform .5s ease}
     .rotate-words span.active{opacity:1;transform:translateY(0)}
     .rotate-words span.exit{opacity:0;transform:translateY(-100%)}
+    /* Home hero: animated markets canvas on near-black, under a shade that keeps the copy readable (darker on the left on wide screens, top-to-bottom on phones) */
+    .hero-markets{background-color:#0a0a0a;background-image:radial-gradient(at 30% 60%,rgba(34,197,94,.08) 0%,rgba(0,0,0,0) 60%),radial-gradient(at 80% 30%,rgba(34,197,94,.05) 0%,rgba(0,0,0,0) 50%)}
+    .hero-shade{background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,.78) 100%)}
+    @media (min-width:768px){.hero-shade{background:linear-gradient(90deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.78) 34%,rgba(10,10,10,.3) 58%,rgba(10,10,10,0) 78%)}}
     #mobile-menu a{position:relative;overflow:hidden;display:inline-block}
     #mobile-menu a::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(34,197,94,.12),transparent);transition:none}
     @media (hover:hover) and (pointer:fine){#mobile-menu a:hover::after{left:100%;transition:left .5s ease}}
@@ -297,12 +301,10 @@ function showCustomCategory(slug){
 
 <!-- ===================== HOME ===================== -->
 <div id="page-home" class="page active fade-in">
-  <section class="relative overflow-hidden min-h-[70vh] flex items-center">
-    <video autoplay loop muted playsinline poster="img/nyc-night-poster.jpg" class="absolute inset-0 w-full h-full object-cover">
-      <source src="img/nyc-night-2k.mp4" media="(min-width:1024px)" type="video/mp4" />
-      <source src="img/nyc-night-hd.mp4" type="video/mp4" />
-    </video>
-    <div class="absolute inset-0 bg-black/45"></div>
+  <!-- Hero: animated markets background from the "mpi.fund animated hero" design, drawn on the canvas by the HERO MARKETS BACKGROUND script -->
+  <section class="hero-markets relative overflow-hidden min-h-[70vh] flex items-center">
+    <canvas id="hero-markets" aria-hidden="true" class="absolute inset-0 w-full h-full block"></canvas>
+    <div class="hero-shade absolute inset-0" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-6xl px-6 py-28 md:py-40 w-full">
       <p class="text-xs font-medium uppercase tracking-widest text-accent-400" data-i18n="home.subtitle">Marketprog Asset Management Zrt.</p>
       <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-6xl leading-[1.1] text-white">
@@ -2421,6 +2423,187 @@ function sendHomeMeeting(e){
     next.classList.remove('exit');
     setTimeout(()=>{prev.classList.remove('exit');},600);
   },2800);
+})();
+
+// HERO MARKETS BACKGROUND
+// Draws the home hero's backdrop on a canvas: a slowly scrolling grid and drifting price lines, with volume bars under the
+// leading (bright green) one. It pauses while the hero is off-screen or the tab is hidden, and shows a single still frame
+// for visitors who prefer reduced motion.
+(function(){
+  const el=document.getElementById('hero-markets');
+  if(!el||!el.getContext)return;
+  const ctx=el.getContext('2d');
+  const reduce=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const STEP=7,SPEED=24; // px between chart points, px scrolled per second
+  // One entry per price line: its vertical band (top/bot as a share of the hero height), stroke, parallax speed and random-walk settings
+  const SPECS=[
+    {top:.50,bot:.80,width:2,par:1,vol:.013,rev:.010,jit:.007,lead:true},
+    {top:.30,bot:.62,width:1.25,par:.6,vol:.011,rev:.008,alpha:.28,rgb:'134,239,172'},
+    {top:.60,bot:.92,width:1,par:.8,vol:.012,rev:.009,alpha:.22,rgb:'156,163,175'}
+  ];
+  let w=0,h=0,dpr=1,lines=null,seed=0,time=0,scroll=0,last=0,offscreen=false;
+
+  // Seeded random numbers, so the chart starts out the same on every visit
+  function rand(){
+    let t=(seed=(seed+0x6D2B79F5)|0);
+    t=Math.imul(t^(t>>>15),t|1);
+    t^=t+Math.imul(t^(t>>>7),t|61);
+    return((t^(t>>>14))>>>0)/4294967296;
+  }
+  function gauss(){
+    let u=0;
+    while(u===0)u=rand();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*rand());
+  }
+  // Next value of a mean-reverting random walk, kept between 0.05 and 0.95
+  function walk(L,v){
+    L.vel=.86*L.vel+L.vol*gauss()+L.rev*(.5-v);
+    let nv=v+L.vel;
+    if(nv<.05){nv=.05;L.vel=Math.abs(L.vel)*.4;}
+    if(nv>.95){nv=.95;L.vel=-Math.abs(L.vel)*.4;}
+    return nv;
+  }
+  function jitter(L,v){return Math.min(.98,Math.max(.02,v+L.jit*gauss()));}
+  function build(n){
+    seed=20150703;
+    lines=SPECS.map(spec=>{
+      const L=Object.assign({vel:0,off:0,pts:[],bars:[],jit:.005,lead:false},spec);
+      let v=.35+.3*rand();
+      for(let i=0;i<n;i++){v=walk(L,v);L.pts.push(jitter(L,v));L.bars.push(.2+.8*rand());}
+      L.raw=v;L.nextRaw=walk(L,v);L.nextV=jitter(L,L.nextRaw);
+      return L;
+    });
+  }
+
+  function resize(){
+    const cw=el.clientWidth,ch=el.clientHeight;
+    if(!cw||!ch)return false; // hero hidden (another page is open): keep the last size
+    const d=Math.min(2,window.devicePixelRatio||1);
+    if(cw===w&&ch===h&&d===dpr)return false;
+    w=cw;h=ch;dpr=d;
+    el.width=Math.round(w*dpr);el.height=Math.round(h*dpr);
+    return true;
+  }
+
+  function frame(dt){
+    if(!w)return;
+    const need=Math.ceil(w/STEP)+6;
+    if(!lines||lines[0].pts.length<need)build(need);
+    time+=dt;scroll+=SPEED*dt;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,w,h);
+    grid();
+    for(let k=lines.length-1;k>=0;k--)line(lines[k],SPEED*dt*lines[k].par);
+  }
+
+  function grid(){
+    ctx.lineWidth=1;
+    for(const [size,color] of [[15,'rgba(34,197,94,0.03)'],[60,'rgba(34,197,94,0.07)']]){
+      const off=scroll%size;
+      ctx.strokeStyle=color;
+      ctx.beginPath();
+      for(let x=-off;x<w;x+=size){const X=Math.round(x)+.5;ctx.moveTo(X,0);ctx.lineTo(X,h);}
+      for(let y=0;y<h;y+=size){const Y=Math.round(y)+.5;ctx.moveTo(0,Y);ctx.lineTo(w,Y);}
+      ctx.stroke();
+    }
+  }
+
+  function line(L,dx){
+    // Scroll left; each time a full step has passed, drop the oldest point and append a new one
+    L.off+=dx;
+    while(L.off>=STEP){
+      L.off-=STEP;
+      L.pts.shift();L.pts.push(L.nextV);
+      L.bars.shift();L.bars.push(.2+.8*rand());
+      L.raw=L.nextRaw;L.nextRaw=walk(L,L.raw);L.nextV=jitter(L,L.nextRaw);
+    }
+    const n=L.pts.length;
+    const headX=L.lead?w*(w>=768?.86:.92):w+STEP; // the leading line stops short of the right edge, at "now"
+    const top=h*L.top,bot=h*L.bot;
+    const Y=v=>bot-v*(bot-top);
+    const headV=L.pts[n-1]+(L.nextV-L.pts[n-1])*(L.off/STEP);
+    const xy=[];
+    for(let i=0;i<n;i++){
+      const x=headX-(n-1-i)*STEP-L.off;
+      if(x>=-2*STEP)xy.push([x,Y(L.pts[i]),i]);
+    }
+    xy.push([headX,Y(headV),-1]);
+    if(xy.length<3)return;
+    const path=new Path2D();
+    path.moveTo(xy[0][0],xy[0][1]);
+    for(let i=1;i<xy.length-1;i++){
+      path.quadraticCurveTo(xy[i][0],xy[i][1],(xy[i][0]+xy[i+1][0])/2,(xy[i][1]+xy[i+1][1])/2);
+    }
+    const head=xy[xy.length-1];
+    path.lineTo(head[0],head[1]);
+    if(!L.lead){
+      ctx.strokeStyle='rgba('+L.rgb+','+L.alpha+')';
+      ctx.lineWidth=L.width;
+      ctx.lineJoin='round';
+      ctx.stroke(path);
+      return;
+    }
+    // Leading line: volume bars along the bottom, a soft fill underneath, a glow, a dashed level to the right edge and a pulsing "now" dot
+    const bw=Math.max(2,STEP*.55),vh=h*.1;
+    for(let j=1;j<xy.length-1;j++){
+      const i=xy[j][2];
+      const up=i>0&&L.pts[i]>=L.pts[i-1];
+      ctx.fillStyle=up?'rgba(74,222,128,0.14)':'rgba(156,163,175,0.10)';
+      const bh=vh*L.bars[i];
+      ctx.fillRect(xy[j][0]-bw/2,h-bh,bw,bh);
+    }
+    const area=new Path2D(path);
+    area.lineTo(head[0],h);
+    area.lineTo(xy[0][0],h);
+    area.closePath();
+    const g=ctx.createLinearGradient(0,top,0,h);
+    g.addColorStop(0,'rgba(34,197,94,0.16)');
+    g.addColorStop(1,'rgba(34,197,94,0)');
+    ctx.fillStyle=g;
+    ctx.fill(area);
+    ctx.save();
+    ctx.shadowBlur=12;
+    ctx.shadowColor='rgba(74,222,128,0.55)';
+    ctx.strokeStyle='#4ade80';
+    ctx.lineWidth=L.width;
+    ctx.lineJoin='round';
+    ctx.lineCap='round';
+    ctx.stroke(path);
+    ctx.restore();
+    ctx.save();
+    ctx.setLineDash([3,5]);
+    ctx.strokeStyle='rgba(74,222,128,0.35)';
+    ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(head[0]+10,Math.round(head[1])+.5);
+    ctx.lineTo(w,Math.round(head[1])+.5);
+    ctx.stroke();
+    ctx.restore();
+    const ph=(time%2.4)/2.4;
+    ctx.beginPath();
+    ctx.arc(head[0],head[1],4+14*ph,0,Math.PI*2);
+    ctx.strokeStyle='rgba(74,222,128,'+(.5*(1-ph)).toFixed(3)+')';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(head[0],head[1],3.5,0,Math.PI*2);
+    ctx.fillStyle='#bbf7d0';
+    ctx.fill();
+  }
+
+  resize();
+  frame(0);
+  // Redraw straight away when the hero changes size (window resize, rotating a phone, coming back to the Home page)
+  if(window.ResizeObserver)new ResizeObserver(()=>{if(resize())frame(0);}).observe(el);
+  else window.addEventListener('resize',()=>{if(resize())frame(0);});
+  if(reduce)return;
+  if(window.IntersectionObserver)new IntersectionObserver(entries=>{offscreen=!entries[0].isIntersecting;}).observe(el);
+  requestAnimationFrame(function loop(now){
+    requestAnimationFrame(loop);
+    const dt=last?Math.min(.05,(now-last)/1000):0;
+    last=now;
+    if(!document.hidden&&!offscreen)frame(dt);
+  });
 })();
 
 // SCROLL-REVEAL WORD-BY-WORD
